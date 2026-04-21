@@ -26,7 +26,7 @@ const UnauthorisedAccess = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-[#171f33] via-transparent to-transparent md:bg-gradient-to-r"></div>
 
             <div className="absolute top-6 left-6 font-bold text-white">
-              Midnight Concierge
+              BlockStay
             </div>
 
             <div className="absolute bottom-6 left-6 flex items-center gap-2">

@@ -48,10 +48,10 @@ const ContactUs = () => {
           variants={staggerContainer}
         >
           <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-            Connect with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">the Night.</span>
+            We're Here <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">to Help.</span>
           </motion.h1>
           <motion.p variants={fadeInUp} className="text-xl text-on-surface-variant max-w-xl leading-relaxed">
-            Whether you're seeking a secluded sanctuary or a vibrant escape, our concierge team is available 24/7. Elevate your experience with Blockstay.
+            Have a question about a booking or need assistance listing your property? Our dedicated support team is available 24/7.
           </motion.p>
         </motion.div>
       </section>
@@ -114,7 +114,7 @@ const ContactUs = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm text-on-surface-variant font-medium ml-1">Message</label>
-                  <textarea required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none" rows="5" placeholder="How can we elevate your stay?" />
+                  <textarea required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none" rows="5" placeholder="How can we assist you today?" />
                 </div>
 
                 <button 

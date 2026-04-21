@@ -3,7 +3,7 @@ const Sidebar = () => {
     <aside className="h-full w-64 fixed left-0 border-r border-slate-800/30 bg-slate-900 flex flex-col py-8 z-50 hidden md:flex">
       <div className="px-8 mb-12">
         <h1 className="text-lg font-black text-slate-100">
-          Midnight Concierge
+          BlockStay
         </h1>
       </div>
 

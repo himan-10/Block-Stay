@@ -21,7 +21,7 @@ const RoomDetails = () => {
 
       {/* Top Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
-        <div className="text-xl font-bold tracking-tighter text-slate-100">Midnight Concierge</div>
+        <div className="text-xl font-bold tracking-tighter text-slate-100">Blockstay</div>
         <div className="hidden md:flex items-center gap-8">
           <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
           <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
@@ -38,8 +38,8 @@ const RoomDetails = () => {
         <header className="mb-12">
           <div className="flex flex-col md:flex-row justify-between items-end gap-6">
             <div>
-              <span className="font-label tracking-[0.2em] text-secondary text-xs uppercase mb-2 block">Premium Collection</span>
-              <h1 className="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-none">The Obsidian Suite</h1>
+              <span className="font-label tracking-[0.2em] text-secondary text-xs uppercase mb-2 block">Premium Property</span>
+              <h1 className="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface leading-none">Downtown Apartment</h1>
               <div className="flex items-center gap-4 mt-4 text-on-surface-variant">
                 <div className="flex items-center gap-1">
                   <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
@@ -104,12 +104,9 @@ const RoomDetails = () => {
                   <span className="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">Bed Size</span>
                 </div>
               </div>
-              <h2 className="font-headline text-3xl font-bold mb-6">Designed for the Discerning Traveler</h2>
+              <h2 className="font-headline text-3xl font-bold mb-6">Experience Unparalleled Comfort</h2>
               <p className="text-on-surface-variant leading-relaxed text-lg mb-6">
-                The Obsidian Suite is a masterclass in nocturnal luxury. Every surface, from the hand-polished basalt floors to the velvet-wrapped walls, has been selected to create an environment of absolute tranquility. 
-              </p>
-              <p className="text-on-surface-variant leading-relaxed text-lg">
-                Watch the aurora dance through floor-to-ceiling windows from the comfort of a temperature-controlled mattress. Our signature Midnight Concierge service ensures your stay is perfectly tailored to your circadian rhythm.
+                Experience unparalleled comfort in this premium space. Handpicked for quality and location, this stay features top-tier amenities, modern design, and 24/7 support to ensure a seamless experience.
               </p>
             </section>
 
@@ -244,7 +241,7 @@ const RoomDetails = () => {
                 </div>
               </div>
               <button className="w-full py-4 bg-primary text-on-primary font-headline font-extrabold rounded-xl hover:bg-inverse-primary hover:scale-[0.98] transition-all duration-300 shadow-xl shadow-primary/20 mb-4">
-                Confirm Reservation
+                Complete Booking
               </button>
               <button className="w-full py-3 bg-surface-container text-on-surface border border-outline-variant rounded-xl font-medium hover:bg-surface-variant transition-all">
                 ← Explore About Page
@@ -279,7 +276,7 @@ const RoomDetails = () => {
       <footer className="bg-slate-950 w-full border-t border-slate-800/50 font-['Inter'] leading-relaxed text-sm">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full">
           <div className="col-span-1 md:col-span-1">
-            <div className="text-lg font-black text-slate-200 mb-6">Midnight Concierge</div>
+            <div className="text-lg font-black text-slate-200 mb-6">BlockStay</div>
             <p className="text-slate-500 mb-6">Crafting nocturnal experiences for the world's most discerning travelers since 2024.</p>
             <div className="flex gap-4">
               <span className="material-symbols-outlined text-slate-500 hover:text-cyan-400 cursor-pointer transition-colors">public</span>
@@ -315,7 +312,7 @@ const RoomDetails = () => {
           </div>
         </div>
         <div className="px-12 py-8 border-t border-slate-800/30 flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="text-slate-500">© 2024 Midnight Concierge. All rights reserved.</span>
+          <span className="text-slate-500">© 2024 BlockStay. All rights reserved.</span>
           <div className="flex gap-8 text-xs font-label uppercase tracking-widest">
             <span className="text-slate-600">Designed for Darkness</span>
             <span className="text-slate-600">Secure Protocol v2.4</span>

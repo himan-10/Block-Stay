@@ -44,9 +44,9 @@ const Login = () => {
 
           {/* Logo */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold">Midnight Concierge</h1>
+            <h1 className="text-3xl font-bold">Blockstay</h1>
             <p className="text-xs uppercase tracking-widest text-on-surface-variant">
-              Exquisite Stays. Seamless Access.
+              Exceptional stays for the modern traveler.
             </p>
           </div>
 
@@ -54,10 +54,10 @@ const Login = () => {
           <div className="bg-surface-container rounded-xl p-8 shadow-xl">
 
             <h2 className="text-2xl font-bold mb-2 text-center">
-              Welcome Back
+              Welcome back to Blockstay
             </h2>
             <p className="text-sm text-center text-on-surface-variant mb-6">
-              Please login to continue
+              Sign in to access your saved properties and bookings.
             </p>
 
             {/* Form */}
@@ -120,9 +120,9 @@ const Login = () => {
 
           {/* Signup */}
           <p className="text-center mt-6 text-sm text-on-surface-variant">
-            New user?
+            New here?
             <Link to="/signup" className="text-primary ml-1">
-              Create account
+              Create an account
             </Link>
           </p>
 

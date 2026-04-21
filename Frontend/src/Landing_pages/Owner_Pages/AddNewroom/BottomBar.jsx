@@ -10,8 +10,8 @@ export default function BottomBar() {
         <button className="bg-slate-800 px-6 py-2 rounded">
           Discard
         </button>
-        <button className="bg-violet-500 px-6 py-2 rounded">
-          Publish
+        <button className="bg-violet-500 px-6 py-2 rounded font-bold">
+          Publish Listing
         </button>
       </div>
 

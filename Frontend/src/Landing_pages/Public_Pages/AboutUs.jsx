@@ -25,13 +25,12 @@ const AboutUs = () => {
             </span>
 
             <h1 className="text-5xl md:text-7xl font-extrabold text-on-surface mb-8">
-              Defining the Art of the{" "}
-              <span className="text-primary">Nocturnal Journey</span>
+              Redefining the Way{" "}
+              <span className="text-primary">You Stay</span>
             </h1>
 
             <p className="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto">
-              Midnight Concierge was born from a simple observation: the world
-              feels different after dark.
+              Founded with the vision of making long-term rentals and short-term stays effortless, Blockstay has evolved into a global network.
             </p>
           </div>
         </section>
@@ -41,13 +40,13 @@ const AboutUs = () => {
           
           <div className="md:col-span-7 bg-surface-container-low p-12 rounded-xl">
             <h2 className="text-3xl font-bold mb-6">
-              The Genesis of Midnight
+              The Origin of Blockstay
             </h2>
             <p className="text-on-surface-variant mb-6">
-              Founded in 2018, Midnight Concierge began as a boutique consultancy.
+              Blockstay is your premier destination for exceptional living spaces. From boutique apartments to flexible coliving PG rentals, we connect travelers and professionals with trusted, high-quality stays across the globe.
             </p>
             <p className="text-on-surface-variant">
-              We spent three years scouting the world's most atmospheric cities.
+              We verify every listing to ensure our guests experience the highest standards of comfort, security, and design.
             </p>
           </div>
 
@@ -65,31 +64,31 @@ const AboutUs = () => {
         <section className="bg-surface-container-low py-24">
           <div className="max-w-7xl mx-auto px-8 text-center">
             <h2 className="text-4xl font-extrabold mb-4">
-              The Pillars of the Nocturnal
+              Our Core Principles
             </h2>
             <p className="text-on-surface-variant mb-16">
-              Luxury isn't just about the threads; it's about the feeling.
+              Secure, seamless, and designed for your lifestyle.
             </p>
 
             <div className="grid md:grid-cols-3 gap-12">
               <div>
-                <h4 className="text-xl font-bold">Unseen Service</h4>
+                <h4 className="text-xl font-bold">Verified Trust</h4>
                 <p className="text-sm text-on-surface-variant">
-                  True luxury is invisible.
+                  Every property is vetted for comfort and security.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold">Circadian Respect</h4>
+                <h4 className="text-xl font-bold">Modern Comfort</h4>
                 <p className="text-sm text-on-surface-variant">
-                  Designed for your internal clock.
+                  Designed for the contemporary traveler and professional.
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold">Atmospheric Curation</h4>
+                <h4 className="text-xl font-bold">Global Presence</h4>
                 <p className="text-sm text-on-surface-variant">
-                  Unique sensory experience.
+                  Find your perfect space, anywhere you go.
                 </p>
               </div>
             </div>

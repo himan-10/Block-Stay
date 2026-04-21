@@ -32,9 +32,9 @@ const [form, setForm] = useState({ firstName: "", lastName: "", email: "", passw
 
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Midnight Concierge</h1>
+          <h1 className="text-3xl font-bold mb-2">Start your journey with Blockstay</h1>
           <p className="text-gray-400 text-sm">
-            Create your account
+            Create an account to discover extraordinary spaces.
           </p>
         </div>
 
@@ -111,7 +111,7 @@ const [form, setForm] = useState({ firstName: "", lastName: "", email: "", passw
         <div className="mt-6 text-center text-sm text-gray-400">
           Already have an account?{" "}
           <a href="/login" className="text-purple-400 font-semibold">
-            Login
+            Sign in
           </a>
         </div>
 

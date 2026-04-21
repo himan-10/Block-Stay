@@ -26,7 +26,7 @@ const HeroSection = () => {
       />
       <div className="absolute bottom-0 p-8 bg-gradient-to-t from-black/80 to-transparent w-full">
         <h3 className="text-3xl text-white font-bold">
-          {featured?.name || "Aman Tokyo Executive Suite"}
+          {featured?.name || "Executive Penthouse"}
         </h3>
       </div>
     </div>

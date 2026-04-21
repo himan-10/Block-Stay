@@ -1,4 +1,18 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Hero = () => {
+  const navigate = useNavigate();
+  const [location, setLocation] = useState('');
+  const [dates, setDates] = useState('');
+  const [guests, setGuests] = useState('');
+
+  const handleSearch = () => {
+    // In a full implementation, you would pass these as query parameters or state
+    // navigate(`/rooms?location=${location}&dates=${dates}&guests=${guests}`);
+    navigate('/rooms');
+  };
+
   return (
     <section className="pt-24 min-h-screen flex items-center px-8 md:px-16 relative text-white">
       <img
@@ -9,15 +23,36 @@ const Hero = () => {
 
       <div className="relative z-10 max-w-3xl">
         <h1 className="text-5xl md:text-7xl font-bold mb-6">
-          The Night is <br />
-          <span className="text-cyan-400">Yours to Own</span>
+          Find Your Perfect Stay, <br />
+          <span className="text-cyan-400">Anywhere.</span>
         </h1>
+        <p className="text-xl text-slate-300 mb-8 max-w-2xl">Curated rooms, premium spaces, and trusted apartments for the modern traveler.</p>
 
         <div className="bg-slate-800/70 p-4 rounded-xl flex flex-col md:flex-row gap-4">
-          <input placeholder="Location" className="bg-transparent outline-none px-4 py-2"/>
-          <input placeholder="Dates" className="bg-transparent outline-none px-4 py-2"/>
-          <input placeholder="Guests" className="bg-transparent outline-none px-4 py-2"/>
-          <button className="bg-violet-600 px-6 py-2 rounded-md">Search</button>
+          <input 
+            placeholder="Location" 
+            className="bg-transparent outline-none px-4 py-2 w-full"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+          <input 
+            placeholder="Dates" 
+            className="bg-transparent outline-none px-4 py-2 w-full"
+            value={dates}
+            onChange={(e) => setDates(e.target.value)}
+          />
+          <input 
+            placeholder="Guests" 
+            className="bg-transparent outline-none px-4 py-2 w-full"
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
+          />
+          <button 
+            onClick={handleSearch}
+            className="bg-violet-600 px-8 py-2 rounded-md hover:bg-violet-500 transition-colors font-bold"
+          >
+            Search
+          </button>
         </div>
       </div>
     </section>

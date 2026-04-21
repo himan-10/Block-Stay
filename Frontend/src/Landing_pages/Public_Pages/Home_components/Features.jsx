@@ -5,18 +5,18 @@ const Features = () => {
 
       <div className="grid md:grid-cols-3 gap-8">
         <div>
-          <h3 className="text-xl font-bold">Automated Serenity</h3>
-          <p className="text-gray-400">Smart environment system</p>
+          <h3 className="text-xl font-bold">Verified Trust</h3>
+          <p className="text-gray-400">Every property vetted for security</p>
         </div>
 
         <div>
-          <h3 className="text-xl font-bold">Absolute Privacy</h3>
-          <p className="text-gray-400">Secure & private stays</p>
+          <h3 className="text-xl font-bold">Modern Comfort</h3>
+          <p className="text-gray-400">Tailored for the contemporary traveler</p>
         </div>
 
         <div>
-          <h3 className="text-xl font-bold">24/7 Concierge</h3>
-          <p className="text-gray-400">Always available support</p>
+          <h3 className="text-xl font-bold">24/7 Support</h3>
+          <p className="text-gray-400">Always available round-the-clock</p>
         </div>
       </div>
     </section>

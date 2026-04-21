@@ -163,7 +163,7 @@ const All_Rooms = () => {
 
       {/* TopNavBar */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
-        <div className="text-xl font-bold tracking-tighter text-slate-100 uppercase">Midnight Concierge</div>
+        <div className="text-xl font-bold tracking-tighter text-slate-100 uppercase">Blockstay</div>
         <div className="hidden md:flex items-center gap-8">
           <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
           <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
@@ -178,8 +178,8 @@ const All_Rooms = () => {
       <main className="pt-24 pb-20 px-6 lg:px-12 max-w-[1600px] mx-auto min-h-screen">
         {/* Header Section */}
         <header className="mb-12">
-          <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">The Private Collection</h1>
-          <p className="font-body text-on-surface-variant max-w-2xl text-lg leading-relaxed">Curated sanctuaries for the nocturnal traveler. Every room is a testament to silent luxury and obsidian elegance.</p>
+          <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">Explore Available Stays</h1>
+          <p className="font-body text-on-surface-variant max-w-2xl text-lg leading-relaxed">Find the perfect room, apartment, or PG tailored to your lifestyle. Verified spaces for the modern traveler.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -315,7 +315,7 @@ const All_Rooms = () => {
       {/* Footer */}
       <footer className="bg-slate-950 w-full border-t border-slate-800/50 grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 font-['Inter'] leading-relaxed text-sm">
         <div className="space-y-6">
-          <div className="text-lg font-black text-slate-200 uppercase tracking-tighter">Midnight Concierge</div>
+          <div className="text-lg font-black text-slate-200 uppercase tracking-tighter">BlockStay</div>
           <p className="text-slate-500 max-w-xs">Elevating the nocturnal experience through design, service, and silent luxury.</p>
         </div>
         <div>
@@ -344,7 +344,7 @@ const All_Rooms = () => {
               <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </button>
           </div>
-          <p className="text-[10px] text-slate-600">© 2024 Midnight Concierge. All rights reserved.</p>
+          <p className="text-[10px] text-slate-600">© 2024 BlockStay. All rights reserved.</p>
         </div>
       </footer>
     </div>

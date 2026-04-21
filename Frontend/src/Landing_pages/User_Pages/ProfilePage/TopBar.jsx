@@ -3,7 +3,7 @@ const TopBar = () => {
     <header className="fixed top-0 w-full z-50 bg-slate-950/70 backdrop-blur-xl flex justify-between items-center px-6 py-4">
       <div className="flex items-center gap-8">
         <span className="text-xl font-bold text-white">
-          Midnight Concierge
+          BlockStay
         </span>
 
         <nav className="hidden md:flex gap-6 text-slate-400">
