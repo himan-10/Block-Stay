@@ -16,7 +16,7 @@ export default function PropertyCard({ data }) {
 
         <div>
           <p className="text-sm text-slate-400">Price</p>
-          <p className="font-semibold">${data.price}</p>
+          <p className="font-semibold">₹{data.price}</p>
         </div>
 
         <div>

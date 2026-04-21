@@ -19,8 +19,8 @@ export default function ListingCard({ data }) {
         <p className="text-xs text-slate-400">{data.location}</p>
 
         <div className="flex justify-between mt-4">
-          <span className="text-violet-400 font-bold">${data.price}</span>
-          <span className="text-[10px] text-slate-500">per night</span>
+          <span className="text-violet-400 font-bold">₹{data.price}</span>
+          <span className="text-[10px] text-slate-500">per month</span>
         </div>
 
         <div className="flex gap-3 mt-6">

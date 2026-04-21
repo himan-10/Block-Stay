@@ -27,7 +27,7 @@ const BookingCard = ({ booking, setBookings }) => {
         </span>
       </div>
 
-      <p className="text-white font-bold mt-4">${booking?.totalPrice}</p>
+      <p className="text-white font-bold mt-4">₹{booking?.totalPrice}</p>
 
       <div className="flex gap-4 mt-4">
         <button className="flex-1 text-violet-400">Details</button>

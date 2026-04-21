@@ -2,7 +2,7 @@ export default function MetricsGrid() {
   const cards = [
     { title: "Active Users", value: "14,282", color: "text-cyan-400" },
     { title: "Pending Listings", value: "47", color: "text-red-400" },
-    { title: "Daily Revenue", value: "$28,450", color: "text-cyan-400" },
+    { title: "Daily Revenue", value: "₹2,84,500", color: "text-cyan-400" },
     { title: "System Health", value: "99.9%", color: "text-green-400" },
   ];
 

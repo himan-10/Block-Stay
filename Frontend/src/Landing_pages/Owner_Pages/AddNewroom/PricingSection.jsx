@@ -7,13 +7,13 @@ export default function PricingSection() {
 
         <input
           type="number"
-          placeholder="Price per night"
+          placeholder="Price per month"
           className="bg-slate-800 p-3 rounded"
         />
 
         <input
           type="text"
-          value="2 Nights"
+          value="2 Months"
           className="bg-slate-800 p-3 rounded text-center"
         />
 

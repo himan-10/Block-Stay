@@ -16,7 +16,7 @@ export default function Checkout() {
   const { room, dates, price } = location.state || { 
       room: null, 
       dates: { checkIn: new Date().toISOString(), checkOut: new Date(Date.now() + 86400000).toISOString() }, 
-      price: { total: 5000, nightly: 3400, taxes: 284, fees: 150 } 
+      price: { total: 500000, monthly: 25000, taxes: 2840, fees: 1500 } 
   };
 
   return (

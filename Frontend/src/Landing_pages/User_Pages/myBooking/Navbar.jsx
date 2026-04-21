@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
+
 const Navbar = () => {
   return (
     <header className="bg-slate-950/70 backdrop-blur-xl fixed top-0 w-full z-50 shadow-xl">
       <div className="flex justify-between items-center px-6 py-4">
-        <h1 className="text-xl font-bold text-slate-100">BlockStay</h1>
+        <Link to="/" className="text-xl font-bold text-slate-100 hover:text-cyan-400 transition-colors">BlockStay</Link>
 
         <nav className="hidden md:flex gap-8">
           <a className="text-slate-400 hover:text-violet-300">Dashboard</a>

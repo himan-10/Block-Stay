@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 const Rooms = ({ rooms = [], loading = false }) => {
   // Fallback placeholder data just in case the backend returns empty or fails
   const displayRooms = rooms.length > 0 ? rooms : [
-    { _id: '1', name: "Executive Penthouse", location: "Downtown", pricePerNight: 450, images: ["https://picsum.photos/400/300"] },
-    { _id: '2', name: "Premium Studio", location: "Midtown", pricePerNight: 200, images: ["https://picsum.photos/400/300"] },
-    { _id: '3', name: "Downtown Apartment", location: "City Center", pricePerNight: 300, images: ["https://picsum.photos/400/300"] }
+    { _id: '1', name: "Executive Penthouse", location: "Downtown", pricePerMonth: 250000, images: ["https://picsum.photos/400/300"] },
+    { _id: '2', name: "Premium Studio", location: "Midtown", pricePerMonth: 150000, images: ["https://picsum.photos/400/300"] },
+    { _id: '3', name: "Downtown Apartment", location: "City Center", pricePerMonth: 200000, images: ["https://picsum.photos/400/300"] }
   ];
 
   return (
@@ -29,7 +29,7 @@ const Rooms = ({ rooms = [], loading = false }) => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                 />
                 <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-full text-sm font-bold text-violet-300">
-                  ${room.pricePerNight}<span className="text-xs text-gray-400 font-normal">/night</span>
+                  ₹{room.pricePerMonth}<span className="text-xs text-gray-400 font-normal">/month</span>
                 </div>
               </div>
               <div className="p-4">
@@ -45,6 +45,12 @@ const Rooms = ({ rooms = [], loading = false }) => {
           ))}
         </div>
       )}
+
+      <div className="mt-12 text-center">
+        <Link to="/rooms" className="inline-block bg-transparent border-2 border-violet-600 text-violet-400 hover:bg-violet-600 hover:text-white font-bold py-3 px-8 rounded-full transition-colors duration-300">
+          Explore All Rooms
+        </Link>
+      </div>
     </section>
   );
 };

@@ -21,7 +21,7 @@ const RoomDetails = () => {
 
       {/* Top Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
-        <div className="text-xl font-bold tracking-tighter text-slate-100">Blockstay</div>
+        <Link to="/" className="text-xl font-bold tracking-tighter text-slate-100 hover:text-cyan-400 transition-colors">Blockstay</Link>
         <div className="hidden md:flex items-center gap-8">
           <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
           <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
@@ -116,23 +116,23 @@ const RoomDetails = () => {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="p-6 rounded-xl bg-surface-container border border-outline-variant/10 flex flex-col gap-4">
                   <span className="material-symbols-outlined text-primary text-3xl">ac_unit</span>
-                  <span className="font-medium">Climate Control</span>
+                  <span className="font-medium">AC</span>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container border border-outline-variant/10 flex flex-col gap-4">
-                  <span className="material-symbols-outlined text-primary text-3xl">wine_bar</span>
-                  <span className="font-medium">Private Cellar</span>
+                  <span className="material-symbols-outlined text-primary text-3xl">water_drop</span>
+                  <span className="font-medium">Cooled Water</span>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container border border-outline-variant/10 flex flex-col gap-4">
-                  <span className="material-symbols-outlined text-primary text-3xl">spa</span>
-                  <span className="font-medium">In-suite Sauna</span>
+                  <span className="material-symbols-outlined text-primary text-3xl">hot_tub</span>
+                  <span className="font-medium">Hot Water</span>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container border border-outline-variant/10 flex flex-col gap-4">
                   <span className="material-symbols-outlined text-primary text-3xl">wifi</span>
-                  <span className="font-medium">Satellite Fiber</span>
+                  <span className="font-medium">WiFi</span>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container border border-outline-variant/10 flex flex-col gap-4">
-                  <span className="material-symbols-outlined text-primary text-3xl">local_cafe</span>
-                  <span className="font-medium">Barista Station</span>
+                  <span className="material-symbols-outlined text-primary text-3xl">mode_fan</span>
+                  <span className="font-medium">Non AC</span>
                 </div>
                 <div className="p-6 rounded-xl bg-surface-container-high border border-primary/20 flex flex-col items-center justify-center text-center cursor-pointer group">
                   <span className="font-headline font-bold text-primary group-hover:underline">View All 42 Amenities</span>
@@ -198,8 +198,8 @@ const RoomDetails = () => {
             <div className="sticky top-28 p-8 rounded-2xl bg-surface-container-highest/70 backdrop-blur-xl border border-outline-variant/10 shadow-2xl shadow-black/50">
               <div className="flex justify-between items-baseline mb-8">
                 <div>
-                  <span className="text-3xl font-headline font-extrabold text-on-surface">$850</span>
-                  <span className="text-on-surface-variant text-sm"> / night</span>
+                  <span className="text-3xl font-headline font-extrabold text-on-surface">₹25,000</span>
+                  <span className="text-on-surface-variant text-sm"> / month</span>
                 </div>
                 <div className="flex items-center gap-1 text-secondary text-sm">
                   <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
@@ -224,24 +224,24 @@ const RoomDetails = () => {
               </div>
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-sm text-on-surface-variant">
-                  <span>$850 x 4 nights</span>
-                  <span className="text-on-surface">$3,400</span>
+                  <span>₹25,000 x 4 months</span>
+                  <span className="text-on-surface">₹100,000</span>
                 </div>
                 <div className="flex justify-between text-sm text-on-surface-variant">
                   <span>Service &amp; Concierge Fee</span>
-                  <span className="text-on-surface">$120</span>
+                  <span className="text-on-surface">₹3,000</span>
                 </div>
                 <div className="flex justify-between text-sm text-on-surface-variant">
                   <span>Nocturnal Surcharge</span>
-                  <span className="text-on-surface">$45</span>
+                  <span className="text-on-surface">₹1,500</span>
                 </div>
                 <div className="pt-4 border-t border-outline-variant/20 flex justify-between">
                   <span className="font-bold text-on-surface">Total</span>
-                  <span className="font-headline font-bold text-xl text-primary">$3,565</span>
+                  <span className="font-headline font-bold text-xl text-primary">₹104,500</span>
                 </div>
               </div>
               <button className="w-full py-4 bg-primary text-on-primary font-headline font-extrabold rounded-xl hover:bg-inverse-primary hover:scale-[0.98] transition-all duration-300 shadow-xl shadow-primary/20 mb-4">
-                Complete Booking
+                Book Now
               </button>
               <button className="w-full py-3 bg-surface-container text-on-surface border border-outline-variant rounded-xl font-medium hover:bg-surface-variant transition-all">
                 ← Explore About Page
@@ -276,7 +276,7 @@ const RoomDetails = () => {
       <footer className="bg-slate-950 w-full border-t border-slate-800/50 font-['Inter'] leading-relaxed text-sm">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 w-full">
           <div className="col-span-1 md:col-span-1">
-            <div className="text-lg font-black text-slate-200 mb-6">BlockStay</div>
+            <Link to="/" className="text-lg font-black text-slate-200 mb-6 hover:text-cyan-400 transition-colors block">BlockStay</Link>
             <p className="text-slate-500 mb-6">Crafting nocturnal experiences for the world's most discerning travelers since 2024.</p>
             <div className="flex gap-4">
               <span className="material-symbols-outlined text-slate-500 hover:text-cyan-400 cursor-pointer transition-colors">public</span>

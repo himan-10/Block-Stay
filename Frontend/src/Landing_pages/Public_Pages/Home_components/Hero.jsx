@@ -8,9 +8,10 @@ const Hero = () => {
   const [guests, setGuests] = useState('');
 
   const handleSearch = () => {
-    // In a full implementation, you would pass these as query parameters or state
-    // navigate(`/rooms?location=${location}&dates=${dates}&guests=${guests}`);
-    navigate('/rooms');
+    const params = new URLSearchParams();
+    if (location) params.append('location', location);
+    if (guests) params.append('guests', guests);
+    navigate(`/rooms?${params.toString()}`);
   };
 
   return (

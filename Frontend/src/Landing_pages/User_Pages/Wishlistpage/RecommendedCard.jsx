@@ -7,7 +7,7 @@ export default function RecommendedCard({ title, price, img }) {
         <h4 className="text-white font-bold">{title}</h4>
 
         <div className="flex justify-between mt-3">
-          <span className="text-secondary">${price}/nt</span>
+          <span className="text-secondary">₹{price}/nt</span>
           <button>+</button>
         </div>
       </div>

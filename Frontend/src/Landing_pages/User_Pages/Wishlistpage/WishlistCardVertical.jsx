@@ -13,7 +13,7 @@ export default function WishlistCardVertical() {
         <p className="text-slate-400 text-sm">2 Bedrooms • Pool</p>
 
         <div className="flex justify-between mt-4">
-          <span className="text-white font-bold">$890</span>
+          <span className="text-white font-bold">₹890</span>
           <button className="text-primary">Reserve</button>
         </div>
       </div>

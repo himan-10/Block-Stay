@@ -1,8 +1,8 @@
 export default function StatsCards() {
   const stats = [
-    { title: "Total Revenue", value: "$1,428,900", change: "+12.4%", color: "text-green-400" },
+    { title: "Total Revenue", value: "₹1,42,89,000", change: "+12.4%", color: "text-green-400" },
     { title: "Occupancy Rate", value: "84.2%", change: "+3.1%", color: "text-green-400" },
-    { title: "Service Fees", value: "$194,520", change: "Stable", color: "text-slate-400" },
+    { title: "Service Fees", value: "₹19,45,200", change: "Stable", color: "text-slate-400" },
     { title: "Active Payouts", value: "1,024", change: "-2%", color: "text-red-400" },
   ];
 

@@ -18,24 +18,24 @@ export default function OrderSummary({ room, dates, price }) {
 
       <div className="space-y-2 text-sm text-slate-400">
         <div className="flex justify-between">
-          <span>Nightly</span>
-          <span>${price?.nightly || 3400}</span>
+          <span>Monthly</span>
+          <span>₹{price?.monthly || 25000}</span>
         </div>
 
         <div className="flex justify-between">
           <span>Fees</span>
-          <span>${price?.fees || 150}</span>
+          <span>₹{price?.fees || 1500}</span>
         </div>
 
         <div className="flex justify-between">
           <span>Taxes</span>
-          <span>${price?.taxes || 284}</span>
+          <span>₹{price?.taxes || 3000}</span>
         </div>
       </div>
 
       <div className="flex justify-between text-xl font-bold border-t border-slate-700 pt-4">
         <span>Total</span>
-        <span>${price?.total || 3834}</span>
+        <span>₹{price?.total || 29500}</span>
       </div>
 
     </aside>

@@ -1,8 +1,8 @@
 export default function PayoutTable() {
   const data = [
-    { id: "#TXN-90210", name: "The Obsidian Suite", region: "Zurich", amount: "$12,450", fee: "$498", status: "Cleared" },
-    { id: "#TXN-88432", name: "Velvet Manor", region: "Milan", amount: "$8,900", fee: "$356", status: "Pending" },
-    { id: "#TXN-87611", name: "Glass & Steel", region: "Oslo", amount: "$24,120", fee: "$964", status: "Cleared" },
+    { id: "#TXN-90210", name: "Taj Heritage Suite", region: "Mumbai", amount: "₹1,24,500", fee: "₹4,980", status: "Cleared" },
+    { id: "#TXN-88432", name: "Goan Coastal Villa", region: "Goa", amount: "₹89,000", fee: "₹3,560", status: "Pending" },
+    { id: "#TXN-87611", name: "Andaman Ocean Villa", region: "Andaman", amount: "₹2,41,200", fee: "₹9,648", status: "Cleared" },
   ];
 
   return (

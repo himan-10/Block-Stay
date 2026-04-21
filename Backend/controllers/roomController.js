@@ -2,8 +2,31 @@ import Room from '../models/Room.js';
 
 export const getRooms = async (req, res) => {
     try {
-        const rooms = await Room.find({}).populate('owner', 'name');
-        res.json(rooms);
+        const { location, guests, page = 1, limit = 10 } = req.query;
+        
+        let query = {};
+        if (location) {
+            query.location = { $regex: location, $options: 'i' };
+        }
+        if (guests) {
+            query.capacity = { $gte: Number(guests) };
+        }
+
+        const skip = (Number(page) - 1) * Number(limit);
+
+        const rooms = await Room.find(query)
+            .populate('owner', 'name')
+            .skip(skip)
+            .limit(Number(limit));
+            
+        const totalRooms = await Room.countDocuments(query);
+
+        res.json({
+            rooms,
+            currentPage: Number(page),
+            totalPages: Math.ceil(totalRooms / Number(limit)),
+            totalRooms
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server Error' });
     }

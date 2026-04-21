@@ -1,122 +1,61 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import RoomCard from '../../Components/Reusable/RoomCard';
 
 const All_Rooms = () => {
-  const [priceRange, setPriceRange] = useState(2500);
+  const urlLocation = useLocation();
+  const searchParams = new URLSearchParams(urlLocation.search);
+  const searchLocation = searchParams.get('location') || '';
+  const searchGuests = searchParams.get('guests') || '';
+
+  const [allRooms, setAllRooms] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  const [priceRange, setPriceRange] = useState(30000);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
-  // Mock data extended with properties needed for accurate filtering
-  const allRooms = [
-    {
-      id: 1,
-      variant: 'default',
-      type: 'Obsidian Suite',
-      filterAmenities: ['Midnight Spa', 'Smart Control'],
-      imageSrc: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAxpimUKPWLU0joccAu1kXTJrbMMWBJ2VObQ6RDyg01KUvMtst89_XBlfku1Ph-JVA3ZlOnoRi942ZXisY6RRDDeIAjiXXlF0jZ3ZMNZtqBZBOmHYu0HGaPQj_qS-FFg5UVjoFVdbMFRqb1G_NZeyC4a43BPubzyy28ayW5Mcxon8KS-w89N9uzn2mKOMsGuueJ7zcVp7eTFWWbJoEbqYL-N0Ak-lRlYdnDIlKLNEdOgSBHuN9Mq4fuEgdDj7kzKq1-QRk6rPrPMKny',
-      imageAlt: 'luxurious dark modern hotel bedroom',
-      title: 'The Shadow Wing Suite',
-      subtitle: 'East Tower · 85 sqm',
-      price: 850,
-      badge: {
-        text: 'POPULAR',
-        icon: 'bolt',
-        position: 'right-4',
-        bgClass: 'bg-surface-container-highest/80 backdrop-blur-md',
-        textClass: 'text-secondary'
-      },
-      amenities: [
-        { icon: 'king_bed', text: 'King' },
-        { icon: 'bathtub', text: 'Spa Tub' },
-        { icon: 'wine_bar', text: 'Mini Bar' }
-      ]
-    },
-    {
-      id: 2,
-      variant: 'default',
-      type: 'Luminous Studio',
-      filterAmenities: ['Private Balcony', 'Smart Control'],
-      imageSrc: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD-YcLbRJ2zpKv659RQRa5HsW4pMIYDgPB9FABElWStfyrXGUcC9P2xeHWv2XqHLfNEBTrz--1tknWPApKQGsNKuEa-PKHBS8-pWv_Sf1Oc29scq5452MtpHtSr6oSUqsEPuyLTIBTJPzNixa3usbYAYo6RQUf6vyDq9prPnVdgPIDIVEl-U-v-07eCZDUhuoEo_uylWIe8AmsIAMwR_oBzEiPgynY2i34yLQhNYQk5NFqcJkt0agSV5Ll6WhwfwlJZ9Kt6B9odbULv',
-      imageAlt: 'minimalist luxury penthouse suite',
-      title: 'Cyan Horizon Loft',
-      subtitle: 'Level 42 · 110 sqm',
-      price: 1200,
-      badge: {
-        text: 'TOP RATED',
-        position: 'left-4',
-        bgClass: 'bg-primary-container',
-        textClass: 'text-on-primary-container'
-      },
-      amenities: [
-        { icon: 'visibility', text: 'City View' },
-        { icon: 'ac_unit', text: 'Climate' },
-        { icon: 'restaurant', text: 'Kitchenette' }
-      ]
-    },
-    {
-      id: 3,
-      variant: 'featured',
-      type: 'Eclipse Penthouse',
-      filterAmenities: ['Private Balcony', 'Butler Service', 'Midnight Spa', 'Smart Control'],
-      imageSrc: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCyfXTkVywAPWP0k8Pl_qLT6RLcw5RcuFnG33cmgFr6yG_OM4LNKzBtBb0pKc8thgpchBWLV58St1Qzv-UBZUzGkzfXrfb_ZpOMiHa8F7CeoHqZkgq0jECLEYMwEtAgyOxT014jDz5EsNtK-WZx-TFfqFuSz4eO06RvJCODJs9G-lk3yBcbVaud3ojPHWRAaEB5OVVjQpFWw4KM4gSWtHahZ9Lcygy2gkHPLksrW3FllQbVIpa1X2LYbaGHNmLEF1iIv1zBF8GEigIe',
-      imageAlt: 'expansive master suite',
-      featuredLabel: 'The Crown Jewel',
-      title: 'Midnight Presidential Penthouse',
-      subtitle: 'Experience total sensory immersion. 240 square meters of pure architectural artistry, including a private heated plunge pool overlooking the nocturnal skyline.',
-      price: 2450,
-      amenities: [
-        { icon: 'pool', text: 'Private Pool' },
-        { icon: 'concierge', text: 'Butler' }
-      ]
-    },
-    {
-      id: 4,
-      variant: 'default',
-      type: 'Luminous Studio',
-      filterAmenities: ['Smart Control'],
-      imageSrc: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA-4q7OZznwa_CooOPWhYSXi5KUqpLUrE3Z5NH98patyR6Nz59HsuFjeeHHuyRGoiUh8JXXv_da2mbZ-LTUWs-kvuqI08tM2cUL1HD7pFkuHPFaosReyf1T4N3soCLyz9cmu9NgDC4RLnS_o3ejI_YqKBKdbQd3G01JVhwuQbfOOxxuakQZRck3MBOXnCs6BtPhNfPc9sPRItBnKcobG5woTEtt3ZOcwxlXwe6rZvo6pYZd4y3EALi4ei44SyOdU7Ac0BSds2ScdFyR',
-      imageAlt: 'cozy but dark luxury hotel room',
-      title: 'Acoustic Studio',
-      subtitle: 'North Wing · 65 sqm',
-      price: 550,
-      amenities: [
-        { icon: 'speaker', text: 'Hi-Fi Audio' },
-        { icon: 'local_cafe', text: 'Craft Coffee' }
-      ]
-    },
-    {
-      id: 5,
-      variant: 'default',
-      type: 'Obsidian Suite',
-      filterAmenities: ['Midnight Spa'],
-      imageSrc: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBndgMXM_QCKEy6RI26F6w83acIPyNSHeUj9z-lUvNKVJB_-Tpee4zw-LyImFsq16HGrA4SpAcYNpMzBpci3it0j1Ou6o6vUxIq3oXPLY_7vLKYJXlzUu3kjUXYjwVytLEFgrbKkoKJRlFmaG72818WZimu0ADuDZUo3jd0mBspVKh5JmixbsWHlO_BYi4u_o4omh_bTrKEL5Q4AX97AqcBp1NrsqYNilrEX_aRnmavqOX3R0If2mpEzkrFZPQLZZyTu9eHLs-UljZO',
-      imageAlt: 'modern bathroom with black marble vanity',
-      title: 'Obsidian Spa Chamber',
-      subtitle: 'East Tower · 78 sqm',
-      price: 720,
-      amenities: [
-        { icon: 'hot_tub', text: 'Steam Room' },
-        { icon: 'spa', text: 'Therapy' }
-      ]
-    }
-  ];
+  useEffect(() => {
+    const fetchRooms = async () => {
+      setLoading(true);
+      try {
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+        
+        const params = {
+            page: currentPage,
+            limit: 6 // Show 6 rooms per page
+        };
+        
+        if (searchLocation) params.location = searchLocation;
+        if (searchGuests) params.guests = searchGuests;
+
+        const { data } = await axios.get(`${apiUrl}/rooms`, { params });
+        setAllRooms(data.rooms || []);
+        setTotalPages(data.totalPages || 1);
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRooms();
+  }, [currentPage, searchLocation, searchGuests]);
 
   // Filtering Logic
   const filteredRooms = useMemo(() => {
     return allRooms.filter(room => {
-      if (room.price > priceRange) return false;
+      if (room.pricePerMonth > priceRange) return false;
 
-      if (selectedTypes.length > 0 && !selectedTypes.includes(room.type)) return false;
-
-      if (selectedAmenities.length > 0) {
-        const hasAllSelected = selectedAmenities.every(a => room.filterAmenities.includes(a));
-        if (!hasAllSelected) return false;
-      }
+      // Note: We don't have 'type' or 'filterAmenities' in the real DB schema currently, 
+      // but if we did, we'd filter here. For now, we only filter by price on the client side.
 
       return true;
     });
-  }, [priceRange, selectedTypes, selectedAmenities]);
+  }, [allRooms, priceRange, selectedTypes, selectedAmenities]);
 
   const handleTypeToggle = (typeStr) => {
     setSelectedTypes(prev => 
@@ -135,7 +74,7 @@ const All_Rooms = () => {
   };
 
   const clearAllFilters = () => {
-    setPriceRange(2500);
+    setPriceRange(30000);
     setSelectedTypes([]);
     setSelectedAmenities([]);
   };
@@ -163,7 +102,7 @@ const All_Rooms = () => {
 
       {/* TopNavBar */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
-        <div className="text-xl font-bold tracking-tighter text-slate-100 uppercase">Blockstay</div>
+        <Link to="/" className="text-xl font-bold tracking-tighter text-slate-100 uppercase hover:text-cyan-400 transition-colors">Blockstay</Link>
         <div className="hidden md:flex items-center gap-8">
           <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
           <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
@@ -198,14 +137,14 @@ const All_Rooms = () => {
                     className="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" 
                     type="range"
                     min="400"
-                    max="2500"
-                    step="50"
+                    max="30000"
+                    step="500"
                     value={priceRange}
                     onChange={(e) => setPriceRange(Number(e.target.value))}
                   />
                   <div className="flex justify-between text-xs font-medium text-on-surface-variant">
-                    <span>$400</span>
-                    <span>${priceRange === 2500 ? '2,500+' : priceRange}</span>
+                    <span>₹400</span>
+                    <span>₹{priceRange === 30000 ? '30,000+' : priceRange}</span>
                   </div>
                 </div>
               </div>
@@ -214,7 +153,7 @@ const All_Rooms = () => {
               <div className="space-y-4">
                 <label className="block font-label text-[10px] tracking-[0.1em] text-on-surface-variant font-bold uppercase">Room Type</label>
                 <div className="space-y-3">
-                  {['Obsidian Suite', 'Luminous Studio', 'Eclipse Penthouse'].map(typeBlock => (
+                  {['1BHK', '2BHK', '1RK', 'Single Room'].map(typeBlock => (
                     <label key={typeBlock} className="flex items-center group cursor-pointer w-fit">
                       <input 
                         type="checkbox"
@@ -232,7 +171,7 @@ const All_Rooms = () => {
               <div className="space-y-4">
                 <label className="block font-label text-[10px] tracking-[0.1em] text-on-surface-variant font-bold uppercase">Amenities</label>
                 <div className="flex flex-wrap gap-2">
-                  {['Midnight Spa', 'Private Balcony', 'Smart Control', 'Butler Service'].map(amBlock => {
+                  {['Hot Water', 'WiFi', 'Cooled Water', 'AC', 'Non AC'].map(amBlock => {
                     const isSelected = selectedAmenities.includes(amBlock);
                     return (
                       <button 
@@ -274,7 +213,9 @@ const All_Rooms = () => {
 
           {/* Room Grid */}
           <section className="lg:col-span-9">
-            {filteredRooms.length === 0 ? (
+            {loading ? (
+              <div className="w-full py-20 flex justify-center text-primary">Loading sanctuaries...</div>
+            ) : filteredRooms.length === 0 ? (
               <div className="w-full py-20 flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant/50 rounded-xl">
                 <span className="material-symbols-outlined text-4xl mb-4">search_off</span>
                 <p className="font-body text-lg font-medium">No sanctuaries match your filters.</p>
@@ -288,22 +229,41 @@ const All_Rooms = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {filteredRooms.map((room) => (
-                  <RoomCard key={room.id} {...room} />
+                  <RoomCard key={room._id} room={room} />
                 ))}
               </div>
             )}
 
             {/* Pagination */}
-            {filteredRooms.length > 0 && (
+            {totalPages > 1 && (
               <div className="mt-16 flex justify-center items-center gap-4">
-                <button className="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+                <button 
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all disabled:opacity-50"
+                >
                   <span className="material-symbols-outlined">chevron_left</span>
                 </button>
                 <div className="flex gap-2">
-                  <button className="w-12 h-12 rounded-full bg-primary-container text-on-primary-container font-bold">1</button>
-                  <button className="w-12 h-12 rounded-full border border-outline-variant text-on-surface-variant font-bold hover:border-primary hover:text-primary transition-all">2</button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button 
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`w-12 h-12 rounded-full font-bold transition-all ${
+                        currentPage === page 
+                          ? 'bg-primary-container text-on-primary-container' 
+                          : 'border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
                 </div>
-                <button className="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+                <button 
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:border-primary hover:text-primary transition-all disabled:opacity-50"
+                >
                   <span className="material-symbols-outlined">chevron_right</span>
                 </button>
               </div>
@@ -315,7 +275,7 @@ const All_Rooms = () => {
       {/* Footer */}
       <footer className="bg-slate-950 w-full border-t border-slate-800/50 grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 font-['Inter'] leading-relaxed text-sm">
         <div className="space-y-6">
-          <div className="text-lg font-black text-slate-200 uppercase tracking-tighter">BlockStay</div>
+          <Link to="/" className="text-lg font-black text-slate-200 uppercase tracking-tighter hover:text-cyan-400 transition-colors block">BlockStay</Link>
           <p className="text-slate-500 max-w-xs">Elevating the nocturnal experience through design, service, and silent luxury.</p>
         </div>
         <div>

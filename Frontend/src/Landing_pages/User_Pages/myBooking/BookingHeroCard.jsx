@@ -18,7 +18,7 @@ const BookingHeroCard = ({ booking }) => {
           <p className="text-slate-300">In: {new Date(booking?.checkIn).toLocaleDateString()}</p>
           <p className="text-slate-300">Out: {new Date(booking?.checkOut).toLocaleDateString()}</p>
           
-          <p className="text-violet-400 font-bold text-lg mt-4">${booking?.totalPrice}</p>
+          <p className="text-violet-400 font-bold text-lg mt-4">₹{booking?.totalPrice}</p>
 
           <button className="mt-6 bg-violet-600 px-6 py-2 rounded">
             View Details

@@ -32,7 +32,7 @@ const Recommended = () => {
             />
             <div className="p-4 text-white font-bold flex justify-between">
               <span>{room.name}</span>
-              <span className="text-violet-400">${room.pricePerNight} / nignt</span>
+              <span className="text-violet-400">₹{room.pricePerMonth} / month</span>
             </div>
           </div>
         )) : (

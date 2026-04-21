@@ -23,7 +23,7 @@ export default function Properties() {
             _id: room._id,
             name: room.name,
             location: room.location,
-            price: room.pricePerNight,
+            price: room.pricePerMonth,
             status: "active",
             analytics: Math.floor(Math.random() * 50) + 50, // mock analytics
             image: room.images && room.images.length > 0 ? room.images[0] : "https://images.unsplash.com/photo-1505691938895-1758d7feb511"
@@ -50,7 +50,7 @@ export default function Properties() {
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-6">
-            <StatsCard title="Revenue" value="$142.8k" />
+            <StatsCard title="Revenue" value="₹14.28L" />
             <StatsCard title="Occupancy" value="88%" />
             <StatsCard title="Insights" value="Growth ↑" />
           </div>

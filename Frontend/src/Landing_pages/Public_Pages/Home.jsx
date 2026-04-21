@@ -15,7 +15,7 @@ export const Home = () => {
         const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
         const { data } = await axios.get(`${apiUrl}/rooms`);
         // We only want to show a few featured rooms on the homepage
-        setFeaturedRooms(data.slice(0, 3));
+        setFeaturedRooms(data.rooms ? data.rooms.slice(0, 3) : []);
       } catch (error) {
         console.error("Error fetching rooms:", error);
       } finally {

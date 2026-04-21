@@ -7,7 +7,7 @@ export default function WishlistCardHorizontal({ title, price, img }) {
         <h3 className="text-2xl text-white font-bold">{title}</h3>
 
         <div className="flex justify-between">
-          <span className="text-white font-bold">${price}</span>
+          <span className="text-white font-bold">₹{price}</span>
           <button className="bg-primary px-4 py-1 rounded text-white">
             Book
           </button>

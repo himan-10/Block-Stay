@@ -31,7 +31,7 @@ export default function OwnerDashboard() {
 
           {/* Metrics */}
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <MetricCard title="Revenue" value="$142,850" />
+            <MetricCard title="Revenue" value="₹14,28,500" />
             <MetricCard title="Occupancy" value="94%" />
             <MetricCard title="Rating" value="4.92" />
           </div>
