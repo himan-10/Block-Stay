@@ -1,5 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 import { Home } from '../Landing_pages/Public_Pages/Home';
 import AboutUs from '../Landing_pages/Public_Pages/AboutUs';
@@ -14,11 +15,16 @@ import PageNotFound from '../Landing_pages/Utility/PageNotFound';
 
 import Navbar from '../Components/Reusable/Navbar';
 import Footer from '../Components/Reusable/Footer';
+import Dashboard from '../Landing_pages/User_Pages/Dashboard';
+import Owner_Dashboard from '../Landing_pages/Owner_Pages/Owner_Dashboard';
+import MyBooking from '../Landing_pages/User_Pages/MyBooking';
+import Wishlist from '../Landing_pages/User_Pages/Wishlist';
+import Profile from '../Landing_pages/User_Pages/Profile';
 
 const AppRoutes = () => {
   return (
     <>
-      <Navbar />
+<Navbar />
       <div className="pt-20"> {/* Adjust padding based on Navbar height */}
         <Routes>
           <Route path="/" element={<Home />} />
@@ -29,10 +35,41 @@ const AppRoutes = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Sign_up />} />
           <Route path="/unauthorized" element={<UnauthorisedAccess />} />
+
+          {/* TODO: Protected routes - components need proper imports */}
+          <Route path="/user/dashboard" element={
+            <ProtectedRoute requiredRole="user">
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/owner/dashboard" element={
+            <ProtectedRoute requiredRole="owner">
+              <Owner_Dashboard />
+            </ProtectedRoute>
+          } />
+
+          {/* User Dashboard Navigation */}
+          <Route path="/user/bookings" element={
+            <ProtectedRoute requiredRole="user">
+              <MyBooking />
+            </ProtectedRoute>
+          } />
+          <Route path="/user/wishlist" element={
+            <ProtectedRoute requiredRole="user">
+              <Wishlist />
+            </ProtectedRoute>
+          } />
+          <Route path="/user/profile" element={
+            <ProtectedRoute requiredRole="user">
+              <Profile />
+            </ProtectedRoute>
+          } />
+
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>
       <Footer />
+
     </>
   );
 };

@@ -3,10 +3,12 @@ import mongoose from 'mongoose';
 const connectDB = async () => {
     try {
         const uri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/blockstay';
+        console.log('Attempting MongoDB connection to:', uri.substring(0, 50) + '...');
         const conn = await mongoose.connect(uri);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     } catch (error) {
-        console.error(`Error: ${error.message}`);
+        console.error(`❌ MongoDB Error: ${error.message}`);
+        console.error('Fix: Check Backend/.env MONGO_URI or install MongoDB locally');
         process.exit(1);
     }
 };

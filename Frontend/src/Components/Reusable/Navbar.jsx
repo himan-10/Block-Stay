@@ -9,8 +9,8 @@ const Navbar = () => {
 
   return (
     <nav className="bg-slate-900/40 backdrop-blur-2xl border-b border-white/5 fixed top-0 w-full z-50 flex justify-between items-center px-8 py-5 transition-all duration-500">
-      <Link to="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase hover:opacity-80 transition-opacity">
-        Midnight
+<Link to="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase hover:opacity-80 transition-opacity">
+        Midnight Concierge
       </Link>
 
       <div className="hidden md:flex gap-10 text-sm font-medium tracking-wide">

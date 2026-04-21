@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import RoomCard from '../../Components/Reusable/RoomCard';
 
 const All_Rooms = () => {
@@ -164,13 +165,13 @@ const All_Rooms = () => {
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
         <div className="text-xl font-bold tracking-tighter text-slate-100 uppercase">Midnight Concierge</div>
         <div className="hidden md:flex items-center gap-8">
-          <a className="text-violet-400 border-b-2 border-violet-500 pb-1" href="#">Rooms</a>
-          <a className="text-slate-400 hover:text-slate-100 transition-colors" href="#">About</a>
-          <a className="text-slate-400 hover:text-slate-100 transition-colors" href="#">Contact</a>
+          <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
+          <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
+          <Link to="/contact" className="text-slate-400 hover:text-slate-100 transition-colors">Contact</Link>
         </div>
         <div className="flex items-center gap-6">
-          <button className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium">Login</button>
-          <button className="bg-primary-container text-on-primary-container px-6 py-2 rounded-md font-bold text-sm hover:bg-inverse-primary transition-all duration-300 active:scale-95 shadow-[0px_0px_15px_rgba(124,58,237,0.4)]">Sign Up</button>
+          <Link to="/login" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium">Login</Link>
+          <Link to="/signup" className="bg-primary-container text-on-primary-container px-6 py-2 rounded-md font-bold text-sm hover:bg-inverse-primary transition-all duration-300 active:scale-95 shadow-[0px_0px_15px_rgba(124,58,237,0.4)]">Sign Up</Link>
         </div>
       </nav>
 

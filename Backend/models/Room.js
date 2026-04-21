@@ -9,7 +9,12 @@ const roomSchema = mongoose.Schema({
     bedding: { type: String, required: true },
     amenities: [String],
     images: [String],
-    location: { type: String, required: true }
+    location: { type: String, required: true },
+    owner: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true 
+    }
 }, {
     timestamps: true
 });

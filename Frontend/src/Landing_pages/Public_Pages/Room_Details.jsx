@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const RoomDetails = () => {
   return (
@@ -21,14 +22,14 @@ const RoomDetails = () => {
       {/* Top Navigation */}
       <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
         <div className="text-xl font-bold tracking-tighter text-slate-100">Midnight Concierge</div>
-        <div className="hidden md:flex items-center space-gap-8 gap-8">
-          <a className="text-violet-400 border-b-2 border-violet-500 pb-1" href="#">Rooms</a>
-          <a className="text-slate-400 hover:text-slate-100 transition-colors" href="#">About</a>
-          <a className="text-slate-400 hover:text-slate-100 transition-colors" href="#">Contact</a>
+        <div className="hidden md:flex items-center gap-8">
+          <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
+          <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
+          <Link to="/contact" className="text-slate-400 hover:text-slate-100 transition-colors">Contact</Link>
         </div>
         <div className="flex items-center gap-4">
-          <button className="text-slate-400 hover:text-slate-100 transition-colors font-medium text-sm">Login</button>
-          <button className="bg-primary-container text-on-primary-container px-6 py-2 rounded-xl font-bold hover:scale-95 transition-all duration-200 shadow-lg shadow-primary-container/20">Sign Up</button>
+          <Link to="/login" className="text-slate-400 hover:text-slate-100 transition-colors font-medium text-sm">Login</Link>
+          <Link to="/signup" className="bg-primary-container text-on-primary-container px-6 py-2 rounded-xl font-bold hover:scale-95 transition-all duration-200 shadow-lg shadow-primary-container/20">Sign Up</Link>
         </div>
       </nav>
 
@@ -242,8 +243,11 @@ const RoomDetails = () => {
                   <span className="font-headline font-bold text-xl text-primary">$3,565</span>
                 </div>
               </div>
-              <button className="w-full py-4 bg-primary text-on-primary font-headline font-extrabold rounded-xl hover:bg-inverse-primary hover:scale-[0.98] transition-all duration-300 shadow-xl shadow-primary/20">
+              <button className="w-full py-4 bg-primary text-on-primary font-headline font-extrabold rounded-xl hover:bg-inverse-primary hover:scale-[0.98] transition-all duration-300 shadow-xl shadow-primary/20 mb-4">
                 Confirm Reservation
+              </button>
+              <button className="w-full py-3 bg-surface-container text-on-surface border border-outline-variant rounded-xl font-medium hover:bg-surface-variant transition-all">
+                ← Explore About Page
               </button>
               <p className="text-center text-xs text-on-surface-variant mt-4 opacity-60">
                 You won't be charged yet.

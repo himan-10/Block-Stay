@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Sign_up = () => {
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const { register } = useContext(AuthContext);
+
+const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", role: "user" });
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Account Created!");
+    if (form.password !== form.confirmPassword) return alert("Passwords do not match");
+    try {
+      const name = `${form.firstName} ${form.lastName}`;
+      await register(name, form.email, form.password, form.role);
+      navigate("/");
+    } catch (error) {
+      console.error('Frontend register error:', error.response?.data || error);
+      const errorMsg = error.response?.data?.message || error.message || 'Registration failed';
+      alert(`Registration failed: ${errorMsg}`);
+    }
   };
 
   return (
@@ -26,12 +44,16 @@ const Sign_up = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
               type="text"
+              name="firstName"
+              onChange={handleChange}
               placeholder="First Name"
               className="w-full bg-slate-900 border border-slate-600 px-4 py-3 rounded-lg outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             />
 
             <input
               type="text"
+              name="lastName"
+              onChange={handleChange}
               placeholder="Last Name"
               className="w-full bg-slate-900 border border-slate-600 px-4 py-3 rounded-lg outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
             />
@@ -39,21 +61,42 @@ const Sign_up = () => {
 
           <input
             type="email"
+            name="email"
+            onChange={handleChange}
             placeholder="Email"
             className="w-full bg-slate-900 border border-slate-600 px-4 py-3 rounded-lg outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
 
           <input
             type="password"
+            name="password"
+            onChange={handleChange}
             placeholder="Password"
             className="w-full bg-slate-900 border border-slate-600 px-4 py-3 rounded-lg outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
 
           <input
             type="password"
+            name="confirmPassword"
+            onChange={handleChange}
             placeholder="Confirm Password"
             className="w-full bg-slate-900 border border-slate-600 px-4 py-3 rounded-lg outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
+
+          {/* Role Selection */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Account Type</label>
+            <div className="flex gap-3">
+              <label className="flex items-center space-x-2 p-3 border rounded-lg cursor-pointer hover:bg-slate-700/50 flex-1">
+                <input type="radio" name="role" value="user" checked={form.role === 'user'} onChange={handleChange} className="text-purple-500" />
+                <span>Regular Guest</span>
+              </label>
+              <label className="flex items-center space-x-2 p-3 border rounded-lg cursor-pointer hover:bg-slate-700/50 flex-1">
+                <input type="radio" name="role" value="owner" checked={form.role === 'owner'} onChange={handleChange} className="text-purple-500" />
+                <span>Property Owner</span>
+              </label>
+            </div>
+          </div>
 
           {/* Button */}
           <button

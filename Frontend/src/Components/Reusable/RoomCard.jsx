@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RoomCard = ({
+  id,
   variant = 'default',
   imageSrc,
   imageAlt,
@@ -11,6 +13,7 @@ const RoomCard = ({
   price,
   amenities
 }) => {
+  const navigate = useNavigate();
   if (variant === 'featured') {
     return (
       <div className="group relative flex flex-col bg-surface-container rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0px_20px_40px_rgba(0,0,0,0.4),0px_0px_20px_rgba(124,58,237,0.05)] md:col-span-2 lg:col-span-2">
@@ -105,7 +108,10 @@ const RoomCard = ({
             </div>
           ))}
         </div>
-        <button className="w-full py-4 bg-transparent border border-outline-variant text-on-surface font-bold rounded-md group-hover:bg-primary-container group-hover:border-primary-container group-hover:text-on-primary-container transition-all">
+        <button 
+          onClick={() => navigate(`/rooms/${id}`)}
+          className="w-full py-4 bg-transparent border border-outline-variant text-on-surface font-bold rounded-md group-hover:bg-primary-container group-hover:border-primary-container group-hover:text-on-primary-container transition-all cursor-pointer hover:shadow-md"
+        >
           Reserve Experience
         </button>
       </div>

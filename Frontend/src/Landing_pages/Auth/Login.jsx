@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -13,14 +15,18 @@ const Login = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // 👉 Replace with backend API call later
-    console.log(form);
-
-    // fake login success
-    navigate("/");
+    try {
+      const user = await login(form.email, form.password);
+      if (user.role === 'owner') {
+        navigate('/owner/dashboard');
+      } else {
+        navigate('/user/dashboard');
+      }
+    } catch (err) {
+      alert("Login failed");
+    }
   };
 
   return (
