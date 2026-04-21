@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
+import { AuthContext } from '../../../context/AuthContext.jsx';
 
 export default function PaymentForm() {
   const stripe = useStripe();
@@ -9,15 +9,17 @@ export default function PaymentForm() {
   const [processing, setProcessing] = useState(false);
   const [succeeded, setSucceeded] = useState(false);
 
+  const { api } = useContext(AuthContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
 
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || !api) return;
 
     try {
       // Create Payment Intent
-      const { data } = await axios.post('http://localhost:5000/api/payment/create-intent', { amount: 5000 }, { withCredentials: true });
+      const { data } = await api.post('/payment/create-intent', { amount: 5000 });
       
       const payload = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {

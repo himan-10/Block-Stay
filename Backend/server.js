@@ -20,7 +20,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://blockstay1.netlify.app'],
     credentials: true
 }));
 app.use(express.json());
@@ -40,7 +40,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:5173', 'http://localhost:5174'],
+        origin: ['http://localhost:5173', 'http://localhost:5174', 'https://blockstay1.netlify.app'],
         credentials: true
     }
 });
