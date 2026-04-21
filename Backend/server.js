@@ -21,8 +21,17 @@ app.set('trust proxy', 1); // Trust first proxy (Render/Heroku load balancers)
 connectDB();
 
 // Middleware
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'https://blockstay1.netlify.app', 'https://block-stay-jytq7a345-himan-10s-projects.vercel.app'],
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app') || origin.endsWith('.netlify.app')) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 app.use(express.json());
@@ -43,7 +52,14 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
     cors: {
-        origin: ['http://localhost:5173', 'http://localhost:5174', 'https://blockstay1.netlify.app', 'https://block-stay-jytq7a345-himan-10s-projects.vercel.app'],
+        origin: function (origin, callback) {
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app') || origin.endsWith('.netlify.app')) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
         credentials: true
     }
 });

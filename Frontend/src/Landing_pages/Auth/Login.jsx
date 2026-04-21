@@ -25,7 +25,9 @@ const Login = () => {
         navigate('/user/dashboard');
       }
     } catch (err) {
-      alert("Login failed");
+      console.error("Login Error:", err);
+      const errorMsg = err.response?.data?.message || err.message || "An unexpected error occurred.";
+      alert(`Login failed: ${errorMsg}`);
     }
   };
 
@@ -44,7 +46,7 @@ const Login = () => {
 
           {/* Logo */}
           <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold">Blockstay</h1>
+            <Link to="/" className="text-3xl font-bold hover:text-violet-400 transition-colors">Blockstay</Link>
             <p className="text-xs uppercase tracking-widest text-on-surface-variant">
               Exceptional stays for the modern traveler.
             </p>
