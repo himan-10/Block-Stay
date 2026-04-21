@@ -14,7 +14,7 @@ const All_Rooms = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
-  const [priceRange, setPriceRange] = useState(30000);
+  const [priceRange, setPriceRange] = useState(300000);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
 
@@ -74,7 +74,7 @@ const All_Rooms = () => {
   };
 
   const clearAllFilters = () => {
-    setPriceRange(30000);
+    setPriceRange(300000);
     setSelectedTypes([]);
     setSelectedAmenities([]);
   };
@@ -136,15 +136,15 @@ const All_Rooms = () => {
                   <input 
                     className="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" 
                     type="range"
-                    min="400"
-                    max="30000"
-                    step="500"
+                    min="10000"
+                    max="300000"
+                    step="5000"
                     value={priceRange}
                     onChange={(e) => setPriceRange(Number(e.target.value))}
                   />
                   <div className="flex justify-between text-xs font-medium text-on-surface-variant">
-                    <span>₹400</span>
-                    <span>₹{priceRange === 30000 ? '30,000+' : priceRange}</span>
+                    <span>₹10,000</span>
+                    <span>₹{priceRange === 300000 ? '3,00,000+' : priceRange.toLocaleString()}</span>
                   </div>
                 </div>
               </div>

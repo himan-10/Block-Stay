@@ -29,7 +29,7 @@ const Rooms = ({ rooms = [], loading = false }) => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                 />
                 <div className="absolute top-4 right-4 bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-full text-sm font-bold text-violet-300">
-                  ₹{room.pricePerMonth}<span className="text-xs text-gray-400 font-normal">/month</span>
+                  ₹{room.pricePerMonth?.toLocaleString()}<span className="text-xs text-gray-400 font-normal">/month</span>
                 </div>
               </div>
               <div className="p-4">

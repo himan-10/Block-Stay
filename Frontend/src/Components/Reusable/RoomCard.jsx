@@ -35,7 +35,7 @@ const RoomCard = ({ room }) => {
             <p className="font-body text-on-surface-variant text-sm">{location}</p>
           </div>
           <div className="text-right">
-            <span className="block text-2xl font-black text-primary">₹{pricePerMonth}</span>
+            <span className="block text-2xl font-black text-primary">₹{pricePerMonth?.toLocaleString()}</span>
             <span className="font-label text-[10px] tracking-widest text-on-surface-variant uppercase">per month</span>
           </div>
         </div>
