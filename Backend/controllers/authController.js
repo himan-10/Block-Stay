@@ -8,8 +8,8 @@ const generateToken = (res, userId) => {
 
     res.cookie('jwt', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development', // Use secure cookies in production
-        sameSite: 'strict',
+        secure: true, // Required for cross-site cookies
+        sameSite: 'none', // Needed since backend and frontend domains differ
         maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
 };

@@ -7,18 +7,13 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-const api = axios.create({
-        baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    const api = axios.create({
+        baseURL: import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api',
         withCredentials: true,
     });
 
-    api.interceptors.request.use((config) => {
-        const token = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-        if (token) {
-            config.headers.Authorization = `Bearer ${token.split('=')[1]}`;
-        }
-        return config;
-    });
+    // Request interceptor removed: httpOnly cookies cannot be read from document.cookie
+    // Browser sends the cookie automatically since withCredentials: true is set
 
     api.interceptors.response.use(
         (response) => response,
@@ -43,9 +38,7 @@ const api = axios.create({
             }
         };
 
-        const token = document.cookie.split('; ').find(row => row.startsWith('jwt='));
-        if (token) checkLoggedIn();
-        else setLoading(false);
+        checkLoggedIn();
     }, []);
 
     const login = async (email, password) => {

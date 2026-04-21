@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { AuthContext } from '../../../context/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
-export default function PaymentForm() {
+export default function PaymentForm({ room, dates, price }) {
   const stripe = useStripe();
   const elements = useElements();
   const [error, setError] = useState(null);
@@ -10,6 +11,7 @@ export default function PaymentForm() {
   const [succeeded, setSucceeded] = useState(false);
 
   const { api } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,8 +20,9 @@ export default function PaymentForm() {
     if (!stripe || !elements || !api) return;
 
     try {
-      // Create Payment Intent
-      const { data } = await api.post('/payment/create-intent', { amount: 5000 });
+      // Create Payment Intent (stripe naturally takes cents)
+      const amountInCents = (price?.total || 5000) * 100;
+      const { data } = await api.post('/payment/create-intent', { amount: amountInCents });
       
       const payload = await stripe.confirmCardPayment(data.clientSecret, {
         payment_method: {
@@ -31,12 +34,24 @@ export default function PaymentForm() {
         setError(payload.error.message);
         setProcessing(false);
       } else {
+        // Once stripe success fires, log the booking into our database
+        const paymentIntentId = payload.paymentIntent.id;
+        
+        await api.post('/bookings', {
+          roomId: room?._id,
+          checkIn: dates?.checkIn,
+          checkOut: dates?.checkOut,
+          totalPrice: price?.total || 5000,
+          paymentIntentId
+        });
+
         setError(null);
         setProcessing(false);
         setSucceeded(true);
+        navigate('/user/bookings');
       }
     } catch (err) {
-      setError("Payment request failed");
+      setError(err.response?.data?.message || err.message || "Payment or Booking sync failed");
       setProcessing(false);
     }
   };

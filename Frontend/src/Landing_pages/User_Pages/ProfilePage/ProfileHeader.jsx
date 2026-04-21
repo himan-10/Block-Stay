@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+
 const ProfileHeader = () => {
+  const { user } = useContext(AuthContext);
   return (
     <section className="mb-12">
       <div className="relative h-56 rounded-3xl overflow-hidden">
@@ -16,7 +20,7 @@ const ProfileHeader = () => {
 
         <div>
           <h1 className="text-3xl font-bold text-white">
-            Julian Sterling
+            {user?.name || "Guest User"}
           </h1>
           <span className="text-violet-400 text-sm">
             Elite Member

@@ -6,10 +6,19 @@ import TrustBadges from "./checkout/TrustBadges";
 import Footer from "./checkout/Footer";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { useLocation } from 'react-router-dom';
 
 const stripePromise = loadStripe('pk_test_MockStripePublishableKey');
 
 export default function Checkout() {
+  const location = useLocation();
+  // Safe fallbacks to prevent breaking if accessed directly without routing state
+  const { room, dates, price } = location.state || { 
+      room: null, 
+      dates: { checkIn: new Date().toISOString(), checkOut: new Date(Date.now() + 86400000).toISOString() }, 
+      price: { total: 5000, nightly: 3400, taxes: 284, fees: 150 } 
+  };
+
   return (
     <div className="bg-background text-on-surface min-h-screen">
       <Header />
@@ -20,14 +29,14 @@ export default function Checkout() {
           {/* LEFT */}
           <div className="lg:col-span-7 space-y-12">
             <Elements stripe={stripePromise}>
-              <PaymentForm />
+              <PaymentForm room={room} dates={dates} price={price} />
             </Elements>
             <BillingForm />
           </div>
 
           {/* RIGHT */}
           <div className="lg:col-span-5">
-            <OrderSummary />
+            <OrderSummary room={room} dates={dates} price={price} />
             <TrustBadges />
           </div>
 

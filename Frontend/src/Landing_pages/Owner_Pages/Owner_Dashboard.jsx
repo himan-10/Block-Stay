@@ -4,8 +4,11 @@ import MetricCard from "./OwnerDashboard/MetricCard";
 import ArrivalCard from "./OwnerDashboard/ArrivalCard";
 import ActivityTimeline from "./OwnerDashboard/ActivityTimeline";
 import MaintenanceCard from "./OwnerDashboard/MaintenanceCard";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function OwnerDashboard() {
+  const { user } = useContext(AuthContext);
   return (
     <div className="bg-[#0b1326] text-slate-200 min-h-screen flex">
       
@@ -22,7 +25,7 @@ export default function OwnerDashboard() {
               Portfolio Overview
             </p>
             <h1 className="text-4xl font-bold mt-2">
-              Welcome back, <span className="text-violet-400">Owner</span>
+              Welcome back, <span className="text-violet-400">{user?.name || "Owner"}</span>
             </h1>
           </div>
 

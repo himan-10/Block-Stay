@@ -1,46 +1,43 @@
-export default function OrderSummary() {
+export default function OrderSummary({ room, dates, price }) {
   return (
-    <aside className="glass-panel p-8 rounded-3xl space-y-6 sticky top-32">
+    <aside className="glass-panel p-8 rounded-3xl space-y-6 sticky top-32 border border-slate-800">
       
       <img
-        src="YOUR_IMAGE"
-        className="rounded-xl mb-4"
+        src={room?.images?.[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"}
+        className="rounded-xl mb-4 w-full h-48 object-cover"
       />
 
       <h3 className="text-2xl font-bold">
-        The Obsidian Penthouse
+        {room?.name || "The Obsidian Penthouse"}
       </h3>
 
-      <div className="border-y py-4 space-y-2">
-        <p>Nov 14 — Nov 18</p>
-        <p>2 Guests</p>
+      <div className="border-y py-4 space-y-2 border-slate-700 text-slate-300">
+        <p>{dates?.checkIn ? new Date(dates.checkIn).toLocaleDateString() : 'Nov 14'} — {dates?.checkOut ? new Date(dates.checkOut).toLocaleDateString() : 'Nov 18'}</p>
+        <p>{room?.capacity || 2} Guests</p>
       </div>
 
-      <div className="space-y-2 text-sm">
+      <div className="space-y-2 text-sm text-slate-400">
         <div className="flex justify-between">
           <span>Nightly</span>
-          <span>$3400</span>
+          <span>${price?.nightly || 3400}</span>
         </div>
 
         <div className="flex justify-between">
           <span>Fees</span>
-          <span>$150</span>
+          <span>${price?.fees || 150}</span>
         </div>
 
         <div className="flex justify-between">
           <span>Taxes</span>
-          <span>$284</span>
+          <span>${price?.taxes || 284}</span>
         </div>
       </div>
 
-      <div className="flex justify-between text-xl font-bold">
+      <div className="flex justify-between text-xl font-bold border-t border-slate-700 pt-4">
         <span>Total</span>
-        <span>$3834</span>
+        <span>${price?.total || 3834}</span>
       </div>
 
-      <button className="w-full bg-purple-600 py-4 rounded-xl">
-        Complete Payment →
-      </button>
     </aside>
   );
 }
