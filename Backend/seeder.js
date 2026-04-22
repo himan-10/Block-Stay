@@ -9,124 +9,170 @@ connectDB();
 
 const rooms = [
   {
-    name: 'The Taj Heritage Suite',
-    description: 'Regal luxury with Arabian Sea views, traditional Rajasthani artwork and modern dark-themed aesthetics.',
+    name: 'Cozy 1BHK in Mukherjee Nagar',
+    description: 'Perfect for working professionals. Semi-furnished 1BHK with high-speed WiFi and power backup.',
     type: '1BHK',
-    pricePerMonth: 220000,
-    sizeSqMeters: 140,
+    pricePerMonth: 8000,
+    sizeSqMeters: 45,
     capacity: 2,
-    bedding: 'King Bed',
-    amenities: ['AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuAxpimUKPWLU0joccAu1kXTJrbMMWBJ2VObQ6RDyg01KUvMtst89_XBlfku1Ph-JVA3ZlOnoRi942ZXisY6RRDDeIAjiXXlF0jZ3ZMNZtqBZBOmHYu0HGaPQj_qS-FFg5UVjoFVdbMFRqb1G_NZeyC4a43BPubzyy28ayW5Mcxon8KS-w89N9uzn2mKOMsGuueJ7zcVp7eTFWWbJoEbqYL-N0Ak-lRlYdnDIlKLNEdOgSBHuN9Mq4fuEgdDj7kzKq1-QRk6rPrPMKny'],
-    location: 'Mumbai, Maharashtra'
+    bedding: '1 Double Bed',
+    amenities: ['AC', 'WiFi', 'Hot Water', 'Washing Machine'],
+    images: ['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Mukherjee Nagar, Vidisha, MP',
+    rating: 4.5,
+    numReviews: 2,
+    reviews: [
+      { name: 'Rahul S.', rating: 5, comment: 'Great place for students, very quiet!' },
+      { name: 'Priya M.', rating: 4, comment: 'Good amenities, but AC took a while to fix.' }
+    ]
   },
   {
-    name: 'Goan Coastal Villa',
-    description: 'Serene sanctuary featuring Portuguese architecture, private infinity pool and beach access.',
-    type: '2BHK',
-    pricePerMonth: 155000,
-    sizeSqMeters: 200,
-    capacity: 4,
-    bedding: '2 Queen Beds',
-    amenities: ['AC', 'WiFi', 'Cooled Water', 'Hot Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuD-YcLbRJ2zpKv659RQRa5HsW4pMIYDgPB9FABElWStfyrXGUcC9P2xeHWv2XqHLfNEBTrz--1tknWPApKQGsNKuEa-PKHBS8-pWv_Sf1Oc29scq5452MtpHtSr6oSUqsEPuyLTIBTJPzNixa3usbYAYo6RQUf6vyDq9prPnVdgPIDIVEl-U-v-07eCZDUhuoEo_uylWIe8AmsIAMwR_oBzEiPgynY2i34yLQhNYQk5NFqcJkt0agSV5Ll6WhwfwlJZ9Kt6B9odbULv'],
-    location: 'Vagator, Goa'
+    name: 'Student PG - Sanchi Road',
+    description: 'Affordable sharing PG near colleges. Includes 3 meals a day, daily cleaning, and study desks.',
+    type: 'Shared Room',
+    pricePerMonth: 4500,
+    sizeSqMeters: 25,
+    capacity: 2,
+    bedding: '2 Single Beds',
+    amenities: ['Non AC', 'WiFi', 'Meals Included', 'Cooled Water'],
+    images: ['https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Sanchi Road, Vidisha, MP',
+    rating: 4.0,
+    numReviews: 1,
+    reviews: [
+      { name: 'Amit K.', rating: 4, comment: 'Food is decent, very affordable.' }
+    ]
   },
   {
-    name: 'Himalayan Retreat',
-    description: 'Mountain suite with panoramic peaks, floor heating and wood fireplace.',
+    name: 'Private Studio - Civil Lines',
+    description: 'Independent 1RK studio near the collectorate. Fully furnished with kitchen setup.',
     type: '1RK',
-    pricePerMonth: 120000,
-    sizeSqMeters: 90,
-    capacity: 2,
-    bedding: 'Emperor Bed',
-    amenities: ['Non AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuCyfXTkVywAPWP0k8Pl_qLT6RLcw5RcuFnG33cmgFr6yG_OM4LNKzBtBb0pKc8thgpchBWLV58St1Qzv-UBZUzGkzfXrfb_ZpOMiHa8F7CeoHqZkgq0jECLEYMwEtAgyOxT014jDz5EsNtK-WZx-TFfqFuSz4eO06RvJCODJs9G-lk3yBcbVaud3ojPHWRAaEB5OVVjQpFWw4KM4gSWtHahZ9Lcygy2gkHPLksrW3FllQbVIpa1X2LYbaGHNmLEF1iIv1zBF8GEigIe'],
-    location: 'Manali, Himachal Pradesh'
+    pricePerMonth: 6500,
+    sizeSqMeters: 30,
+    capacity: 1,
+    bedding: '1 Single Bed',
+    amenities: ['AC', 'Hot Water', 'WiFi', 'Washing Machine'],
+    images: ['https://images.unsplash.com/photo-1502672260266-1c1de2d9d0cb?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Civil Lines, Vidisha, MP',
+    rating: 5.0,
+    numReviews: 1,
+    reviews: [
+      { name: 'Neha V.', rating: 5, comment: 'Very safe and secure environment.' }
+    ]
   },
   {
-    name: 'Royal Rajputana Tent',
-    description: 'Luxury glamping in golden dunes with private plunge pool and butler service.',
+    name: 'Premium Single Room PG - Sherpura',
+    description: 'Quiet environment ideal for students preparing for competitive exams. Dedicated study area.',
     type: 'Single Room',
-    pricePerMonth: 180000,
-    sizeSqMeters: 110,
-    capacity: 2,
-    bedding: 'King Bed',
-    amenities: ['AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuA-4q7OZznwa_CooOPWhYSXi5KUqpLUrE3Z5NH98patyR6Nz59HsuFjeeHHuyRGoiUh8JXXv_da2mbZ-LTUWs-kvuqI08tM2cUL1HD7pFkuHPFaosReyf1T4N3soCLyz9cmu9NgDC4RLnS_o3ejI_YqKBKdbQd3G01JVhwuQbfOOxxuakQZRck3MBOXnCs6BtPhNfPc9sPRItBnKcobG5woTEtt3ZOcwxlXwe6rZvo6pYZd4y3EALi4ei44SyOdU7Ac0BSds2ScdFyR'],
-    location: 'Jaisalmer, Rajasthan'
+    pricePerMonth: 5500,
+    sizeSqMeters: 18,
+    capacity: 1,
+    bedding: '1 Single Bed',
+    amenities: ['AC', 'Hot Water', 'WiFi', 'Study Desk'],
+    images: ['https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Sherpura, Vidisha, MP',
+    rating: 0,
+    numReviews: 0,
+    reviews: []
   },
   {
-    name: 'Kerala Backwater Haven',
-    description: 'Modern houseboat with floor-to-ceiling glass walls, private deck and Ayurvedic spa.',
-    type: '1BHK',
-    pricePerMonth: 145000,
+    name: 'Spacious 2BHK - Arihant Vihar',
+    description: 'Looking for a flatmate in a pre-occupied 2BHK. Great society with park access.',
+    type: 'Single Room',
+    pricePerMonth: 7000,
     sizeSqMeters: 85,
-    capacity: 2,
-    bedding: 'Queen Bed',
-    amenities: ['AC', 'WiFi', 'Hot Water', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuBndgMXM_QCKEy6RI26F6w83acIPyNSHeUj9z-lUvNKVJB_-Tpee4zw-LyImFsq16HGrA4SpAcYNpMzBpci3it0j1Ou6o6vUxIq3oXPLY_7vLKYJXlzUu3kjUXYjwVytLEFgrbKkoKJRlFmaG72818WZimu0ADuDZUo3jd0mBspVKh5JmixbsWHlO_BYi4u_o4omh_bTrKEL5Q4AX97AqcBp1NrsqYNilrEX_aRnmavqOX3R0If2mpEzkrFZPQLZZyTu9eHLs-UljZO'],
-    location: 'Alleppey, Kerala'
+    capacity: 1,
+    bedding: '1 Double Bed',
+    amenities: ['AC', 'WiFi', 'Hot Water', 'Washing Machine'],
+    images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Arihant Vihar, Vidisha, MP',
+    rating: 4.8,
+    numReviews: 1,
+    reviews: [
+      { name: 'Vikram', rating: 5, comment: 'Awesome flatmate, very spacious.' }
+    ]
   },
   {
-    name: 'Silicon Valley Penthouse',
-    description: 'Urban sanctuary for tech elite with home automation, city views and private gym.',
-    type: '2BHK',
-    pricePerMonth: 250000,
-    sizeSqMeters: 180,
-    capacity: 4,
-    bedding: '2 King Beds',
-    amenities: ['AC', 'WiFi', 'Hot Water', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuAxpimUKPWLU0joccAu1kXTJrbMMWBJ2VObQ6RDyg01KUvMtst89_XBlfku1Ph-JVA3ZlOnoRi942ZXisY6RRDDeIAjiXXlF0jZ3ZMNZtqBZBOmHYu0HGaPQj_qS-FFg5UVjoFVdbMFRqb1G_NZeyC4a43BPubzyy28ayW5Mcxon8KS-w89N9uzn2mKOMsGuueJ7zcVp7eTFWWbJoEbqYL-N0Ak-lRlYdnDIlKLNEdOgSBHuN9Mq4fuEgdDj7kzKq1-QRk6rPrPMKny'],
-    location: 'Bengaluru, Karnataka'
-  },
-  {
-    name: 'Udaipur Lakeview Chamber',
-    description: 'Heritage chamber overlooking Lake Pichola with modern dark aesthetics.',
-    type: '1BHK',
-    pricePerMonth: 195000,
-    sizeSqMeters: 130,
-    capacity: 2,
-    bedding: 'Emperor Bed',
-    amenities: ['AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuD-YcLbRJ2zpKv659RQRa5HsW4pMIYDgPB9FABElWStfyrXGUcC9P2xeHWv2XqHLfNEBTrz--1tknWPApKQGsNKuEa-PKHBS8-pWv_Sf1Oc29scq5452MtpHtSr6oSUqsEPuyLTIBTJPzNixa3usbYAYo6RQUf6vyDq9prPnVdgPIDIVEl-U-v-07eCZDUhuoEo_uylWIe8AmsIAMwR_oBzEiPgynY2i34yLQhNYQk5NFqcJkt0agSV5Ll6WhwfwlJZ9Kt6B9odbULv'],
-    location: 'Udaipur, Rajasthan'
-  },
-  {
-    name: 'Auroville Sanctuary',
-    description: 'Minimalist retreat surrounded by forest, includes meditation deck and organic cafe.',
+    name: 'Budget 1RK - Old Town',
+    description: 'Unfurnished basic 1RK for long-term stay. Walking distance to local market.',
     type: '1RK',
-    pricePerMonth: 85000,
-    sizeSqMeters: 95,
+    pricePerMonth: 3500,
+    sizeSqMeters: 22,
     capacity: 2,
-    bedding: 'Queen Bed',
-    amenities: ['Non AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuCyfXTkVywAPWP0k8Pl_qLT6RLcw5RcuFnG33cmgFr6yG_OM4LNKzBtBb0pKc8thgpchBWLV58St1Qzv-UBZUzGkzfXrfb_ZpOMiHa8F7CeoHqZkgq0jECLEYMwEtAgyOxT014jDz5EsNtK-WZx-TFfqFuSz4eO06RvJCODJs9G-lk3yBcbVaud3ojPHWRAaEB5OVVjQpFWw4KM4gSWtHahZ9Lcygy2gkHPLksrW3FllQbVIpa1X2LYbaGHNmLEF1iIv1zBF8GEigIe'],
-    location: 'Pondicherry, Tamil Nadu'
+    bedding: 'None',
+    amenities: ['Non AC', 'Hot Water', 'Cooled Water'],
+    images: ['https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Old Town, Vidisha, MP',
+    rating: 3.5,
+    numReviews: 2,
+    reviews: [
+      { name: 'Suresh', rating: 3, comment: 'Very basic, but cheap.' },
+      { name: 'Ramesh', rating: 4, comment: 'Good value for money.' }
+    ]
   },
   {
-    name: 'Varanasi Ghat Suite',
-    description: 'Spiritual retreat on historic ghats with soundproof walls and Ganges view.',
-    type: 'Single Room',
-    pricePerMonth: 110000,
+    name: 'Boys PG - Station Road',
+    description: 'PG with daily housekeeping, smart TV, AC, and premium meals. Close to railway station.',
+    type: 'Shared Room',
+    pricePerMonth: 6000,
+    sizeSqMeters: 35,
+    capacity: 2,
+    bedding: '2 Single Beds',
+    amenities: ['AC', 'Hot Water', 'WiFi', 'Meals Included'],
+    images: ['https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Station Road, Vidisha, MP',
+    rating: 0,
+    numReviews: 0,
+    reviews: []
+  },
+  {
+    name: 'Girls PG - Safe & Secure',
+    description: 'Well-ventilated rooms with 24/7 security and CCTV. Close to major colleges.',
+    type: 'Shared Room',
+    pricePerMonth: 5000,
+    sizeSqMeters: 28,
+    capacity: 3,
+    bedding: '3 Single Beds',
+    amenities: ['Non AC', 'WiFi', 'Meals Included', 'Study Desk'],
+    images: ['https://images.unsplash.com/photo-1522771731470-3138f8dba541?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Kharifatak, Vidisha, MP',
+    rating: 4.7,
+    numReviews: 3,
+    reviews: [
+      { name: 'Anjali', rating: 5, comment: 'Very safe!' },
+      { name: 'Kiran', rating: 4, comment: 'Good food.' },
+      { name: 'Sneha', rating: 5, comment: 'Warden is nice.' }
+    ]
+  },
+  {
+    name: 'Furnished 2BHK Family Flat',
+    description: 'Ideal for small families or a group of working professionals. Fully equipped kitchen.',
+    type: '2BHK',
+    pricePerMonth: 12000,
     sizeSqMeters: 80,
-    capacity: 2,
-    bedding: 'King Bed',
-    amenities: ['AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuA-4q7OZznwa_CooOPWhYSXi5KUqpLUrE3Z5NH98patyR6Nz59HsuFjeeHHuyRGoiUh8JXXv_da2mbZ-LTUWs-kvuqI08tM2cUL1HD7pFkuHPFaosReyf1T4N3soCLyz9cmu9NgDC4RLnS_o3ejI_YqKBKdbQd3G01JVhwuQbfOOxxuakQZRck3MBOXnCs6BtPhNfPc9sPRItBnKcobG5woTEtt3ZOcwxlXwe6rZvo6pYZd4y3EALi4ei44SyOdU7Ac0BSds2ScdFyR'],
-    location: 'Varanasi, Uttar Pradesh'
+    capacity: 4,
+    bedding: '2 Double Beds',
+    amenities: ['AC', 'Hot Water', 'WiFi', 'Washing Machine'],
+    images: ['https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Pital Mill Area, Vidisha, MP',
+    rating: 0,
+    numReviews: 0,
+    reviews: []
   },
   {
-    name: 'Andaman Ocean Villa',
-    description: 'Overwater villa with glass-bottom floors, private reef access and infinity pool.',
-    type: '1BHK',
-    pricePerMonth: 280000,
-    sizeSqMeters: 160,
+    name: 'Executive Studio - Durga Nagar',
+    description: 'Modern studio designed for professionals. Includes workstation and high-speed internet.',
+    type: '1RK',
+    pricePerMonth: 7500,
+    sizeSqMeters: 35,
     capacity: 2,
-    bedding: 'King Bed',
-    amenities: ['AC', 'Hot Water', 'WiFi', 'Cooled Water'],
-    images: ['https://lh3.googleusercontent.com/aida-public/AB6AXuBndgMXM_QCKEy6RI26F6w83acIPyNSHeUj9z-lUvNKVJB_-Tpee4zw-LyImFsq16HGrA4SpAcYNpMzBpci3it0j1Ou6o6vUxIq3oXPLY_7vLKYJXlzUu3kjUXYjwVytLEFgrbKkoKJRlFmaG72818WZimu0ADuDZUo3jd0mBspVKh5JmixbsWHlO_BYi4u_o4omh_bTrKEL5Q4AX97AqcBp1NrsqYNilrEX_aRnmavqOX3R0If2mpEzkrFZPQLZZyTu9eHLs-UljZO'],
-    location: 'Havelock Island, Andaman'
+    bedding: '1 Double Bed',
+    amenities: ['AC', 'Hot Water', 'WiFi', 'Study Desk'],
+    images: ['https://images.unsplash.com/photo-1536376072261-38c75010e6c9?auto=format&fit=crop&q=80&w=1200'],
+    location: 'Durga Nagar, Vidisha, MP',
+    rating: 0,
+    numReviews: 0,
+    reviews: []
   }
 ];
 
@@ -145,8 +191,26 @@ const importData = async () => {
       });
     }
 
+    // We also need a standard user to author the dummy reviews
+    let standardUser = await User.findOne({ email: 'user@blockstay.com' });
+    if (!standardUser) {
+        standardUser = await User.create({
+            name: 'Dummy User',
+            email: 'user@blockstay.com',
+            password: 'password123',
+            role: 'user'
+        });
+    }
+
     const sampleRooms = rooms.map(room => {
-      return { ...room, owner: ownerUser._id };
+      const roomWithIds = { ...room, owner: ownerUser._id };
+      if (roomWithIds.reviews) {
+          roomWithIds.reviews = roomWithIds.reviews.map(rev => ({
+              ...rev,
+              user: standardUser._id
+          }));
+      }
+      return roomWithIds;
     });
 
     await Room.insertMany(sampleRooms);

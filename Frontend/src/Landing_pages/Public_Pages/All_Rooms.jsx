@@ -117,8 +117,8 @@ const All_Rooms = () => {
       <main className="pt-24 pb-20 px-6 lg:px-12 max-w-[1600px] mx-auto min-h-screen">
         {/* Header Section */}
         <header className="mb-12">
-          <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">Explore Available Stays</h1>
-          <p className="font-body text-on-surface-variant max-w-2xl text-lg leading-relaxed">Find the perfect room, apartment, or PG tailored to your lifestyle. Verified spaces for the modern traveler.</p>
+          <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">Explore Available Rooms & PGs</h1>
+          <p className="font-body text-on-surface-variant max-w-2xl text-lg leading-relaxed">Find the perfect PG, flat, or shared room tailored for students and working professionals.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -136,15 +136,15 @@ const All_Rooms = () => {
                   <input 
                     className="w-full h-1.5 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary" 
                     type="range"
-                    min="10000"
-                    max="300000"
-                    step="5000"
+                    min="5000"
+                    max="50000"
+                    step="1000"
                     value={priceRange}
                     onChange={(e) => setPriceRange(Number(e.target.value))}
                   />
                   <div className="flex justify-between text-xs font-medium text-on-surface-variant">
-                    <span>₹10,000</span>
-                    <span>₹{priceRange === 300000 ? '3,00,000+' : priceRange.toLocaleString()}</span>
+                    <span>₹5,000</span>
+                    <span>₹{priceRange === 50000 ? '50,000+' : priceRange.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -153,7 +153,7 @@ const All_Rooms = () => {
               <div className="space-y-4">
                 <label className="block font-label text-[10px] tracking-[0.1em] text-on-surface-variant font-bold uppercase">Room Type</label>
                 <div className="space-y-3">
-                  {['1BHK', '2BHK', '1RK', 'Single Room'].map(typeBlock => (
+                  {['1BHK', '2BHK', '1RK', 'Single Room', 'Shared Room'].map(typeBlock => (
                     <label key={typeBlock} className="flex items-center group cursor-pointer w-fit">
                       <input 
                         type="checkbox"
@@ -171,7 +171,7 @@ const All_Rooms = () => {
               <div className="space-y-4">
                 <label className="block font-label text-[10px] tracking-[0.1em] text-on-surface-variant font-bold uppercase">Amenities</label>
                 <div className="flex flex-wrap gap-2">
-                  {['Hot Water', 'WiFi', 'Cooled Water', 'AC', 'Non AC'].map(amBlock => {
+                  {['Hot Water', 'WiFi', 'Cooled Water', 'AC', 'Non AC', 'Meals Included', 'Washing Machine', 'Study Desk'].map(amBlock => {
                     const isSelected = selectedAmenities.includes(amBlock);
                     return (
                       <button 
@@ -201,12 +201,12 @@ const All_Rooms = () => {
             {/* Promo Card */}
             <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary-container to-tertiary-container p-8 shadow-xl">
               <div className="relative z-10">
-                <h4 className="font-headline text-xl font-extrabold text-on-primary-container mb-2">Member Exclusive</h4>
-                <p className="text-on-primary-container/80 text-sm mb-6">Unlock -20% on all obsidian suites this season.</p>
-                <button className="bg-surface-container-lowest text-on-surface px-4 py-2 rounded font-bold text-xs hover:bg-surface transition-colors duration-200">Join Inner Circle</button>
+                <h4 className="font-headline text-xl font-extrabold text-on-primary-container mb-2">Student Discount</h4>
+                <p className="text-on-primary-container/80 text-sm mb-6">Unlock flat 10% off on long-term monthly rentals.</p>
+                <button className="bg-surface-container-lowest text-on-surface px-4 py-2 rounded font-bold text-xs hover:bg-surface transition-colors duration-200">Verify Student ID</button>
               </div>
               <div className="absolute -right-4 -bottom-4 opacity-10 pointer-events-none">
-                <span className="material-symbols-outlined text-[120px]" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                <span className="material-symbols-outlined text-[120px]" style={{ fontVariationSettings: "'FILL' 1" }}>school</span>
               </div>
             </div>
           </aside>
@@ -214,11 +214,11 @@ const All_Rooms = () => {
           {/* Room Grid */}
           <section className="lg:col-span-9">
             {loading ? (
-              <div className="w-full py-20 flex justify-center text-primary">Loading sanctuaries...</div>
+              <div className="w-full py-20 flex justify-center text-primary">Loading rooms...</div>
             ) : filteredRooms.length === 0 ? (
               <div className="w-full py-20 flex flex-col items-center justify-center text-on-surface-variant border-2 border-dashed border-outline-variant/50 rounded-xl">
                 <span className="material-symbols-outlined text-4xl mb-4">search_off</span>
-                <p className="font-body text-lg font-medium">No sanctuaries match your filters.</p>
+                <p className="font-body text-lg font-medium">No rooms match your filters.</p>
                 <button 
                   onClick={clearAllFilters}
                   className="mt-4 text-primary font-bold hover:underline"
@@ -276,7 +276,7 @@ const All_Rooms = () => {
       <footer className="bg-slate-950 w-full border-t border-slate-800/50 grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 font-['Inter'] leading-relaxed text-sm">
         <div className="space-y-6">
           <Link to="/" className="text-lg font-black text-slate-200 uppercase tracking-tighter hover:text-cyan-400 transition-colors block">BlockStay</Link>
-          <p className="text-slate-500 max-w-xs">Elevating the nocturnal experience through design, service, and silent luxury.</p>
+          <p className="text-slate-500 max-w-xs">Elevating student and professional living with affordable, secure, and modern spaces.</p>
         </div>
         <div>
           <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Navigation</h5>

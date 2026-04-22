@@ -12,9 +12,9 @@ const AboutUs = () => {
         <section className="relative h-[819px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNpp8_OWMK6IcFdvFDhPj1Fy-Sf0sgncumE1O8dhVy3wXTnllhxR8fR-9O40wZo9p0gSI8kxq2-5taiyyzTxYMO73dD5nydHv5t23AMRHxOF5e3d2g75yCfM5JKcJ_H6s2gQV8uCFVRtYTOAaI8tf6yUgGLaF3rMoLT_impQF_jWt96RZepTUNf-lHM9s7x2tHXb1pHh0HELo6iTu_KlQjvu10hBGQNy4grIyDY1plBeVC6dv4Oksmxp2fOLvaITsM08WoTCnf-Mkt"
+              src="https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&q=80&w=1600"
               className="w-full h-full object-cover brightness-50"
-              alt="hotel"
+              alt="Building Exterior"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/60 to-background"></div>
           </div>
@@ -52,9 +52,9 @@ const AboutUs = () => {
 
           <div className="md:col-span-5 overflow-hidden rounded-xl">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9zCm8PZjMkuPRCB04v2qxguMgnS4fFWBSt_3rJCIqlHQtXwyKSIsiopitha4fPGPt1SPihIs95iAAoAlqRdokheHwyqLGrDLqsakza7xJlr9E4201vHCyBBKOfvshER3Y-KjXm0O8LJrDb-pegmzHMcb_51MwGhGgDrCShBEBWSbGsfk6TG7cNBQPuK44GEi_dctQigkMQ4yOAiUBppPcxleyaADOIGGG2MR1duP26mocODkfgShGMb_f3mdDU-tLHaAbkZUh3x0D"
+              src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80&w=1200"
               className="w-full h-full object-cover"
-              alt="lounge"
+              alt="Cozy Room"
             />
           </div>
 

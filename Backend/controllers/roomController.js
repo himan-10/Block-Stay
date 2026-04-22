@@ -96,3 +96,41 @@ export const deleteRoom = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const createRoomReview = async (req, res) => {
+    try {
+        const { rating, comment } = req.body;
+        const room = await Room.findById(req.params.id);
+
+        if (room) {
+            // Check if user already reviewed
+            const alreadyReviewed = room.reviews.find(
+                (r) => r.user.toString() === req.user._id.toString()
+            );
+
+            if (alreadyReviewed) {
+                return res.status(400).json({ message: 'Room already reviewed' });
+            }
+
+            const review = {
+                name: req.user.name,
+                rating: Number(rating),
+                comment,
+                user: req.user._id,
+            };
+
+            room.reviews.push(review);
+            room.numReviews = room.reviews.length;
+            room.rating =
+                room.reviews.reduce((acc, item) => item.rating + acc, 0) /
+                room.reviews.length;
+
+            await room.save();
+            res.status(201).json({ message: 'Review added' });
+        } else {
+            res.status(404).json({ message: 'Room not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

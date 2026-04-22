@@ -7,11 +7,11 @@ const Footer = () => {
         
         {/* Branding */}
         <div className="md:col-span-2 space-y-4">
-          <Link to="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 uppercase hover:opacity-80 transition-opacity">
-            Midnight
+          <Link to="/" className="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 uppercase hover:opacity-80 transition-opacity">
+            Blockstay
           </Link>
           <p className="text-slate-400 text-sm max-w-sm leading-relaxed">
-            Curated sanctuaries for the nocturnal traveler. Experience a seamless integration of luxury and circadian balance, tailored for late-night arrivals and exclusive access.
+            Curated accommodations for students and working professionals. Experience a seamless integration of comfort, affordability, and convenience tailored for long-term stays.
           </p>
         </div>
 
@@ -19,9 +19,9 @@ const Footer = () => {
         <div className="space-y-4">
           <h4 className="text-slate-100 font-semibold tracking-wider uppercase text-sm">Quick Links</h4>
           <ul className="space-y-3">
-            <li><Link to="/rooms" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">The Collection (Rooms)</Link></li>
-            <li><Link to="/about" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Our Story (About)</Link></li>
-            <li><Link to="/contact" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Concierge (Contact)</Link></li>
+            <li><Link to="/rooms" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Find Rooms & PGs</Link></li>
+            <li><Link to="/about" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">About Us</Link></li>
+            <li><Link to="/contact" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Contact Support</Link></li>
           </ul>
         </div>
 
