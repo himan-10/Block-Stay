@@ -38,7 +38,7 @@ const Footer = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
-        <p>© 2024 BlockStay. All rights reserved.</p>
+        <p>© 2026 BlockStay. All rights reserved.</p>
         <div className="flex gap-6 mt-4 md:mt-0">
           <a href="#" className="hover:text-slate-300 transition-colors">Instagram</a>
           <a href="#" className="hover:text-slate-300 transition-colors">Twitter</a>

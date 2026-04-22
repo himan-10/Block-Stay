@@ -41,7 +41,7 @@ const RoomCard = ({ room }) => {
         </div>
         <div className="flex items-center gap-6 pt-4 border-t border-outline-variant/10">
           <div className="flex items-center gap-2 text-on-surface-variant">
-            <span className="material-symbols-outlined text-lg">king_bed</span>
+            <span className="material-symbols-outlined text-lg">King_bed</span>
             <span className="text-xs">{bedding}</span>
           </div>
           <div className="flex items-center gap-2 text-on-surface-variant">

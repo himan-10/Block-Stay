@@ -290,10 +290,11 @@ const All_Rooms = () => {
         <div>
           <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Experience</h5>
           <ul className="space-y-4">
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Obsidian Lounge</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">The Spa</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Concierge App</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Private Events</a></li>
+            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">🔍Seamless Room Search</a></li>
+            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">📍Location-Based Recovery</a></li>
+            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">🏠Verified Listing</a></li>
+            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">💬Direct Owner Connect</a></li>
+             <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">❤️Save & Compare Rooms</a></li>
           </ul>
         </div>
         <div className="space-y-6">
@@ -304,7 +305,7 @@ const All_Rooms = () => {
               <span className="material-symbols-outlined text-lg">arrow_forward</span>
             </button>
           </div>
-          <p className="text-[10px] text-slate-600">© 2024 BlockStay. All rights reserved.</p>
+          <p className="text-[10px] text-slate-600">© 2026 BlockStay. All rights reserved.</p>
         </div>
       </footer>
     </div>

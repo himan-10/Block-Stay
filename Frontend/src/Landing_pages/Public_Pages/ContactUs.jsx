@@ -159,7 +159,7 @@ const ContactUs = () => {
                   </div>
                   <div>
                     <p className="text-sm text-on-surface-variant mb-1">Global Support (24/7)</p>
-                    <p className="font-medium text-lg">+1 (800) NIGHTS-0</p>
+                    <p className="font-medium text-lg">+91 8103498052</p>
                   </div>
                 </div>
                 
@@ -168,8 +168,8 @@ const ContactUs = () => {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-sm text-on-surface-variant mb-1">Concierge Desk</p>
-                    <p className="font-medium text-lg">concierge@blockstay.com</p>
+                    <p className="text-sm text-on-surface-variant mb-1">Customer Assistant</p>
+                    <p className="font-medium text-lg">himanshupatle56@gmail.com.com</p>
                   </div>
                 </div>
               </div>
@@ -183,11 +183,11 @@ const ContactUs = () => {
               </h3>
               <div className="space-y-6 relative z-10">
                 <div className="flex flex-col gap-2">
-                  <p className="font-medium text-lg">Blockstay London HQ</p>
+                  <p className="font-medium text-lg">Blockstay Bhopal HQ</p>
                   <p className="text-on-surface-variant leading-relaxed">
-                    Level 33, One Canada Square<br/>
-                    Canary Wharf, London<br/>
-                    E14 5AB, United Kingdom
+                   Bhopal Square<br/>
+                   Bhopal<br/>
+                   64, Sonagiri Sector C, Bhopal MP
                   </p>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-on-surface-variant bg-surface-container rounded-lg p-3 w-max cursor-default">
@@ -225,9 +225,9 @@ const ContactUs = () => {
 
               <div className="grid md:grid-cols-3 gap-6">
                 {[
-                  { city: "Tokyo", desc: "Service Center & APAC HQ", delay: 0.1 },
-                  { city: "New York", desc: "Executive Concierge", delay: 0.2 },
-                  { city: "Dubai", desc: "Global Booking Exchange", delay: 0.3 }
+                  { city: "Vidisha", desc: "Service Center & APAC HQ", delay: 0.1 },
+                  { city: "Bhopal", desc: "Executive Concierge", delay: 0.2 },
+                  { city: "Indore", desc: "Global Booking Exchange", delay: 0.3 }
                 ].map((node) => (
                   <motion.div 
                     key={node.city} 
