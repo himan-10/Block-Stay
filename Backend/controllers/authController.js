@@ -1,5 +1,6 @@
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import { sendEmail } from '../utils/sendEmail.js';
 
 const generateToken = (res, userId) => {
     const token = jwt.sign({ userId }, process.env.JWT_SECRET || 'fallback_secret', {
@@ -28,6 +29,13 @@ export const registerUser = async (req, res) => {
 
         const user = await User.create({ name, email, password, role: userRole });
         console.log('✅ User created:', user._id);
+
+        // ✅ Send Welcome Email
+        await sendEmail({
+            to: user.email,
+            subject: "Welcome to Blockstay!",
+            text: `Hi ${user.name},\n\nWelcome to Blockstay! We're thrilled to have you on board.\nStart exploring premium properties today.\n\nBest,\nBlockstay Team`
+        });
 
         generateToken(res, user._id);
         res.status(201).json({

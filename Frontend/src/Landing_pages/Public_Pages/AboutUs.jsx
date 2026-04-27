@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
@@ -100,9 +101,11 @@ const AboutUs = () => {
           <h2 className="text-3xl font-bold mb-6">
             Ready to explore?
           </h2>
-          <button className="bg-primary px-8 py-3 rounded-md font-bold">
-            Explore Rooms
-          </button>
+          <Link to="/rooms">
+            <button className="bg-primary px-8 py-3 rounded-md font-bold hover:bg-primary/90 transition-colors">
+              Explore Rooms
+            </button>
+          </Link>
         </section>
 
       </main>

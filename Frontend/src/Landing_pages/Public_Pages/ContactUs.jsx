@@ -1,15 +1,45 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
+import axios from 'axios';
 
 const ContactUs = () => {
   const [formStatus, setFormStatus] = React.useState('idle');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormStatus('submitting');
-    setTimeout(() => setFormStatus('success'), 1500);
+  const [formData, setFormData] = React.useState({
+    name: "",
+    email: "",
+    inquiryType: "General Concierge",
+    message: ""
+  });
+  // ✅ handle input change
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default page reload on form submit
+    setFormStatus('submitting'); // Trigger the loading animation on the button
+    
+    try {
+      // Construct the API endpoint URL (uses environment variable if available)
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+      
+      // Send the user's name, email, and message to the backend via POST request
+      await axios.post(`${apiUrl}/contact`, formData);
+      
+      // Show the success UI if the email was sent successfully
+      setFormStatus('success');
+      
+      // Reset the form input fields
+      setFormData({ name: "", email: "", inquiryType: "General Concierge", message: "" });
+    } catch (error) {
+      console.error("Error submitting form", error);
+      // Reset the form status back to idle so the user can try again on failure
+      setFormStatus('idle');
+    }
+  };
+  
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -94,27 +124,27 @@ const ContactUs = () => {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm text-on-surface-variant font-medium ml-1">Full Name</label>
-                    <input required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" placeholder="John Doe" />
+                    <input name="name" value={formData.name} onChange={handleChange} required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" placeholder="John Doe" />
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm text-on-surface-variant font-medium ml-1">Email Address</label>
-                    <input required type="email" className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" placeholder="john@example.com" />
+                    <input name="email" value={formData.email} onChange={handleChange} required type="email" className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300" placeholder="john@example.com" />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm text-on-surface-variant font-medium ml-1">Inquiry Type</label>
-                  <select className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 appearance-none">
-                    <option>General Concierge</option>
-                    <option>Booking Modification</option>
-                    <option>Corporate Retreats</option>
-                    <option>Feedback</option>
+                  <select name="inquiryType" value={formData.inquiryType} onChange={handleChange} className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 appearance-none">
+                    <option value="General Concierge">General Concierge</option>
+                    <option value="Booking Modification">Booking Modification</option>
+                    <option value="Corporate Retreats">Corporate Retreats</option>
+                    <option value="Feedback">Feedback</option>
                   </select>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm text-on-surface-variant font-medium ml-1">Message</label>
-                  <textarea required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none" rows="5" placeholder="How can we assist you today?" />
+                  <textarea name="message" value={formData.message} onChange={handleChange} required className="w-full bg-surface-container/50 border border-surface-container-low rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none" rows="5" placeholder="How can we assist you today?" />
                 </div>
 
                 <button 
@@ -169,7 +199,7 @@ const ContactUs = () => {
                   </div>
                   <div>
                     <p className="text-sm text-on-surface-variant mb-1">Customer Assistant</p>
-                    <p className="font-medium text-lg">himanshupatle56@gmail.com.com</p>
+                    <p className="font-medium text-lg">himanshupatle56@gmail.com</p>
                   </div>
                 </div>
               </div>

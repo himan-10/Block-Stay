@@ -48,10 +48,21 @@ const All_Rooms = () => {
   // Filtering Logic
   const filteredRooms = useMemo(() => {
     return allRooms.filter(room => {
+      // Price Filter
       if (room.pricePerMonth > priceRange) return false;
 
-      // Note: We don't have 'type' or 'filterAmenities' in the real DB schema currently, 
-      // but if we did, we'd filter here. For now, we only filter by price on the client side.
+      // Room Type Filter
+      if (selectedTypes.length > 0 && !selectedTypes.includes(room.type)) {
+        return false;
+      }
+
+      // Amenities Filter (Room must have ALL selected amenities)
+      if (selectedAmenities.length > 0) {
+        const hasAllAmenities = selectedAmenities.every(amenity => 
+          room.amenities && room.amenities.includes(amenity)
+        );
+        if (!hasAllAmenities) return false;
+      }
 
       return true;
     });
@@ -198,17 +209,7 @@ const All_Rooms = () => {
               </button>
             </div>
 
-            {/* Promo Card */}
-            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary-container to-tertiary-container p-8 shadow-xl">
-              <div className="relative z-10">
-                <h4 className="font-headline text-xl font-extrabold text-on-primary-container mb-2">Student Discount</h4>
-                <p className="text-on-primary-container/80 text-sm mb-6">Unlock flat 10% off on long-term monthly rentals.</p>
-                <button className="bg-surface-container-lowest text-on-surface px-4 py-2 rounded font-bold text-xs hover:bg-surface transition-colors duration-200">Verify Student ID</button>
-              </div>
-              <div className="absolute -right-4 -bottom-4 opacity-10 pointer-events-none">
-                <span className="material-symbols-outlined text-[120px]" style={{ fontVariationSettings: "'FILL' 1" }}>school</span>
-              </div>
-            </div>
+
           </aside>
 
           {/* Room Grid */}
@@ -290,11 +291,11 @@ const All_Rooms = () => {
         <div>
           <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Experience</h5>
           <ul className="space-y-4">
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">🔍Seamless Room Search</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">📍Location-Based Recovery</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">🏠Verified Listing</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">💬Direct Owner Connect</a></li>
-             <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">❤️Save & Compare Rooms</a></li>
+            <li><Link to="/experience#search" className="text-slate-500 hover:text-cyan-400 transition-colors">Seamless Room Search</Link></li>
+            <li><Link to="/experience#location" className="text-slate-500 hover:text-cyan-400 transition-colors">Location-Based Recovery</Link></li>
+            <li><Link to="/experience#verified" className="text-slate-500 hover:text-cyan-400 transition-colors">Verified Listing</Link></li>
+            <li><Link to="/experience#connect" className="text-slate-500 hover:text-cyan-400 transition-colors">Direct Owner Connect</Link></li>
+             <li><Link to="/experience#compare" className="text-slate-500 hover:text-cyan-400 transition-colors">Save & Compare Rooms</Link></li>
           </ul>
         </div>
         <div className="space-y-6">

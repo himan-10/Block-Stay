@@ -1,5 +1,6 @@
 import Booking from '../models/Booking.js';
 import Room from '../models/Room.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 export const createBooking = async (req, res) => {
     try {
@@ -20,6 +21,14 @@ export const createBooking = async (req, res) => {
         });
         
         const populatedBooking = await Booking.findById(booking._id).populate('room');
+        
+        // ✅ Send Booking Confirmation Email
+        await sendEmail({
+            to: req.user.email,
+            subject: "Booking Confirmed - Blockstay",
+            text: `Hi ${req.user.name},\n\nYour booking for ${populatedBooking.room.name} has been confirmed!\n\nCheck-in: ${new Date(checkIn).toLocaleDateString()}\nCheck-out: ${new Date(checkOut).toLocaleDateString()}\nTotal Price: $${totalPrice}\n\nThank you for choosing Blockstay.`
+        });
+
         res.status(201).json(populatedBooking);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -74,6 +83,13 @@ export const cancelBooking = async (req, res) => {
 
         booking.status = 'cancelled';
         await booking.save();
+
+        // ✅ Send Cancellation Email
+        await sendEmail({
+            to: req.user.email,
+            subject: "Booking Cancelled - Blockstay",
+            text: `Hi ${req.user.name},\n\nYour booking has been successfully cancelled.\n\nIf you have any questions, please contact our support team.`
+        });
         
         res.status(200).json({ message: 'Booking cancelled.', booking });
     } catch (error) {

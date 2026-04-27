@@ -29,9 +29,9 @@ const Footer = () => {
         <div className="space-y-4">
           <h4 className="text-slate-100 font-semibold tracking-wider uppercase text-sm">Support</h4>
           <ul className="space-y-3">
-            <li><a href="#" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">FAQ</a></li>
-            <li><a href="#" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Privacy Policy</a></li>
-            <li><a href="#" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Terms of Service</a></li>
+            <li><Link to="/faq" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">FAQ</Link></li>
+            <li><Link to="/privacy" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="text-slate-400 text-sm hover:text-violet-400 hover:pl-2 transition-all duration-300">Terms of Service</Link></li>
           </ul>
         </div>
 
@@ -40,9 +40,9 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-8 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-slate-500">
         <p>© 2026 BlockStay. All rights reserved.</p>
         <div className="flex gap-6 mt-4 md:mt-0">
-          <a href="#" className="hover:text-slate-300 transition-colors">Instagram</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">Twitter</a>
-          <a href="#" className="hover:text-slate-300 transition-colors">LinkedIn</a>
+          <a href="https://www.instagram.com/itz_himan_56" className="hover:text-slate-300 transition-colors">Instagram</a>
+          <a href="https://x.com/Officia35737940" className="hover:text-slate-300 transition-colors">Twitter</a>
+          <a href="https://www.linkedin.com/in/himanshu-patle56" className="hover:text-slate-300 transition-colors">LinkedIn</a>
         </div>
       </div>
     </footer>

@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import { Server } from 'socket.io';
-
+import contactRoute from './routes/contact.js';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import roomRoutes from './routes/roomRoutes.js';
@@ -43,6 +43,7 @@ app.use('/api/rooms', roomRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use("/api/contact", contactRoute);
 
 app.use(notFound);
 app.use(errorHandler);
