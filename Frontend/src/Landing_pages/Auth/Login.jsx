@@ -40,7 +40,8 @@ const Login = () => {
       }
     } catch (error) {
       console.log("Google Login Error:", error);
-      alert(`Google Login failed: ${error.message}`);
+      const errorMsg = error.response?.data?.message || error.message || "An unexpected error occurred.";
+      alert(`Google Login failed: ${errorMsg}`);
     }
   };
 
