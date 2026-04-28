@@ -1,18 +1,72 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { auth, googleProvider } from "../../firebase.js";
+import { signInWithPopup } from "firebase/auth";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, googleLogin, setAccountRole } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  
+  const [showRoleModal, setShowRoleModal] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const idToken = await user.getIdToken();
+      
+      const data = await googleLogin(idToken);
+      
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      
+      if (data.role === 'pending') {
+        setShowRoleModal(true);
+      } else if (data.role === 'owner') {
+        navigate('/owner/dashboard');
+      } else {
+        navigate('/user/dashboard');
+      }
+    } catch (error) {
+      console.log("Google Login Error:", error);
+      alert(`Google Login failed: ${error.message}`);
+    }
+  };
+
+  const handleRoleSelection = async (role) => {
+    if (role === 'owner') {
+      const isConfirmed = window.confirm("Are you sure you want to register as a Property Owner? This will allow you to create and manage property listings.");
+      if (!isConfirmed) return;
+    }
+    
+    try {
+      const data = await setAccountRole(role);
+      setShowRoleModal(false);
+      if (data.role === 'owner') {
+        navigate('/owner/dashboard');
+      } else {
+        navigate('/user/dashboard');
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to set account type.");
+    }
+  };
+
+  const handleAppleLogin = () => {
+    // Handle Apple login
+    alert("Apple login coming soon!");
   };
 
   const handleSubmit = async (e) => {
@@ -74,7 +128,7 @@ const Login = () => {
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full mt-2 px-4 py-3 rounded-lg bg-surface-container-highest outline-none"
+                  className="w-full mt-2 px-4 py-3 rounded-lg bg-surface-container-highest outline-none border border-transparent hover:border-slate-500 focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   placeholder="name@example.com"
                 />
               </div>
@@ -92,7 +146,7 @@ const Login = () => {
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  className="w-full mt-2 px-4 py-3 rounded-lg bg-surface-container-highest outline-none"
+                  className="w-full mt-2 px-4 py-3 rounded-lg bg-surface-container-highest outline-none border border-transparent hover:border-slate-500 focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -110,11 +164,23 @@ const Login = () => {
 
             {/* Social */}
             <div className="grid grid-cols-2 gap-4">
-              <button className="bg-surface-container-high p-3 rounded-lg">
-                Google
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="bg-surface-container-high p-3 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors font-medium">
+                <img
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  alt="google"
+                  className="w-5 h-5"
+                />
+                <span>Google</span>
               </button>
-              <button className="bg-surface-container-high p-3 rounded-lg">
-                Apple
+              <button
+                type="button"
+                onClick={handleAppleLogin}
+                className="bg-surface-container-high p-3 rounded-lg flex items-center justify-center gap-2 hover:bg-slate-700 transition-colors font-medium">
+                <span className="material-symbols-outlined text-lg">apple</span>
+                <span>Apple</span>
               </button>
             </div>
 
@@ -130,6 +196,34 @@ const Login = () => {
 
         </div>
       </main>
+
+      {/* Role Selection Modal */}
+      {showRoleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-surface-container rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/10 text-center relative animate-fade-in-up">
+            <h2 className="text-2xl font-bold mb-2">Choose Your Account Type</h2>
+            <p className="text-sm text-on-surface-variant mb-6">
+              How would you like to use Blockstay today?
+            </p>
+            <div className="grid grid-cols-1 gap-4">
+              <button
+                type="button"
+                onClick={() => handleRoleSelection('user')}
+                className="bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl transition-all"
+              >
+                Continue as Guest
+              </button>
+              <button
+                type="button"
+                onClick={() => handleRoleSelection('owner')}
+                className="bg-surface-container-highest hover:bg-slate-700 text-white font-bold py-4 rounded-xl transition-all border border-white/10"
+              >
+                Continue as Property Owner
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );

@@ -42,23 +42,36 @@ Blockstay is a fully functional, full-stack real estate and rental marketplace b
 
 ```text
 Blockstay/
-├── Frontend/               # React (Vite) Frontend Application
+├── Frontend/                   # React (Vite) Frontend Application
 │   ├── src/
-│   │   ├── Components/     # Reusable UI components (Navbar, Footer, Cards)
-│   │   ├── Landing_pages/  # Application Pages (Auth, Public, User, Owner)
-│   │   ├── Routes/         # App Routing and Protected Routes logic
-│   │   ├── assets/         # Static assets and images
-│   │   └── App.jsx         # Main application entry point
-│   ├── package.json        # Frontend dependencies
-│   └── vite.config.js      # Vite configuration
+│   │   ├── assets/             # Static images, icons, and fonts
+│   │   ├── Components/         # Reusable UI components (e.g., Navbar, Cards)
+│   │   ├── context/            # Global state management via React Context
+│   │   ├── Landing_pages/      # Core Application Views grouped by role/feature
+│   │   │   ├── Admin_pages/    # Admin dashboard and analytics
+│   │   │   ├── Auth/           # Login, Register, Google Auth role selection
+│   │   │   ├── Owner_Pages/    # Owner property management and dashboard
+│   │   │   ├── Payment_Pages/  # Stripe checkout and success/failure flows
+│   │   │   ├── Public_Pages/   # Home, Rooms list, Property details, Legal pages
+│   │   │   └── User_Pages/     # User dashboard, Wishlist, Bookings
+│   │   ├── Routes/             # Application routing & protected route wrappers
+│   │   ├── services/           # External API configurations
+│   │   ├── App.jsx             # Main application entry point
+│   │   └── firebase.js         # Firebase config for Google Authentication
+│   ├── package.json            # Frontend dependencies
+│   └── vite.config.js          # Vite configuration
 │
-└── Backend/                # Express/Node.js Backend Application
-    ├── models/             # Mongoose database schemas
-    ├── routes/             # API endpoint definitions
-    ├── controllers/        # Request handling logic
-    ├── middleware/         # Auth and validation middlewares
-    ├── server.js           # Server entry point
-    └── package.json        # Backend dependencies
+└── Backend/                    # Express/Node.js Backend Application
+    ├── config/                 # Database and server configurations
+    ├── controllers/            # Request handling and business logic
+    ├── middleware/             # Custom middlewares (e.g., Auth, Error handling)
+    ├── models/                 # Mongoose schemas (User, Property, Booking, etc.)
+    ├── routes/                 # Express API route definitions
+    ├── socket/                 # Socket.io configurations for real-time features
+    ├── utils/                  # Helper utilities (e.g., Nodemailer email dispatch)
+    ├── seeder.js               # Script to seed database with initial Vidisha data
+    ├── server.js               # Server entry point
+    └── package.json            # Backend dependencies
 ```
 
 ## 🚀 Getting Started
@@ -126,19 +139,33 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
 
 
-# React + Vite
+## 🔄 Recent Updates & Key Implementations
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Recent development has focused on making the platform robust, localized for the Indian market, and feature-rich:
 
-Currently, two official plugins are available:
+### 🔐 Advanced Authentication & Onboarding
+- **Google Authentication Integration**: Transitioned to a robust Firebase-to-Backend JWT flow. Users can seamlessly log in with their Google accounts, while the backend securely manages session tokens.
+- **Role-Based Onboarding Flow**: Implemented a multi-step onboarding process for new Google users. Upon first login, users are required to explicitly select their account role (`Guest` or `Owner`), dictating their access permissions and which dashboard they land on.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 📧 Automated Communications
+- **Nodemailer Integration**: Developed a centralized email utility on the backend using `nodemailer` to keep users informed in real-time.
+- **Transactional Emails**: Automated emails are now dispatched for critical user actions, including successful account registration, confirmed property bookings, and booking cancellations.
 
-## React Compiler
+### ⚖️ Trust & Compliance
+- **Legal Policy Pages**: Designed and implemented dedicated, professional UI components for platform policies.
+- **Accessible Navigation**: Integrated comprehensive `FAQ`, `Privacy Policy`, and `Terms of Service` pages into the application routing and footer navigation to ensure user trust and legal compliance.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🇮🇳 Indian Market Localization (Vidisha Focus)
+- **Hyper-Local Targeting**: Repivoted the entire platform to serve the Vidisha, Madhya Pradesh region exclusively, catering specifically to the needs of students and working professionals.
+- **Pricing Restructure**: Completely overhauled the legacy dollar/per-night pricing model. Implemented a localized monthly INR pricing structure (`pricePerMonth`).
+- **Regional Property Types**: Updated property schemas and frontend filters to reflect Indian real estate terminology, replacing generic terms with `1BHK`, `2BHK`, `1RK`, and `Single Room`.
+- **Localized Amenities**: Refined the available amenities list to reflect the expectations of the target demographic (e.g., specific focus on study tables, Wi-Fi, localized food services).
 
-## Expanding the ESLint configuration
+### 🔍 Search & Interactive Booking
+- **Advanced Client-Side Filtering**: Enhanced the main "Rooms" exploration page with instant client-side filtering capabilities, allowing users to rapidly sort properties by specific type and required amenities.
+- **Dynamic Date Calculations**: Re-engineered the property details page to support interactive check-in and checkout date selection. The system now dynamically calculates total pricing based on the selected duration and the property's monthly rate.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### ⭐ User Engagement & Experience
+- **Property Review System**: Deployed a robust, user-submitted review system. Tenants can now leave verified feedback and 1-5 star ratings on individual properties, driving organic trust.
+- **Premium Rebranding**: Executed a comprehensive copywriting overhaul across the entire platform (Home, Listings, Auth, About/Contact). The new tone reflects a premium, trustworthy aesthetic comparable to top-tier global rental platforms, without disrupting the existing UI architecture.
+- **Frontend Optimization**: Resolved critical data-fetching and rendering bugs preventing property cards from displaying correctly on the Rooms page. Streamlined the overarching navigation logic to remove redundant components and ensure a frictionless user journey.

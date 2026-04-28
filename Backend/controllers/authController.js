@@ -2,7 +2,7 @@ import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendEmail.js';
 
-const generateToken = (res, userId) => {
+export const generateToken = (res, userId) => {
     const token = jwt.sign({ userId }, process.env.JWT_SECRET || 'fallback_secret', {
         expiresIn: '30d'
     });
@@ -13,6 +13,7 @@ const generateToken = (res, userId) => {
         sameSite: 'none', // Needed since backend and frontend domains differ
         maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
     });
+    return token;
 };
 
 export const registerUser = async (req, res) => {
@@ -42,7 +43,8 @@ export const registerUser = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role
+            role: user.role,
+            photo: user.photo
         });
     } catch (error) {
         console.error('🔴 Register ERROR:', error.message, error.stack);
@@ -62,7 +64,8 @@ res.status(200).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                photo: user.photo
             });
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
@@ -88,7 +91,8 @@ res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            role: user.role
+            role: user.role,
+            photo: user.photo
         });
     } else {
         res.status(404).json({ message: 'User not found' });

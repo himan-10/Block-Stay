@@ -58,8 +58,20 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const googleLogin = async (token) => {
+        const { data } = await api.post('/auth/google', { token });
+        setUser(data);
+        return data;
+    };
+
+    const setAccountRole = async (role) => {
+        const { data } = await api.post('/auth/set-role', { role });
+        setUser(data);
+        return data;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, loading, api }}>
+        <AuthContext.Provider value={{ user, login, register, logout, googleLogin, setAccountRole, loading, api }}>
             {children}
         </AuthContext.Provider>
     );
