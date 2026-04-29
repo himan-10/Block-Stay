@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 
 import { Home } from '../Landing_pages/Public_Pages/Home';
@@ -19,68 +19,64 @@ import PageNotFound from '../Landing_pages/Utility/PageNotFound';
 
 import Navbar from '../Components/Reusable/Navbar';
 import Footer from '../Components/Reusable/Footer';
+
+// Dashboard Layouts
+import UserLayout from '../Landing_pages/User_Pages/UserLayout';
 import Dashboard from '../Landing_pages/User_Pages/Dashboard';
 import Owner_Dashboard from '../Landing_pages/Owner_Pages/Owner_Dashboard';
 import MyBooking from '../Landing_pages/User_Pages/MyBooking';
 import Wishlist from '../Landing_pages/User_Pages/Wishlist';
 import Profile from '../Landing_pages/User_Pages/Profile';
 
-const AppRoutes = () => {
+const PublicLayout = () => {
   return (
     <>
-<Navbar />
-      <div className="pt-20"> {/* Adjust padding based on Navbar height */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/rooms" element={<All_Rooms />} />
-          <Route path="/rooms/:id" element={<Room_Details />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Sign_up />} />
-          <Route path="/unauthorized" element={<UnauthorisedAccess />} />
-          
-          {/* Support Pages */}
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/experience" element={<Experience />} />
-
-          {/* TODO: Protected routes - components need proper imports */}
-          <Route path="/user/dashboard" element={
-            <ProtectedRoute requiredRole="user">
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/owner/dashboard" element={
-            <ProtectedRoute requiredRole="owner">
-              <Owner_Dashboard />
-            </ProtectedRoute>
-          } />
-
-          {/* User Dashboard Navigation */}
-          <Route path="/user/bookings" element={
-            <ProtectedRoute requiredRole="user">
-              <MyBooking />
-            </ProtectedRoute>
-          } />
-          <Route path="/user/wishlist" element={
-            <ProtectedRoute requiredRole="user">
-              <Wishlist />
-            </ProtectedRoute>
-          } />
-          <Route path="/user/profile" element={
-            <ProtectedRoute requiredRole="user">
-              <Profile />
-            </ProtectedRoute>
-          } />
-
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+      <Navbar />
+      <div className="pt-20">
+        <Outlet />
       </div>
       <Footer />
-
     </>
+  );
+};
+
+const AppRoutes = () => {
+  return (
+    <Routes>
+      {/* Public Pages with Standard Navbar & Footer */}
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/rooms" element={<All_Rooms />} />
+        <Route path="/rooms/:id" element={<Room_Details />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Sign_up />} />
+        <Route path="/unauthorized" element={<UnauthorisedAccess />} />
+        
+        {/* Support Pages */}
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/experience" element={<Experience />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Route>
+
+      {/* User Dashboard Routes (Nested inside UserLayout) */}
+      <Route path="/user" element={<ProtectedRoute requiredRole="user"><UserLayout /></ProtectedRoute>}>
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="bookings" element={<MyBooking />} />
+        <Route path="wishlist" element={<Wishlist />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+
+      {/* Owner Dashboard Routes (Keeping existing logic for now) */}
+      <Route path="/owner/dashboard" element={
+        <ProtectedRoute requiredRole="owner">
+          <Owner_Dashboard />
+        </ProtectedRoute>
+      } />
+    </Routes>
   );
 };
 

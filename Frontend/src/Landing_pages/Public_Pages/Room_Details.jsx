@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const RoomDetails = () => {
@@ -13,6 +13,11 @@ const RoomDetails = () => {
   const [checkOut, setCheckOut] = useState('');
   const [totalPrice, setTotalPrice] = useState(0);
   const [durationMonths, setDurationMonths] = useState(0);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingMessage, setBookingMessage] = useState('');
+  const [isAvailable, setIsAvailable] = useState(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Review state
   const [rating, setRating] = useState(5);
@@ -54,6 +59,149 @@ const RoomDetails = () => {
       }
     }
   }, [checkIn, checkOut, room]);
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      if (checkIn && checkOut && room) {
+        const inDate = new Date(checkIn);
+        const outDate = new Date(checkOut);
+        
+        if(outDate <= inDate) {
+          setIsAvailable(false);
+          setBookingMessage('Check-out must be after check-in.');
+          return;
+        }
+
+        setAvailabilityLoading(true);
+        setBookingMessage('');
+        try {
+          const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+          const { data } = await axios.post(`${apiUrl}/bookings/check-availability`, {
+            roomId: id,
+            checkIn,
+            checkOut
+          });
+          setIsAvailable(data.available);
+          if(!data.available) {
+             setBookingMessage('Room is not available for these dates.');
+          } else {
+             setBookingMessage('Room is available!');
+          }
+        } catch (error) {
+          console.error("Availability check failed", error);
+        } finally {
+          setAvailabilityLoading(false);
+        }
+      }
+    };
+    checkAvailability();
+  }, [checkIn, checkOut, room, id]);
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleBooking = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    if (isAvailable === false) {
+      setBookingMessage('Please select available dates first.');
+      return;
+    }
+
+    setBookingLoading(true);
+    setBookingMessage('');
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+      const finalPrice = totalPrice + 1500;
+
+      // 1. Create Pending Booking
+      const { data: bookingData } = await axios.post(
+        `${apiUrl}/bookings`,
+        {
+          roomId: id,
+          checkIn,
+          checkOut,
+          totalPrice: finalPrice
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // 2. Create Razorpay Order
+      const { data: orderData } = await axios.post(
+        `${apiUrl}/payment/create-order`,
+        { amount: finalPrice, bookingId: bookingData._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // 3. Load Razorpay SDK
+      const res = await loadRazorpayScript();
+      if (!res) {
+        setBookingMessage("Failed to load payment gateway.");
+        setBookingLoading(false);
+        return;
+      }
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SjQ3Yb6nReapA6', // Uses actual env var
+        amount: orderData.order.amount,
+        currency: orderData.order.currency,
+        name: "Blockstay",
+        description: `Booking for ${room.name}`,
+        order_id: orderData.order.id,
+        handler: async function (response) {
+          try {
+            // 4. Verify Payment
+            await axios.post(
+              `${apiUrl}/payment/verify-payment`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                bookingId: bookingData._id
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            
+            navigate('/my-bookings');
+          } catch (error) {
+            setBookingMessage("Payment verification failed.");
+          }
+        },
+        prefill: {
+          name: "Blockstay User",
+          email: "user@blockstay.com"
+        },
+        theme: {
+          color: "#7c3aed"
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on('payment.failed', function (response) {
+        setBookingMessage("Payment failed or cancelled.");
+      });
+      paymentObject.open();
+
+    } catch (error) {
+      console.error("Booking Error:", error);
+      const errorMsg = error.response?.data?.message || error.message || 'Booking process failed.';
+      setBookingMessage(`Error: ${errorMsg}`);
+    } finally {
+      setBookingLoading(false);
+    }
+  };
 
   const submitReview = async (e) => {
     e.preventDefault();
@@ -304,8 +452,9 @@ const RoomDetails = () => {
                     <label className="font-label text-[10px] tracking-[0.1em] text-on-surface-variant uppercase mb-1">Check In</label>
                     <input 
                       type="date" 
-                      className="bg-transparent border-none outline-none text-sm [color-scheme:dark]"
+                      className="bg-transparent border-none outline-none text-sm [color-scheme:dark] cursor-pointer"
                       value={checkIn}
+                      min={new Date().toISOString().split('T')[0]}
                       onChange={(e) => setCheckIn(e.target.value)}
                     />
                   </div>
@@ -313,8 +462,9 @@ const RoomDetails = () => {
                     <label className="font-label text-[10px] tracking-[0.1em] text-on-surface-variant uppercase mb-1">Check Out</label>
                     <input 
                       type="date" 
-                      className="bg-transparent border-none outline-none text-sm [color-scheme:dark]"
+                      className="bg-transparent border-none outline-none text-sm [color-scheme:dark] cursor-pointer"
                       value={checkOut}
+                      min={checkIn || new Date().toISOString().split('T')[0]}
                       onChange={(e) => setCheckOut(e.target.value)}
                     />
                   </div>
@@ -343,11 +493,18 @@ const RoomDetails = () => {
                 </div>
               )}
 
-              <button className="w-full py-4 bg-primary text-on-primary font-headline font-bold rounded-xl hover:bg-inverse-primary hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-primary/20 mb-3">
-                Request to Book
+              {availabilityLoading && <p className="text-sm text-cyan-400 mb-2">Checking availability...</p>}
+              {bookingMessage && <p className={`text-sm mb-4 ${isAvailable === false || bookingMessage.includes('failed') ? 'text-red-400' : 'text-emerald-400'}`}>{bookingMessage}</p>}
+              
+              <button 
+                onClick={handleBooking}
+                disabled={bookingLoading || isAvailable === false || !checkIn || !checkOut}
+                className="w-full py-4 bg-primary text-on-primary font-headline font-bold rounded-xl hover:bg-inverse-primary hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-primary/20 mb-3 disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
+              >
+                {bookingLoading ? 'Processing...' : (isAvailable ? 'Book Now' : 'Select Dates')}
               </button>
               <p className="text-center text-xs text-slate-500 mb-4">
-                You won't be charged yet.
+                You will be redirected to Razorpay.
               </p>
             </div>
           </aside>

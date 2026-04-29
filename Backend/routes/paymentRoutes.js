@@ -1,9 +1,10 @@
 import express from 'express';
-import { createPaymentIntent } from '../controllers/paymentController.js';
+import { createRazorpayOrder, verifyPayment } from '../controllers/paymentController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/create-intent', protect, createPaymentIntent);
+router.post('/create-order', protect, createRazorpayOrder);
+router.post('/verify-payment', protect, verifyPayment);
 
 export default router;

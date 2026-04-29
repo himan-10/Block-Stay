@@ -7,6 +7,22 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Wishlist state
+    const [wishlist, setWishlist] = useState(() => {
+        const saved = localStorage.getItem('blockstay_wishlist');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('blockstay_wishlist', JSON.stringify(wishlist));
+    }, [wishlist]);
+
+    const toggleWishlist = (roomId) => {
+        setWishlist(prev => 
+            prev.includes(roomId) ? prev.filter(id => id !== roomId) : [...prev, roomId]
+        );
+    };
+
     const api = axios.create({
         baseURL: import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api',
         withCredentials: true,
@@ -70,8 +86,19 @@ export const AuthProvider = ({ children }) => {
         return data;
     };
 
+    const updateProfile = async (updates) => {
+        const { data } = await api.put('/auth/me', updates);
+        setUser(data);
+        return data;
+    };
+
+    const deleteProfile = async () => {
+        await api.delete('/auth/me');
+        setUser(null);
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, googleLogin, setAccountRole, loading, api }}>
+        <AuthContext.Provider value={{ user, login, register, logout, googleLogin, setAccountRole, updateProfile, deleteProfile, loading, api, wishlist, toggleWishlist }}>
             {children}
         </AuthContext.Provider>
     );

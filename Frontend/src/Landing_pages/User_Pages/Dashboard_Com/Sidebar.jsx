@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 
 const Sidebar = () => {
@@ -21,15 +21,26 @@ const Sidebar = () => {
 
       <nav className="flex-grow space-y-1 px-4">
         {[
+            { name: "Explore Rooms", path: "/rooms", icon: "search" },
             { name: "Dashboard", path: "/user/dashboard", icon: "dashboard" },
             { name: "Bookings", path: "/user/bookings", icon: "event" },
             { name: "Wishlist", path: "/user/wishlist", icon: "favorite" },
             { name: "Profile", path: "/user/profile", icon: "person" }
           ].map((item, i) => (
-            <Link key={i} to={item.path} className="flex items-center space-x-4 px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg">
+            <NavLink 
+              key={i} 
+              to={item.path} 
+              className={({ isActive }) => 
+                `flex items-center space-x-4 px-4 py-3 rounded-lg transition-colors ${
+                  isActive 
+                  ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20" 
+                  : "text-slate-400 hover:text-white hover:bg-slate-800"
+                }`
+              }
+            >
               <span className="material-symbols-outlined text-sm">{item.icon}</span>
-              <span className="text-[10px] uppercase font-medium">{item.name}</span>
-            </Link>
+              <span className="text-[10px] uppercase font-bold">{item.name}</span>
+            </NavLink>
           ))}
       </nav>
 

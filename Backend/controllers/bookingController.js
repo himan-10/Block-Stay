@@ -2,32 +2,76 @@ import Booking from '../models/Booking.js';
 import Room from '../models/Room.js';
 import { sendEmail } from '../utils/sendEmail.js';
 
+export const checkAvailability = async (req, res) => {
+    try {
+        const { roomId, checkIn, checkOut } = req.body;
+
+        if (!roomId || !checkIn || !checkOut) {
+            return res.status(400).json({ message: 'All fields are required.' });
+        }
+
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+
+        if (checkOutDate <= checkInDate) {
+            return res.status(400).json({ message: 'Check-out date must be after check-in date.' });
+        }
+
+        const overlappingBookings = await Booking.find({
+            room: roomId,
+            status: 'confirmed', // Only confirmed bookings block availability
+            $and: [
+                { checkIn: { $lt: checkOutDate } },
+                { checkOut: { $gt: checkInDate } }
+            ]
+        });
+
+        if (overlappingBookings.length > 0) {
+            return res.status(200).json({ available: false });
+        }
+
+        return res.status(200).json({ available: true });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 export const createBooking = async (req, res) => {
     try {
-        const { roomId, checkIn, checkOut, totalPrice, paymentIntentId } = req.body;
+        const { roomId, checkIn, checkOut, totalPrice } = req.body;
         
         if (!roomId || !checkIn || !checkOut || !totalPrice) {
             return res.status(400).json({ message: 'All booking fields are required.' });
+        }
+
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+
+        // Double check availability to prevent race conditions
+        const overlappingBookings = await Booking.find({
+            room: roomId,
+            status: 'confirmed',
+            $and: [
+                { checkIn: { $lt: checkOutDate } },
+                { checkOut: { $gt: checkInDate } }
+            ]
+        });
+
+        if (overlappingBookings.length > 0) {
+            return res.status(400).json({ message: 'Room is no longer available for these dates.' });
         }
         
         const booking = await Booking.create({
             user: req.user._id,
             room: roomId,
-            checkIn,
-            checkOut,
+            checkIn: checkInDate,
+            checkOut: checkOutDate,
             totalPrice,
-            paymentIntentId,
-            status: 'confirmed'
+            status: 'pending' // Requires payment to be confirmed
         });
         
         const populatedBooking = await Booking.findById(booking._id).populate('room');
-        
-        // ✅ Send Booking Confirmation Email
-        await sendEmail({
-            to: req.user.email,
-            subject: "Booking Confirmed - Blockstay",
-            text: `Hi ${req.user.name},\n\nYour booking for ${populatedBooking.room.name} has been confirmed!\n\nCheck-in: ${new Date(checkIn).toLocaleDateString()}\nCheck-out: ${new Date(checkOut).toLocaleDateString()}\nTotal Price: $${totalPrice}\n\nThank you for choosing Blockstay.`
-        });
 
         res.status(201).json(populatedBooking);
     } catch (error) {
@@ -37,7 +81,10 @@ export const createBooking = async (req, res) => {
 
 export const getMyBookings = async (req, res) => {
     try {
-        const bookings = await Booking.find({ user: req.user._id })
+        const bookings = await Booking.find({ 
+            user: req.user._id,
+            status: { $ne: 'pending' } // Hide abandoned pending bookings
+        })
             .populate('room')
             .sort('-createdAt');
             

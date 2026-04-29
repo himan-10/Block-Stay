@@ -92,40 +92,7 @@ const All_Rooms = () => {
 
   return (
     <div className="bg-background text-on-background selection:bg-primary-container selection:text-on-primary-container font-body">
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap');
-          @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0');
-
-          .material-symbols-outlined {
-              font-family: 'Material Symbols Outlined';
-              font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-          }
-          .glass-nav {
-              background: rgba(15, 23, 42, 0.7);
-              backdrop-filter: blur(12px);
-          }
-          .no-scrollbar::-webkit-scrollbar {
-              display: none;
-          }
-        `}
-      </style>
-
-      {/* TopNavBar */}
-      <nav className="fixed top-0 w-full z-50 bg-slate-900/70 backdrop-blur-xl shadow-2xl shadow-violet-900/10 flex justify-between items-center px-8 py-4 max-w-full font-['Manrope'] tracking-tight">
-        <Link to="/" className="text-xl font-bold tracking-tighter text-slate-100 uppercase hover:text-cyan-400 transition-colors">Blockstay</Link>
-        <div className="hidden md:flex items-center gap-8">
-          <Link to="/rooms" className="text-violet-400 border-b-2 border-violet-500 pb-1">Rooms</Link>
-          <Link to="/about" className="text-slate-400 hover:text-slate-100 transition-colors">About</Link>
-          <Link to="/contact" className="text-slate-400 hover:text-slate-100 transition-colors">Contact</Link>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link to="/login" className="text-slate-400 hover:text-cyan-400 transition-colors text-sm font-medium">Login</Link>
-          <Link to="/signup" className="bg-primary-container text-on-primary-container px-6 py-2 rounded-md font-bold text-sm hover:bg-inverse-primary transition-all duration-300 active:scale-95 shadow-[0px_0px_15px_rgba(124,58,237,0.4)]">Sign Up</Link>
-        </div>
-      </nav>
-
-      <main className="pt-24 pb-20 px-6 lg:px-12 max-w-[1600px] mx-auto min-h-screen">
+      <main className="pb-20 px-6 lg:px-12 max-w-[1600px] mx-auto min-h-screen">
         {/* Header Section */}
         <header className="mb-12">
           <h1 className="font-headline text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">Explore Available Rooms & PGs</h1>
@@ -208,8 +175,6 @@ const All_Rooms = () => {
                 Clear All
               </button>
             </div>
-
-
           </aside>
 
           {/* Room Grid */}
@@ -272,43 +237,6 @@ const All_Rooms = () => {
           </section>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 w-full border-t border-slate-800/50 grid grid-cols-1 md:grid-cols-4 gap-12 px-12 py-16 font-['Inter'] leading-relaxed text-sm">
-        <div className="space-y-6">
-          <Link to="/" className="text-lg font-black text-slate-200 uppercase tracking-tighter hover:text-cyan-400 transition-colors block">BlockStay</Link>
-          <p className="text-slate-500 max-w-xs">Elevating student and professional living with affordable, secure, and modern spaces.</p>
-        </div>
-        <div>
-          <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Navigation</h5>
-          <ul className="space-y-4">
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Privacy Policy</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Terms of Service</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">FAQ</a></li>
-            <li><a className="text-slate-500 hover:text-cyan-400 transition-colors" href="#">Careers</a></li>
-          </ul>
-        </div>
-        <div>
-          <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Experience</h5>
-          <ul className="space-y-4">
-            <li><Link to="/experience#search" className="text-slate-500 hover:text-cyan-400 transition-colors">Seamless Room Search</Link></li>
-            <li><Link to="/experience#location" className="text-slate-500 hover:text-cyan-400 transition-colors">Location-Based Recovery</Link></li>
-            <li><Link to="/experience#verified" className="text-slate-500 hover:text-cyan-400 transition-colors">Verified Listing</Link></li>
-            <li><Link to="/experience#connect" className="text-slate-500 hover:text-cyan-400 transition-colors">Direct Owner Connect</Link></li>
-             <li><Link to="/experience#compare" className="text-slate-500 hover:text-cyan-400 transition-colors">Save & Compare Rooms</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-6">
-          <h5 className="text-violet-500 font-bold mb-6 tracking-widest text-[10px] uppercase">Subscribe</h5>
-          <div className="flex">
-            <input className="bg-surface-container border-none focus:ring-1 focus:ring-violet-500 rounded-l-md text-on-surface text-sm w-full" placeholder="Email Address" type="email"/>
-            <button className="bg-violet-600 px-4 rounded-r-md text-white">
-              <span className="material-symbols-outlined text-lg">arrow_forward</span>
-            </button>
-          </div>
-          <p className="text-[10px] text-slate-600">© 2026 BlockStay. All rights reserved.</p>
-        </div>
-      </footer>
     </div>
   );
 };

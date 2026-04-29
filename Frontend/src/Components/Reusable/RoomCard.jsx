@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const RoomCard = ({ room }) => {
   const navigate = useNavigate();
+  const { wishlist, toggleWishlist } = useContext(AuthContext);
   
   if (!room) return null;
 
@@ -18,6 +20,7 @@ const RoomCard = ({ room }) => {
   } = room;
 
   const imageSrc = images && images.length > 0 ? images[0] : '';
+  const isWishlisted = wishlist?.includes(_id);
 
   return (
     <div className="group relative flex flex-col bg-surface-container rounded-xl overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-[0px_20px_40px_rgba(0,0,0,0.4),0px_0px_20px_rgba(124,58,237,0.05)]">
@@ -27,6 +30,14 @@ const RoomCard = ({ room }) => {
           src={imageSrc} 
           alt={name || "Room Image"} 
         />
+        <button 
+          onClick={(e) => { e.stopPropagation(); toggleWishlist(_id); }}
+          className="absolute top-4 right-4 p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all shadow-lg z-10"
+        >
+          <span className={`material-symbols-outlined text-xl transition-colors ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-white'}`} style={{ fontVariationSettings: isWishlisted ? "'FILL' 1" : "'FILL' 0" }}>
+            favorite
+          </span>
+        </button>
       </div>
       <div className="p-8 space-y-4">
         <div className="flex justify-between items-start">
