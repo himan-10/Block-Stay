@@ -21,7 +21,7 @@ app.set('trust proxy', 1); // Trust first proxy (Render/Heroku load balancers)
 connectDB();
 
 // Middleware
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'https://block-stay-himan-10s-projects.vercel.app'];
 
 app.use(cors({
     origin: function (origin, callback) {
