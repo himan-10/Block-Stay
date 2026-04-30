@@ -126,7 +126,7 @@ const RoomDetails = () => {
       const apiUrl = import.meta.env.VITE_API_URL;
       const finalPrice = totalPrice + 1500;
 
-      // 1. Create Pending Booking
+      // 1. Create Pending Booking (Booking Request)
       const { data: bookingData } = await axios.post(
         `${apiUrl}/bookings`,
         {
@@ -138,61 +138,11 @@ const RoomDetails = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // 2. Create Razorpay Order
-      const { data: orderData } = await axios.post(
-        `${apiUrl}/payment/create-order`,
-        { amount: finalPrice, bookingId: bookingData._id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      // 3. Load Razorpay SDK
-      const res = await loadRazorpayScript();
-      if (!res) {
-        setBookingMessage("Failed to load payment gateway.");
-        setBookingLoading(false);
-        return;
-      }
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SjQ3Yb6nReapA6', // Uses actual env var
-        amount: orderData.order.amount,
-        currency: orderData.order.currency,
-        name: "Blockstay",
-        description: `Booking for ${room.name}`,
-        order_id: orderData.order.id,
-        handler: async function (response) {
-          try {
-            // 4. Verify Payment
-            await axios.post(
-              `${apiUrl}/payment/verify-payment`,
-              {
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                bookingId: bookingData._id
-              },
-              { headers: { Authorization: `Bearer ${token}` } }
-            );
-            
-            navigate('/my-bookings');
-          } catch (error) {
-            setBookingMessage("Payment verification failed.");
-          }
-        },
-        prefill: {
-          name: "Blockstay User",
-          email: "user@blockstay.com"
-        },
-        theme: {
-          color: "#7c3aed"
-        }
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.on('payment.failed', function (response) {
-        setBookingMessage("Payment failed or cancelled.");
-      });
-      paymentObject.open();
+      // Successfully requested!
+      setBookingMessage('Booking request sent to the owner! You will be notified once they approve.');
+      
+      // Redirect to My Bookings after 2 seconds
+      setTimeout(() => navigate('/user/bookings'), 2000);
 
     } catch (error) {
       console.error("Booking Error:", error);
@@ -501,10 +451,10 @@ const RoomDetails = () => {
                 disabled={bookingLoading || isAvailable === false || !checkIn || !checkOut}
                 className="w-full py-4 bg-primary text-on-primary font-headline font-bold rounded-xl hover:bg-inverse-primary hover:-translate-y-0.5 transition-all duration-300 shadow-lg shadow-primary/20 mb-3 disabled:opacity-50 disabled:hover:translate-y-0 disabled:cursor-not-allowed"
               >
-                {bookingLoading ? 'Processing...' : (isAvailable ? 'Book Now' : 'Select Dates')}
+                {bookingLoading ? 'Sending Request...' : (isAvailable ? 'Request to Book' : 'Select Dates')}
               </button>
               <p className="text-center text-xs text-slate-500 mb-4">
-                You will be redirected to Razorpay.
+                You won't be charged yet. The owner must approve your request first.
               </p>
             </div>
           </aside>

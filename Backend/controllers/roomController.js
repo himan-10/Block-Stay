@@ -32,6 +32,18 @@ export const getRooms = async (req, res) => {
     }
 };
 
+export const getOwnerRooms = async (req, res) => {
+    try {
+        if (req.user.role !== 'owner') {
+            return res.status(403).json({ message: 'Owner role required' });
+        }
+        const rooms = await Room.find({ owner: req.user._id }).populate('owner', 'name');
+        res.json(rooms);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
 export const getRoomById = async (req, res) => {
     try {
         const room = await Room.findById(req.params.id).populate('owner', 'name');

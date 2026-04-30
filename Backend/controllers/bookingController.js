@@ -82,8 +82,7 @@ export const createBooking = async (req, res) => {
 export const getMyBookings = async (req, res) => {
     try {
         const bookings = await Booking.find({ 
-            user: req.user._id,
-            status: { $ne: 'pending' } // Hide abandoned pending bookings
+            user: req.user._id
         })
             .populate('room')
             .sort('-createdAt');
@@ -139,6 +138,52 @@ export const cancelBooking = async (req, res) => {
         });
         
         res.status(200).json({ message: 'Booking cancelled.', booking });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export const updateBookingStatus = async (req, res) => {
+    try {
+        const { status } = req.body;
+        const booking = await Booking.findById(req.params.id);
+        
+        if (!booking) return res.status(404).json({ message: 'Booking not found.' });
+
+        const room = await Room.findById(booking.room);
+        if (!room) return res.status(404).json({ message: 'Property not found.' });
+        
+        if (room.owner.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'Not authorized to update this booking.' });
+        }
+
+        if (!['pending', 'approved', 'confirmed', 'cancelled'].includes(status)) {
+            return res.status(400).json({ message: 'Invalid status' });
+        }
+
+        booking.status = status;
+        await booking.save();
+
+        // Populate user and room to send email
+        const populatedBooking = await Booking.findById(booking._id).populate('user', 'name email').populate('room', 'name');
+
+        if (populatedBooking.user && populatedBooking.user.email) {
+            if (status === 'approved') {
+                await sendEmail({
+                    to: populatedBooking.user.email,
+                    subject: "Booking Request Approved! - Blockstay",
+                    text: `Hi ${populatedBooking.user.name},\n\nGreat news! The owner has approved your booking request for ${populatedBooking.room.name}.\n\nPlease log in to your Blockstay dashboard and complete the payment to confirm your reservation.\n\nThanks,\nThe Blockstay Team`
+                });
+            } else if (status === 'cancelled') {
+                await sendEmail({
+                    to: populatedBooking.user.email,
+                    subject: "Booking Request Declined - Blockstay",
+                    text: `Hi ${populatedBooking.user.name},\n\nWe're sorry to inform you that the owner has declined your booking request for ${populatedBooking.room.name}.\n\nDon't worry, you haven't been charged. Feel free to explore other amazing properties on Blockstay!\n\nThanks,\nThe Blockstay Team`
+                });
+            }
+        }
+
+        res.status(200).json(booking);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

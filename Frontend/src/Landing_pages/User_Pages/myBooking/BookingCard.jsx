@@ -5,6 +5,75 @@ import ReceiptModal from './ReceiptModal';
 const BookingCard = ({ booking, setBookings }) => {
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const { api } = useContext(AuthContext);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handlePayment = async () => {
+    try {
+      setPaymentLoading(true);
+      
+      const { data: orderData } = await api.post('/payment/create-order', {
+        amount: booking.totalPrice,
+        bookingId: booking._id
+      });
+
+      const res = await loadRazorpayScript();
+      if (!res) {
+        alert("Failed to load payment gateway.");
+        setPaymentLoading(false);
+        return;
+      }
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SjQ3Yb6nReapA6',
+        amount: orderData.order.amount,
+        currency: orderData.order.currency,
+        name: "Blockstay",
+        description: `Booking for ${booking?.room?.name}`,
+        order_id: orderData.order.id,
+        handler: async function (response) {
+          try {
+            await api.post('/payment/verify-payment', {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              bookingId: booking._id
+            });
+            
+            // Update booking status in UI
+            setBookings(prev => prev.map(b => b._id === booking._id ? { ...b, status: 'confirmed' } : b));
+          } catch (error) {
+            alert("Payment verification failed.");
+          }
+        },
+        prefill: {
+          name: "Blockstay User",
+          email: "user@blockstay.com"
+        },
+        theme: {
+          color: "#7c3aed"
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
+
+    } catch (error) {
+      console.error(error);
+      alert("Error initializing payment");
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   const handleCancel = async () => {
     try {
@@ -21,7 +90,12 @@ const BookingCard = ({ booking, setBookings }) => {
         <img src={booking?.room?.images?.[0] || "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&q=80"} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Room" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
         <div className="absolute bottom-3 left-3 right-3 flex justify-between items-end">
-          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md border backdrop-blur-md shadow-lg uppercase tracking-wider ${booking?.status === 'cancelled' ? 'bg-red-500/30 border-red-500/50 text-white' : 'bg-emerald-500/30 border-emerald-500/50 text-white'}`}>
+          <span className={`text-[10px] font-bold px-2.5 py-1 rounded-md border backdrop-blur-md shadow-lg uppercase tracking-wider ${
+            booking?.status === 'cancelled' ? 'bg-red-500/30 border-red-500/50 text-white' : 
+            booking?.status === 'approved' ? 'bg-amber-500/30 border-amber-500/50 text-white' : 
+            booking?.status === 'pending' ? 'bg-slate-500/30 border-slate-500/50 text-white' : 
+            'bg-emerald-500/30 border-emerald-500/50 text-white'
+          }`}>
             {booking?.status || 'Confirmed'}
           </span>
           <p className="text-white font-extrabold text-lg drop-shadow-md">₹{booking?.totalPrice}</p>
@@ -43,11 +117,15 @@ const BookingCard = ({ booking, setBookings }) => {
           >
             Receipt
           </button>
-          {booking?.status !== 'cancelled' && (
+          {booking?.status === 'approved' ? (
+            <button onClick={handlePayment} disabled={paymentLoading} className="flex-1 bg-amber-500 hover:bg-amber-400 text-[#0a0f1d] border border-amber-500 text-sm font-bold py-2 rounded-lg transition-colors">
+              {paymentLoading ? 'Processing...' : 'Pay Now'}
+            </button>
+          ) : booking?.status !== 'cancelled' && booking?.status !== 'confirmed' ? (
             <button onClick={handleCancel} className="flex-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-sm font-medium py-2 rounded-lg transition-colors">
               Cancel
             </button>
-          )}
+          ) : null}
         </div>
       </div>
 

@@ -30,6 +30,12 @@ import MyBooking from '../Landing_pages/User_Pages/MyBooking';
 import Wishlist from '../Landing_pages/User_Pages/Wishlist';
 import Profile from '../Landing_pages/User_Pages/Profile';
 
+import OwnerLayout from '../Landing_pages/Owner_Pages/OwnerLayout';
+import OwnerProperties from '../Landing_pages/Owner_Pages/OwnerProperties';
+import OwnerBookings from '../Landing_pages/Owner_Pages/OwnerBookings';
+import OwnerEarnings from '../Landing_pages/Owner_Pages/OwnerEarnings';
+import OwnerProfile from '../Landing_pages/Owner_Pages/OwnerProfile';
+
 const PublicLayout = () => {
   return (
     <>
@@ -74,12 +80,14 @@ const AppRoutes = () => {
         <Route path="profile" element={<Profile />} />
       </Route>
 
-      {/* Owner Dashboard Routes (Keeping existing logic for now) */}
-      <Route path="/owner/dashboard" element={
-        <ProtectedRoute requiredRole="owner">
-          <Owner_Dashboard />
-        </ProtectedRoute>
-      } />
+      {/* Owner Dashboard Routes */}
+      <Route path="/owner" element={<ProtectedRoute requiredRole="owner"><OwnerLayout /></ProtectedRoute>}>
+        <Route path="dashboard" element={<Owner_Dashboard />} />
+        <Route path="properties" element={<OwnerProperties />} />
+        <Route path="bookings" element={<OwnerBookings />} />
+        <Route path="earnings" element={<OwnerEarnings />} />
+        <Route path="profile" element={<OwnerProfile />} />
+      </Route>
     </Routes>
   );
 };

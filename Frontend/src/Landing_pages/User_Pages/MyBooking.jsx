@@ -29,7 +29,7 @@ function MyBooking() {
 
       {bookings.length > 0 ? (
         <>
-          <BookingHeroCard booking={bookings[0]} />
+          <BookingHeroCard booking={bookings[0]} setBookings={setBookings} />
           
           <div className="mt-12">
             <h3 className="text-2xl font-bold text-white mb-6">Past & Other Bookings</h3>

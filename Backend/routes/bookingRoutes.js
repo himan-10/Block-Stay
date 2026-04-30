@@ -4,7 +4,8 @@ import {
     getMyBookings, 
     getOwnerBookings, 
     cancelBooking,
-    checkAvailability
+    checkAvailability,
+    updateBookingStatus
 } from '../controllers/bookingController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -15,5 +16,6 @@ router.post('/', protect, createBooking);
 router.get('/my-bookings', protect, getMyBookings);
 router.get('/owner-bookings', protect, getOwnerBookings);
 router.put('/:id/cancel', protect, cancelBooking);
+router.put('/:id/status', protect, updateBookingStatus);
 
 export default router;

@@ -11,6 +11,8 @@ import roomRoutes from './routes/roomRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
+import ownerRoutes from './routes/ownerRoutes.js';
+import propertyRoutes from './routes/propertyRoutes.js';
 import initSocket from './socket/socket.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
@@ -34,7 +36,8 @@ app.use(cors({
     },
     credentials: true
 }));
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
 // Routes
@@ -44,6 +47,8 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use("/api/contact", contactRoute);
+app.use('/api/owner', ownerRoutes);
+app.use('/api/properties', propertyRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -72,4 +77,4 @@ initSocket(io);
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
-});
+});// Trigger restart
