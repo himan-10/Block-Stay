@@ -22,7 +22,7 @@ const All_Rooms = () => {
     const fetchRooms = async () => {
       setLoading(true);
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+        const apiUrl = import.meta.env.VITE_API_URL;
         
         const params = {
             page: currentPage,

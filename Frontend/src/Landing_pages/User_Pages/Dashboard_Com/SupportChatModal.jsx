@@ -27,7 +27,7 @@ export default function SupportChatModal({ isOpen, onClose }) {
     setLoading(true);
 
     // Initialize Socket
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const apiUrl = import.meta.env.VITE_API_URL;
     const socketUrl = apiUrl.replace('/api', '');
     
     const newSocket = io(socketUrl, {

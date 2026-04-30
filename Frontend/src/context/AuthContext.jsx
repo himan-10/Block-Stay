@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const api = axios.create({
-        baseURL: import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api',
+        baseURL: import.meta.env.VITE_API_URL,
         withCredentials: true,
     });
 

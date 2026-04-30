@@ -12,7 +12,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+        const apiUrl = import.meta.env.VITE_API_URL;
         const { data } = await axios.get(`${apiUrl}/rooms`);
         // We only want to show a few featured rooms on the homepage
         setFeaturedRooms(data.rooms ? data.rooms.slice(0, 3) : []);

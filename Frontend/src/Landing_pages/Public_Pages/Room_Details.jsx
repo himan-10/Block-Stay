@@ -28,7 +28,7 @@ const RoomDetails = () => {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+        const apiUrl = import.meta.env.VITE_API_URL;
         const { data } = await axios.get(`${apiUrl}/rooms/${id}`);
         setRoom(data);
       } catch (err) {
@@ -75,7 +75,7 @@ const RoomDetails = () => {
         setAvailabilityLoading(true);
         setBookingMessage('');
         try {
-          const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+          const apiUrl = import.meta.env.VITE_API_URL;
           const { data } = await axios.post(`${apiUrl}/bookings/check-availability`, {
             roomId: id,
             checkIn,
@@ -123,7 +123,7 @@ const RoomDetails = () => {
     setBookingMessage('');
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+      const apiUrl = import.meta.env.VITE_API_URL;
       const finalPrice = totalPrice + 1500;
 
       // 1. Create Pending Booking
@@ -208,7 +208,7 @@ const RoomDetails = () => {
     setReviewLoading(true);
     setReviewMessage('');
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+      const apiUrl = import.meta.env.VITE_API_URL;
       const token = localStorage.getItem('token');
       if (!token) {
         setReviewMessage('Please login to write a review.');

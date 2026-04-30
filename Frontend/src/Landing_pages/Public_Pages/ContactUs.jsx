@@ -23,7 +23,7 @@ const ContactUs = () => {
     
     try {
       // Construct the API endpoint URL (uses environment variable if available)
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://block-stay.onrender.com/api';
+      const apiUrl = import.meta.env.VITE_API_URL;
       
       // Send the user's name, email, and message to the backend via POST request
       await axios.post(`${apiUrl}/contact`, formData);
