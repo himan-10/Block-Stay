@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { auth, googleProvider } from "../../firebase.js";
@@ -6,7 +6,17 @@ import { signInWithPopup } from "firebase/auth";
 
 const Sign_up = () => {
   const navigate = useNavigate();
-  const { register, googleLogin, setAccountRole } = useContext(AuthContext);
+  const { user, register, googleLogin, setAccountRole } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'owner') {
+        navigate('/owner/dashboard');
+      } else {
+        navigate('/user/dashboard');
+      }
+    }
+  }, [user, navigate]);
 
   const [form, setForm] = useState({ firstName: "", lastName: "", email: "", password: "", confirmPassword: "", role: "user" });
   const [showRoleModal, setShowRoleModal] = useState(false);
