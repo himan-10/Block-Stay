@@ -97,8 +97,18 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     };
 
+    const forgotPassword = async (email) => {
+        const { data } = await api.post('/auth/forgot-password', { email });
+        return data;
+    };
+
+    const resetPassword = async (token, password) => {
+        const { data } = await api.put(`/auth/reset-password/${token}`, { password });
+        return data;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, login, register, logout, googleLogin, setAccountRole, updateProfile, deleteProfile, loading, api, wishlist, toggleWishlist }}>
+        <AuthContext.Provider value={{ user, login, register, logout, googleLogin, setAccountRole, updateProfile, deleteProfile, forgotPassword, resetPassword, loading, api, wishlist, toggleWishlist }}>
             {children}
         </AuthContext.Provider>
     );

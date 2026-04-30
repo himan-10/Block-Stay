@@ -146,3 +146,59 @@ export const deleteUserProfile = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate a 15-minute reset token
+        const resetToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET || 'fallback_secret', {
+            expiresIn: '15m'
+        });
+
+        // The frontend URL for password reset (needs to match your React routes)
+        const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password/${resetToken}`;
+
+        const message = `
+            <h1>You have requested a password reset</h1>
+            <p>Please go to this link to reset your password. This link expires in 15 minutes.</p>
+            <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+        `;
+
+        await sendEmail({
+            to: user.email,
+            subject: 'Blockstay Password Reset',
+            text: `Please go to this link to reset your password: ${resetUrl}`,
+            html: message
+        });
+
+        res.status(200).json({ success: true, message: 'Email sent' });
+    } catch (error) {
+        res.status(500).json({ message: 'Email could not be sent' });
+    }
+};
+
+export const resetPassword = async (req, res) => {
+    try {
+        const resetToken = req.params.token;
+        const decoded = jwt.verify(resetToken, process.env.JWT_SECRET || 'fallback_secret');
+
+        const user = await User.findById(decoded.id);
+
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid token' });
+        }
+
+        user.password = req.body.password;
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Password Reset Success' });
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid or expired token' });
+    }
+};

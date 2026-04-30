@@ -9,6 +9,8 @@ import All_Rooms from '../Landing_pages/Public_Pages/All_Rooms';
 import Room_Details from '../Landing_pages/Public_Pages/Room_Details';
 import Login from '../Landing_pages/Auth/Login';
 import Sign_up from '../Landing_pages/Auth/Sign_up';
+import Forgot_Password from '../Landing_pages/Auth/Forgot_Password';
+import Reset_Password from '../Landing_pages/Auth/Reset_Password';
 import FAQ from '../Landing_pages/Public_Pages/FAQ';
 import PrivacyPolicy from '../Landing_pages/Public_Pages/PrivacyPolicy';
 import TermsOfService from '../Landing_pages/Public_Pages/TermsOfService';
@@ -52,6 +54,8 @@ const AppRoutes = () => {
         <Route path="/rooms/:id" element={<Room_Details />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Sign_up />} />
+        <Route path="/forgot" element={<Forgot_Password />} />
+        <Route path="/reset-password/:token" element={<Reset_Password />} />
         <Route path="/unauthorized" element={<UnauthorisedAccess />} />
         
         {/* Support Pages */}

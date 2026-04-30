@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, deleteUserProfile } from '../controllers/authController.js';
+import { registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile, deleteUserProfile, forgotPassword, resetPassword } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
 // 🔥 ADD THESE IMPORTS
@@ -15,6 +15,9 @@ router.post('/logout', logoutUser);
 router.get('/me', protect, getUserProfile);
 router.put('/me', protect, updateUserProfile);
 router.delete('/me', protect, deleteUserProfile);
+
+router.post('/forgot-password', forgotPassword);
+router.put('/reset-password/:token', resetPassword);
 
 // 🔐 GOOGLE LOGIN ROUTE (ADD THIS)
 router.post('/google', async (req, res) => {
