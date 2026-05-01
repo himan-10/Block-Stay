@@ -13,6 +13,8 @@ import paymentRoutes from './routes/paymentRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
 import ownerRoutes from './routes/ownerRoutes.js';
 import propertyRoutes from './routes/propertyRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import publicRoutes from './routes/publicRoutes.js';
 import initSocket from './socket/socket.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
@@ -41,6 +43,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
 // Routes
+app.use('/api/public', publicRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/rooms', roomRoutes);
 app.use('/api/chat', chatRoutes);
@@ -49,6 +52,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use("/api/contact", contactRoute);
 app.use('/api/owner', ownerRoutes);
 app.use('/api/properties', propertyRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

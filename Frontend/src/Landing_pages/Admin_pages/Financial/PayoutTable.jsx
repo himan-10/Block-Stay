@@ -1,47 +1,55 @@
-export default function PayoutTable() {
-  const data = [
-    { id: "#TXN-90210", name: "Taj Heritage Suite", region: "Mumbai", amount: "₹1,24,500", fee: "₹4,980", status: "Cleared" },
-    { id: "#TXN-88432", name: "Goan Coastal Villa", region: "Goa", amount: "₹89,000", fee: "₹3,560", status: "Pending" },
-    { id: "#TXN-87611", name: "Andaman Ocean Villa", region: "Andaman", amount: "₹2,41,200", fee: "₹9,648", status: "Cleared" },
-  ];
+export default function PayoutTable({ payouts }) {
+  if (!payouts || payouts.length === 0) {
+    return (
+      <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 text-center text-slate-500">
+        No payouts available yet.
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
+    <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-2xl">
       
-      <div className="p-6 border-b border-slate-800">
-        <h3 className="text-lg font-bold">Recent Payouts</h3>
+      <div className="p-6 border-b border-slate-800 flex items-center justify-between">
+        <h3 className="text-lg font-bold text-white">Recent Transactions & Payouts</h3>
+        <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{payouts.length} total</span>
       </div>
 
-      <table className="w-full text-sm">
-        <thead className="text-xs uppercase text-slate-500 bg-slate-950">
-          <tr>
-            <th className="p-4 text-left">ID</th>
-            <th className="p-4 text-left">Hotel</th>
-            <th className="p-4 text-left">Region</th>
-            <th className="p-4 text-left">Amount</th>
-            <th className="p-4 text-left">Fee</th>
-            <th className="p-4 text-left">Status</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.map((t) => (
-            <tr key={t.id} className="border-t border-slate-800 hover:bg-slate-800/40">
-              <td className="p-4 font-mono text-slate-400">{t.id}</td>
-              <td className="p-4">{t.name}</td>
-              <td className="p-4 text-slate-400">{t.region}</td>
-              <td className="p-4 font-semibold">{t.amount}</td>
-              <td className="p-4 text-cyan-400">{t.fee}</td>
-              <td className="p-4">
-                <span className="text-xs px-2 py-1 rounded bg-green-500/10 text-green-400">
-                  {t.status}
-                </span>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="text-xs uppercase text-slate-500 bg-slate-950/50">
+            <tr>
+              <th className="p-4 text-left font-semibold tracking-wider">ID</th>
+              <th className="p-4 text-left font-semibold tracking-wider">Hotel</th>
+              <th className="p-4 text-left font-semibold tracking-wider">Region</th>
+              <th className="p-4 text-left font-semibold tracking-wider">Amount</th>
+              <th className="p-4 text-left font-semibold tracking-wider">Fee Retained</th>
+              <th className="p-4 text-left font-semibold tracking-wider">Status</th>
             </tr>
-          ))}
-        </tbody>
+          </thead>
 
-      </table>
+          <tbody className="divide-y divide-slate-800/50">
+            {payouts.slice(0, 10).map((t) => (
+              <tr key={t.id} className="hover:bg-slate-800/40 transition-colors">
+                <td className="p-4 font-mono text-xs text-slate-500">#{t.id.substring(t.id.length - 8).toUpperCase()}</td>
+                <td className="p-4 font-medium text-slate-200">{t.name}</td>
+                <td className="p-4 text-slate-400">{t.region}</td>
+                <td className="p-4 font-bold text-white">₹{t.amount.toLocaleString()}</td>
+                <td className="p-4 font-bold text-emerald-400">₹{t.fee.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td className="p-4">
+                  <span className={`text-xs px-2.5 py-1 rounded font-bold uppercase tracking-wider ${
+                    t.status === 'Cleared' 
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                      : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                  }`}>
+                    {t.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

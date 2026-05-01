@@ -4,7 +4,9 @@ export const getRooms = async (req, res) => {
     try {
         const { location, guests, page = 1, limit = 10 } = req.query;
         
-        let query = {};
+        // Only show approved listings to public users
+        let query = { status: { $nin: ['pending', 'rejected'] } };
+        
         if (location) {
             query.location = { $regex: location, $options: 'i' };
         }

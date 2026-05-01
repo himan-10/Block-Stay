@@ -8,10 +8,11 @@ export default function ApprovalQueue() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const { data } = await api.get('/rooms');
-        setItems(data.slice(0, 5)); // Just take first 5 properties for the demo queue
+        const { data } = await api.get('/admin/listings');
+        const pending = data.filter(item => item.status === 'pending');
+        setItems(pending.slice(0, 5)); // Just take first 5 pending properties for the demo queue
       } catch (e) {
-        console.error(e);
+        console.error("Failed to fetch approval queue", e);
       }
     };
     fetchRooms();

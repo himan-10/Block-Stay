@@ -1,44 +1,67 @@
-export default function ListingCard({ data }) {
+export default function ListingCard({ data, onUpdateStatus }) {
+  const imageUrl = data.images && data.images.length > 0 ? data.images[0] : "https://via.placeholder.com/400x300?text=No+Image";
+  
   return (
-    <div className="bg-surface-container-low rounded-xl overflow-hidden shadow-lg group hover:-translate-y-2 transition">
-      <div className="relative h-64">
-        <img src={data.image} className="w-full h-full object-cover group-hover:scale-110 transition" />
-        <span className={`absolute top-4 left-4 text-[10px] px-3 py-1 rounded-full text-white ${
+    <div className="bg-surface-container rounded-xl overflow-hidden shadow-lg border border-surface-container-highest group hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+      <div className="relative h-64 overflow-hidden">
+        <img src={imageUrl} alt={data.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <span className={`absolute top-4 left-4 text-[10px] px-3 py-1 rounded-full text-white font-bold uppercase tracking-wider ${
           data.status === "pending"
             ? "bg-amber-500"
-            : data.status === "flagged"
+            : data.status === "rejected"
             ? "bg-rose-600"
-            : "bg-cyan-500"
+            : "bg-emerald-500"
         }`}>
-          {data.status}
+          {data.status || 'approved'}
         </span>
       </div>
 
       <div className="p-6">
-        <h3 className="text-white font-bold text-lg">{data.title}</h3>
-        <p className="text-xs text-slate-400">{data.location}</p>
+        <h3 className="text-white font-bold text-lg line-clamp-1">{data.name}</h3>
+        <p className="text-xs text-slate-400 mt-1 line-clamp-1">{data.location}</p>
 
-        <div className="flex justify-between mt-4">
-          <span className="text-violet-400 font-bold">₹{data.price}</span>
-          <span className="text-[10px] text-slate-500">per month</span>
+        <div className="flex justify-between items-end mt-4">
+          <div>
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest">Monthly Rent</p>
+            <span className="text-violet-400 font-bold text-xl">₹{data.pricePerMonth?.toLocaleString()}</span>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] text-slate-500 uppercase tracking-widest">Type</p>
+            <span className="text-slate-300 text-sm">{data.type}</span>
+          </div>
         </div>
 
         <div className="flex gap-3 mt-6">
-          {data.status === "pending" ? (
+          {(!data.status || data.status === "pending") ? (
             <>
-              <button className="flex-1 bg-emerald-600/20 text-emerald-400 py-2 text-xs rounded">
+              <button 
+                onClick={() => onUpdateStatus(data._id, 'approved')}
+                className="flex-1 bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+              >
                 Approve
               </button>
-              <button className="flex-1 bg-red-600/20 text-red-400 py-2 text-xs rounded">
+              <button 
+                onClick={() => onUpdateStatus(data._id, 'rejected')}
+                className="flex-1 bg-rose-500/20 hover:bg-rose-500 text-rose-400 hover:text-white py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+              >
                 Reject
               </button>
             </>
+          ) : data.status === 'rejected' ? (
+            <button 
+              onClick={() => onUpdateStatus(data._id, 'approved')}
+              className="w-full bg-slate-800 hover:bg-emerald-500 text-slate-300 hover:text-white py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+            >
+              Re-Evaluate (Approve)
+            </button>
           ) : (
-            <>
-              <button className="flex-1 bg-slate-800 text-slate-300 py-2 text-xs rounded">
-                Review
-              </button>
-            </>
+            <button 
+              onClick={() => onUpdateStatus(data._id, 'rejected')}
+              className="w-full bg-slate-800 hover:bg-rose-500 text-slate-300 hover:text-white py-2.5 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors"
+            >
+              Revoke Approval
+            </button>
           )}
         </div>
       </div>

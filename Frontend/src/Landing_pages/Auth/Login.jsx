@@ -10,7 +10,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.role === 'owner') {
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (user.role === 'owner') {
         navigate('/owner/dashboard');
       } else {
         navigate('/user/dashboard');
@@ -43,6 +45,8 @@ const Login = () => {
       
       if (data.role === 'pending') {
         setShowRoleModal(true);
+      } else if (data.role === 'admin') {
+        navigate('/admin/dashboard');
       } else if (data.role === 'owner') {
         navigate('/owner/dashboard');
       } else {
@@ -64,7 +68,9 @@ const Login = () => {
     try {
       const data = await setAccountRole(role);
       setShowRoleModal(false);
-      if (data.role === 'owner') {
+      if (data.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (data.role === 'owner') {
         navigate('/owner/dashboard');
       } else {
         navigate('/user/dashboard');
@@ -84,7 +90,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await login(form.email, form.password);
-      if (user.role === 'owner') {
+      if (user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (user.role === 'owner') {
         navigate('/owner/dashboard');
       } else {
         navigate('/user/dashboard');

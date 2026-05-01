@@ -180,14 +180,19 @@ const QuickActions = ({ navigate }) => (
     </div>
     
     <div className="space-y-4">
-      <button onClick={() => navigate('/owner/properties')} className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[1px]">
+      <button onClick={() => navigate('/owner/properties/add')} className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 p-[1px]">
         <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors z-0"></div>
         <div className="relative z-10 bg-[#0d1529] px-4 py-4 rounded-[11px] group-hover:bg-transparent transition-colors flex items-center justify-center gap-2">
           <Plus size={20} className="text-cyan-400 group-hover:text-white transition-colors" />
-          <span className="font-semibold text-cyan-400 group-hover:text-white transition-colors">Manage Properties</span>
+          <span className="font-semibold text-cyan-400 group-hover:text-white transition-colors">Add Property</span>
         </div>
       </button>
       
+      <button onClick={() => navigate('/owner/properties')} className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold transition-all">
+        <Home size={20} />
+        <span>Manage Properties</span>
+      </button>
+
       <button onClick={() => navigate('/owner/bookings')} className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-semibold transition-all">
         <List size={20} />
         <span>View All Bookings</span>

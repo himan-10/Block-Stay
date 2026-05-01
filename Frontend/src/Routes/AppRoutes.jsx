@@ -35,6 +35,16 @@ import OwnerProperties from '../Landing_pages/Owner_Pages/OwnerProperties';
 import OwnerBookings from '../Landing_pages/Owner_Pages/OwnerBookings';
 import OwnerEarnings from '../Landing_pages/Owner_Pages/OwnerEarnings';
 import OwnerProfile from '../Landing_pages/Owner_Pages/OwnerProfile';
+import AddNewRoom from '../Landing_pages/Owner_Pages/AddNewRoom'; // Added Import
+
+// Admin Pages
+import AdminDashboard from '../Landing_pages/Admin_pages/AdminDashboard';
+import UserManagement from '../Landing_pages/Admin_pages/UserManagement';
+import ListingModernation from '../Landing_pages/Admin_pages/ListingModernation';
+import Financial from '../Landing_pages/Admin_pages/Financial';
+import BookingsManagement from '../Landing_pages/Admin_pages/BookingsManagement';
+import ReportsModeration from '../Landing_pages/Admin_pages/ReportsModeration';
+import Settings from '../Landing_pages/Admin_pages/Settings';
 
 const PublicLayout = () => {
   return (
@@ -84,9 +94,21 @@ const AppRoutes = () => {
       <Route path="/owner" element={<ProtectedRoute requiredRole="owner"><OwnerLayout /></ProtectedRoute>}>
         <Route path="dashboard" element={<Owner_Dashboard />} />
         <Route path="properties" element={<OwnerProperties />} />
+        <Route path="properties/add" element={<AddNewRoom />} /> {/* Added Route */}
         <Route path="bookings" element={<OwnerBookings />} />
         <Route path="earnings" element={<OwnerEarnings />} />
         <Route path="profile" element={<OwnerProfile />} />
+      </Route>
+
+      {/* Admin Dashboard Routes */}
+      <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><Outlet /></ProtectedRoute>}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="users" element={<UserManagement />} />
+        <Route path="listings" element={<ListingModernation />} />
+        <Route path="bookings" element={<BookingsManagement />} />
+        <Route path="reports" element={<ReportsModeration />} />
+        <Route path="financial" element={<Financial />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
     </Routes>
   );
