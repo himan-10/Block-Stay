@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Search, Filter, Eye, XCircle, CheckCircle, RefreshCcw, X, AlertTriangle, CalendarCheck } from "lucide-react";
-import Sidebar from "./admin/Sidebar";
-import Topbar from "./admin/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 
 export default function BookingsManagement() {
   const [bookings, setBookings] = useState([]);
@@ -18,7 +17,7 @@ export default function BookingsManagement() {
 
   const fetchBookings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/bookings", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/bookings`, { withCredentials: true });
       setBookings(res.data);
       setLoading(false);
     } catch (error) {
@@ -30,7 +29,7 @@ export default function BookingsManagement() {
   const handleUpdateStatus = async (id, newStatus) => {
     if (!window.confirm(`Are you sure you want to mark this booking as ${newStatus}?`)) return;
     try {
-      const res = await axios.put(`http://localhost:5000/api/admin/bookings/${id}/status`, { status: newStatus }, { withCredentials: true });
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/admin/bookings/${id}/status`, { status: newStatus }, { withCredentials: true });
       setBookings((prev) => prev.map((b) => (b._id === id ? res.data : b)));
       if (selectedBooking && selectedBooking._id === id) setSelectedBooking(res.data);
     } catch (error) {
@@ -42,7 +41,7 @@ export default function BookingsManagement() {
   const handleRefund = async (id) => {
     if (!window.confirm("Are you sure you want to refund this booking? This action cannot be undone.")) return;
     try {
-      const res = await axios.post(`http://localhost:5000/api/admin/bookings/${id}/refund`, {}, { withCredentials: true });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/admin/bookings/${id}/refund`, {}, { withCredentials: true });
       setBookings((prev) => prev.map((b) => (b._id === id ? res.data : b)));
       if (selectedBooking && selectedBooking._id === id) setSelectedBooking(res.data);
     } catch (error) {
@@ -110,13 +109,8 @@ export default function BookingsManagement() {
   const showFraudAlert = cancelledCount > (bookings.length * 0.3) && bookings.length > 10;
 
   return (
-    <div className="bg-[#0b0c10] min-h-screen text-slate-200 flex font-sans selection:bg-purple-500/30">
-      <Sidebar />
-      
-      <div className="flex-1 ml-64 relative">
-        <Topbar />
-
-        <main className="pt-24 px-8 pb-16 max-w-7xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full">
           
           {/* Header & Dashboard Summary */}
           <div className="mb-10">
@@ -308,7 +302,6 @@ export default function BookingsManagement() {
             </div>
           )}
         </main>
-      </div>
 
       {/* View Details Modal */}
       {selectedBooking && (
@@ -396,6 +389,6 @@ export default function BookingsManagement() {
           </div>
         </div>
       )}
-    </div>
+        </AdminLayout>
   );
 }

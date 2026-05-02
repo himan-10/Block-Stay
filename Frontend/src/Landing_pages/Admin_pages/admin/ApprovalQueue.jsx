@@ -8,9 +8,8 @@ export default function ApprovalQueue() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const { data } = await api.get('/admin/listings');
-        const pending = data.filter(item => item.status === 'pending');
-        setItems(pending.slice(0, 5)); // Just take first 5 pending properties for the demo queue
+        const { data } = await api.get('/admin/listings/pending');
+        setItems(data); // Backend now limits to 10 automatically
       } catch (e) {
         console.error("Failed to fetch approval queue", e);
       }

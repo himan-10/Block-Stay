@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Sidebar from "./admin/Sidebar";
-import Topbar from "./admin/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 import StatsCards from "./Financial/StatsCards";
 import RevenueByRegion from "./Financial/RevenueByRegion";
 import OccupancyTrends from "./Financial/OccupancyTrends";
@@ -14,7 +13,7 @@ export default function Financial() {
   useEffect(() => {
     const fetchFinancials = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/financials", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/financials`, { withCredentials: true });
         setData(res.data);
       } catch (error) {
         console.error("Failed to fetch financials", error);
@@ -27,18 +26,17 @@ export default function Financial() {
 
   if (loading) {
     return (
-      <div className="bg-[#0b0c10] min-h-screen flex items-center justify-center">
-        <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-      </div>
+      <AdminLayout>
+        <div className="flex-1 flex items-center justify-center min-h-[60vh]">
+          <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </AdminLayout>
     );
   }
 
   return (
-    <div className="bg-[#0b0c10] min-h-screen text-slate-200 flex font-sans">
-      <Sidebar />
-      <div className="flex-1 ml-64 relative">
-        <Topbar />
-        <main className="pt-24 px-8 pb-20 max-w-7xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-20 max-w-7xl mx-auto w-full">
           {/* Header */}
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
@@ -58,7 +56,6 @@ export default function Financial() {
 
           <PayoutTable payouts={data?.payouts} />
         </main>
-      </div>
-    </div>
+    </AdminLayout>
   );
 }

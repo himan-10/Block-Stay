@@ -21,10 +21,10 @@ export default function Pagination({ totalPages = 10, onPageChange }) {
   };
 
   return (
-    <div className="flex items-center justify-between mt-6 px-4 py-4 bg-slate-900/40 rounded-xl">
+    <div className="flex items-center justify-between mt-6 px-4 py-4 bg-white dark:bg-[#13151a] border border-slate-200 dark:border-white/5 rounded-xl transition-colors">
 
       {/* Info */}
-      <p className="text-xs text-slate-400 uppercase tracking-widest">
+      <p className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-widest font-semibold">
         Page {currentPage} of {totalPages}
       </p>
 
@@ -34,7 +34,7 @@ export default function Pagination({ totalPages = 10, onPageChange }) {
         {/* Prev */}
         <button
           onClick={goPrev}
-          className="px-3 py-1 rounded border border-slate-700 text-slate-400 hover:text-white"
+          className="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
         >
           ◀
         </button>
@@ -47,11 +47,11 @@ export default function Pagination({ totalPages = 10, onPageChange }) {
             <button
               key={page}
               onClick={() => handleClick(page)}
-              className={`px-3 py-1 rounded text-xs border transition
+              className={`px-3 py-1 rounded-lg text-xs font-medium border transition-colors
                 ${
                   currentPage === page
-                    ? "bg-violet-600 text-white border-violet-500"
-                    : "border-slate-700 text-slate-400 hover:text-white"
+                    ? "bg-purple-600 text-white border-purple-500"
+                    : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
                 }
               `}
             >
@@ -63,7 +63,7 @@ export default function Pagination({ totalPages = 10, onPageChange }) {
         {/* Next */}
         <button
           onClick={goNext}
-          className="px-3 py-1 rounded border border-slate-700 text-slate-400 hover:text-white"
+          className="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
         >
           ▶
         </button>

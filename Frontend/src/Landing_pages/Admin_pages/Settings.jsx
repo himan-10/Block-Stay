@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { Save, Shield, CreditCard, Bell, Palette, Globe, Mail, Percent, Smartphone } from "lucide-react";
-import Sidebar from "./admin/Sidebar";
-import Topbar from "./admin/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 import { ThemeContext } from "../../context/ThemeContext";
 
 export default function Settings() {
@@ -26,7 +25,7 @@ export default function Settings() {
 
   const fetchSettings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/settings", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/settings`, { withCredentials: true });
       if (res.data) {
         setFormData({
           platformName: res.data.platformName || "",
@@ -65,7 +64,7 @@ export default function Settings() {
     e.preventDefault();
     setSaving(true);
     try {
-      await axios.put("http://localhost:5000/api/admin/settings", formData, { withCredentials: true });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/settings`, formData, { withCredentials: true });
       alert("Settings saved successfully!");
     } catch (error) {
       console.error("Failed to save settings", error);
@@ -77,23 +76,17 @@ export default function Settings() {
 
   if (loading) {
     return (
-      <div className="bg-slate-50 dark:bg-[#0b0c10] min-h-screen flex items-center justify-center transition-colors">
-        <Sidebar />
-        <div className="flex-1 ml-64 relative flex items-center justify-center">
+      <AdminLayout>
+        <div className="flex-1 relative flex items-center justify-center min-h-[60vh]">
           <div className="w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
-      </div>
+      </AdminLayout>
     );
   }
 
   return (
-    <div className="bg-slate-50 dark:bg-[#0b0c10] min-h-screen text-slate-800 dark:text-slate-200 flex font-sans selection:bg-purple-500/30 transition-colors">
-      <Sidebar />
-      
-      <div className="flex-1 ml-64 relative">
-        <Topbar />
-
-        <main className="pt-24 px-8 pb-16 max-w-5xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-16 max-w-5xl mx-auto w-full">
           
           {/* Header */}
           <div className="mb-10">
@@ -270,8 +263,7 @@ export default function Settings() {
 
           </form>
 
-        </main>
-      </div>
-    </div>
+      </main>
+    </AdminLayout>
   );
 }

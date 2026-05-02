@@ -10,7 +10,7 @@ export default function Sidebar() {
   useEffect(() => {
     const fetchPendingCount = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/listings", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/listings`, { withCredentials: true });
         const count = res.data.filter(l => l.status === "pending").length;
         setPendingCount(count);
       } catch (err) {

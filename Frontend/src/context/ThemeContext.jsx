@@ -10,7 +10,7 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const fetchTheme = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/public/settings");
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/public/settings`);
         if (res.data && res.data.themeMode) {
           setThemeMode(res.data.themeMode);
         }

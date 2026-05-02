@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Sidebar from "./admin/Sidebar";
-import Topbar from "./admin/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 import MetricsGrid from "./admin/MetricsGrid";
 import RevenueChart from "./admin/RevenueChart";
 import ApprovalQueue from "./admin/ApprovalQueue";
@@ -14,7 +13,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchMetrics = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/admin/metrics", { withCredentials: true });
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/metrics`, { withCredentials: true });
         setMetrics(res.data);
       } catch (err) {
         console.error("Failed to fetch admin metrics", err);
@@ -24,11 +23,8 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="bg-background text-on-surface min-h-screen font-body">
-      <Sidebar />
-      <Topbar />
-
-      <main className="ml-64 pt-24 px-8 pb-12">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-12 w-full max-w-7xl mx-auto">
         <MetricsGrid metrics={metrics} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10">
@@ -40,6 +36,6 @@ export default function AdminDashboard() {
       </main>
 
       <FloatingButton />
-    </div>
+    </AdminLayout>
   );
 }

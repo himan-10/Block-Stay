@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Search, Filter, Eye, AlertTriangle, ShieldAlert, CheckCircle, XCircle, Trash2, ShieldBan, BellRing, X, Activity } from "lucide-react";
-import Sidebar from "./admin/Sidebar";
-import Topbar from "./admin/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 
 export default function ReportsModeration() {
   const [reports, setReports] = useState([]);
@@ -21,7 +20,7 @@ export default function ReportsModeration() {
 
   const fetchReports = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/reports", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/reports`, { withCredentials: true });
       setReports(res.data);
       setLoading(false);
     } catch (error) {
@@ -32,7 +31,7 @@ export default function ReportsModeration() {
 
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/admin/reports/${id}/status`, { status: newStatus }, { withCredentials: true });
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/admin/reports/${id}/status`, { status: newStatus }, { withCredentials: true });
       setReports((prev) => prev.map((r) => (r._id === id ? res.data : r)));
       if (selectedReport && selectedReport._id === id) setSelectedReport(res.data);
       setActionsTaken(prev => prev + 1);
@@ -45,7 +44,7 @@ export default function ReportsModeration() {
   const handleDeleteProperty = async (propertyId, reportId) => {
     if (!window.confirm("Are you sure you want to permanently delete this property?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/listings/${propertyId}`, { withCredentials: true });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/listings/${propertyId}`, { withCredentials: true });
       // Also resolve the report
       handleUpdateStatus(reportId, 'Resolved');
       alert("Property deleted successfully.");
@@ -58,7 +57,7 @@ export default function ReportsModeration() {
   const handleBanUser = async (userId, reportId) => {
     if (!window.confirm("Are you sure you want to ban this user?")) return;
     try {
-      await axios.put(`http://localhost:5000/api/admin/users/${userId}/ban`, {}, { withCredentials: true });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/users/${userId}/ban`, {}, { withCredentials: true });
       // Also resolve the report
       handleUpdateStatus(reportId, 'Resolved');
       alert("User banned successfully.");
@@ -71,7 +70,7 @@ export default function ReportsModeration() {
   const handleWarnUser = async (userId, reportId) => {
     if (!window.confirm("Send a warning notification to this user?")) return;
     try {
-      await axios.post(`http://localhost:5000/api/admin/users/${userId}/warn`, {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_URL}/admin/users/${userId}/warn`, {}, { withCredentials: true });
       handleUpdateStatus(reportId, 'Resolved');
       alert("Warning sent successfully.");
     } catch (error) {
@@ -130,13 +129,8 @@ export default function ReportsModeration() {
   const highSeverityCount = reports.filter(r => r.severity === 'High' && r.status === 'Pending').length;
 
   return (
-    <div className="bg-[#0b0c10] min-h-screen text-slate-200 flex font-sans selection:bg-purple-500/30">
-      <Sidebar />
-      
-      <div className="flex-1 ml-64 relative">
-        <Topbar />
-
-        <main className="pt-24 px-8 pb-16 max-w-7xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full">
           
           {/* Header */}
           <div className="mb-10">
@@ -322,7 +316,6 @@ export default function ReportsModeration() {
             </div>
           )}
         </main>
-      </div>
 
       {/* Report Details Modal */}
       {selectedReport && (
@@ -438,6 +431,6 @@ export default function ReportsModeration() {
           </div>
         </div>
       )}
-    </div>
+        </AdminLayout>
   );
 }

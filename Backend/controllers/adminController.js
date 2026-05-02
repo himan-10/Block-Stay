@@ -12,19 +12,16 @@ export const getAdminMetrics = async (req, res) => {
         const totalUsers = await User.countDocuments();
         const totalProperties = await Room.countDocuments();
         
-        // Calculate Total Platform Revenue (Assuming admin takes a % or we just show total transaction volume)
-        // For simplicity, let's sum up the price of all CONFIRMED bookings
-        const bookings = await Booking.find({ status: { $in: ['confirmed', 'completed'] } });
-        const totalRevenue = bookings.reduce((acc, booking) => acc + (booking.totalPrice || 0), 0);
+        // Calculate Total Platform Revenue using MongoDB Aggregation
+        const revenueAggregation = await Booking.aggregate([
+            { $match: { status: { $in: ['confirmed', 'completed'] } } },
+            { $group: { _id: null, totalRevenue: { $sum: "$totalPrice" } } }
+        ]);
+        const totalRevenue = revenueAggregation.length > 0 ? revenueAggregation[0].totalRevenue : 0;
 
         const pendingListings = await Room.countDocuments({ status: 'pending' });
 
-        // Calculate Revenue over the last 6 months
-        // Mocking chart data based on simple grouping (can be optimized with MongoDB aggregation)
-        const recentBookings = await Booking.find({ 
-            status: { $in: ['confirmed', 'completed'] },
-            createdAt: { $gte: new Date(new Date().setMonth(new Date().getMonth() - 5)) }
-        });
+        // Skip fetching all recent bookings for now as it's unoptimized and not fully used by the frontend metrics grid
 
         res.status(200).json({
             totalUsers,
@@ -109,6 +106,30 @@ export const getAllListings = async (req, res) => {
     try {
         const listings = await Room.find({}).populate('owner', 'name email');
         res.status(200).json(listings);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get pending listings (limited)
+// @route   GET /api/admin/listings/pending
+// @access  Private/Admin
+export const getPendingListings = async (req, res) => {
+    try {
+        const pendingListings = await Room.find({ status: 'pending' }).populate('owner', 'name email').limit(10);
+        res.status(200).json(pendingListings);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// @desc    Get pending listings count
+// @route   GET /api/admin/listings/pending/count
+// @access  Private/Admin
+export const getPendingListingsCount = async (req, res) => {
+    try {
+        const count = await Room.countDocuments({ status: 'pending' });
+        res.status(200).json({ count });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -355,7 +376,9 @@ export const getFinancials = async (req, res) => {
     try {
         const bookings = await Booking.find({ status: { $in: ['confirmed', 'completed'] } })
             .populate('room', 'name location')
-            .populate('user', 'name');
+            .populate('user', 'name')
+            .sort({ createdAt: -1 })
+            .limit(50); // limit to recent 50 for performance
             
         let settings = await PlatformSetting.findOne();
         const commissionRate = settings ? settings.commissionPercentage / 100 : 0.10;

@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import SideNavBar from "./usermanagement/SideNavBar";
-import TopAppBar from "./usermanagement/TopAppBar";
+import AdminLayout from "./admin/AdminLayout";
 import UserFilters from "./usermanagement/UserFilters";
 import UsersTable from "./usermanagement/UsersTable";
 import StatsBento from "./usermanagement/StatsBento";
 import Pagination from "./usermanagement/Pagination";
+import UserProfileModal from "./usermanagement/UserProfileModal";
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeUser, setActiveUser] = useState(null);
   
   // Filtering States
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,7 +22,7 @@ export default function UserManagement() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/users", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/users`, { withCredentials: true });
       setUsers(res.data);
       setLoading(false);
     } catch (error) {
@@ -32,7 +33,7 @@ export default function UserManagement() {
 
   const handleRoleChange = async (userId, newRole) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/users/${userId}`, { role: newRole }, { withCredentials: true });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, { role: newRole }, { withCredentials: true });
       setUsers(users.map(u => u._id === userId ? { ...u, role: newRole } : u));
     } catch (error) {
       console.error("Failed to update role:", error);
@@ -43,7 +44,7 @@ export default function UserManagement() {
   const handleDeleteUser = async (userId) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, { withCredentials: true });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/users/${userId}`, { withCredentials: true });
       setUsers(users.filter(u => u._id !== userId));
     } catch (error) {
       console.error("Failed to delete user:", error);
@@ -64,29 +65,21 @@ export default function UserManagement() {
   });
 
   return (
-    <div className="dark min-h-screen bg-[#0b1326] text-slate-200 flex font-sans">
-      {/* Sidebar */}
-      <SideNavBar />
-
-      {/* Main Content */}
-      <div className="flex-1 ml-64 relative">
-        {/* Top Bar */}
-        <TopAppBar />
-
-        <main className="pt-24 px-10 pb-10 max-w-7xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full">
           {/* Header */}
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                 User Registry
               </h1>
-              <p className="text-slate-400 text-sm mt-2">
+              <p className="text-slate-500 dark:text-slate-400 mt-2 text-sm max-w-xl">
                 Manage all registered users in the system.
               </p>
             </div>
 
             <div className="flex gap-3">
-              <button className="px-5 py-2 border border-slate-700 rounded-lg text-xs uppercase tracking-widest hover:bg-slate-800 transition">
+              <button className="px-5 py-2.5 bg-white dark:bg-[#13151a] border border-slate-200 dark:border-white/10 rounded-xl text-xs font-semibold uppercase tracking-widest text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition-all shadow-sm">
                 Export CSV
               </button>
             </div>
@@ -103,21 +96,30 @@ export default function UserManagement() {
           {/* Table */}
           {loading ? (
             <div className="flex justify-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-500 border-t-transparent"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 border-t-transparent"></div>
             </div>
           ) : (
             <UsersTable 
               users={filteredUsers} 
               onRoleChange={handleRoleChange} 
               onDelete={handleDeleteUser} 
+              onViewProfile={setActiveUser}
             />
           )}
 
           {/* Pagination */}
-          <Pagination totalPages={Math.ceil(filteredUsers.length / 10) || 1} />
+          <div className="mt-8">
+            <Pagination totalPages={Math.ceil(filteredUsers.length / 10) || 1} />
+          </div>
 
-        </main>
-      </div>
-    </div>
+      </main>
+
+      <UserProfileModal 
+        user={activeUser}
+        onClose={() => setActiveUser(null)}
+        onRoleChange={handleRoleChange}
+        onDelete={handleDeleteUser}
+      />
+    </AdminLayout>
   );
 }

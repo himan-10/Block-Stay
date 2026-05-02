@@ -2,8 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Search, Filter, Eye, Trash2, CheckCircle, XCircle, X, Pencil, Save } from "lucide-react";
-import Sidebar from "./listing/Sidebar";
-import Topbar from "./listing/Topbar";
+import AdminLayout from "./admin/AdminLayout";
 
 export default function ListingModeration() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,7 +40,7 @@ export default function ListingModeration() {
 
   const fetchListings = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/listings", { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/listings`, { withCredentials: true });
       setListings(res.data);
       setLoading(false);
     } catch (error) {
@@ -52,7 +51,7 @@ export default function ListingModeration() {
 
   const handleUpdateStatus = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/listings/${id}/status`, { status: newStatus }, { withCredentials: true });
+      await axios.put(`${import.meta.env.VITE_API_URL}/admin/listings/${id}/status`, { status: newStatus }, { withCredentials: true });
       setListings((prev) => 
         prev.map((listing) => listing._id === id ? { ...listing, status: newStatus } : listing)
       );
@@ -68,7 +67,7 @@ export default function ListingModeration() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to permanently delete this listing?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/listings/${id}`, { withCredentials: true });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/admin/listings/${id}`, { withCredentials: true });
       setListings((prev) => prev.filter((listing) => listing._id !== id));
       if (selectedListing && selectedListing._id === id) {
         setSelectedListing(null);
@@ -98,7 +97,7 @@ export default function ListingModeration() {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`http://localhost:5000/api/admin/listings/${selectedListing._id}`, editFormData, { withCredentials: true });
+      const res = await axios.put(`${import.meta.env.VITE_API_URL}/admin/listings/${selectedListing._id}`, editFormData, { withCredentials: true });
       setListings((prev) => prev.map((l) => (l._id === selectedListing._id ? res.data : l)));
       setSelectedListing(res.data);
       setIsEditing(false);
@@ -128,13 +127,8 @@ export default function ListingModeration() {
   const pendingCount = listings.filter(l => l.status === "pending").length;
 
   return (
-    <div className="bg-[#0b0c10] min-h-screen text-slate-200 flex font-sans selection:bg-purple-500/30">
-      <Sidebar />
-      
-      <div className="flex-1 ml-64 relative">
-        <Topbar />
-
-        <main className="pt-24 px-8 pb-16 max-w-7xl mx-auto">
+    <AdminLayout>
+      <main className="pt-24 px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full">
           
           {/* Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
@@ -291,7 +285,6 @@ export default function ListingModeration() {
             </div>
           )}
         </main>
-      </div>
 
       {/* View/Edit Details Modal */}
       {selectedListing && (
@@ -431,6 +424,6 @@ export default function ListingModeration() {
           </div>
         </div>
       )}
-    </div>
+    </AdminLayout>
   );
 }

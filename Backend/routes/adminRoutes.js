@@ -5,6 +5,8 @@ import {
     deleteUser, 
     updateUserRole, 
     getAllListings, 
+    getPendingListings,
+    getPendingListingsCount,
     updateListingStatus,
     updateListing,
     deleteListing,
@@ -37,6 +39,8 @@ router.route('/users/:id')
 router.put('/users/:id/ban', banUser);
 router.post('/users/:id/warn', warnUser);
 
+router.get('/listings/pending', getPendingListings);
+router.get('/listings/pending/count', getPendingListingsCount);
 router.get('/listings', getAllListings);
 router.put('/listings/:id/status', updateListingStatus);
 router.put('/listings/:id', updateListing);
