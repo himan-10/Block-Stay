@@ -138,17 +138,70 @@ const RoomDetails = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Successfully requested!
-      setBookingMessage('Booking request sent to the owner! You will be notified once they approve.');
-      
-      // Redirect to My Bookings after 2 seconds
-      setTimeout(() => navigate('/user/bookings'), 2000);
+      // Successfully requested the pending booking, now initiate Razorpay payment
+      setBookingMessage('Initiating payment gateway...');
+
+      const { data: orderData } = await axios.post(
+        `${apiUrl}/payment/create-order`,
+        { amount: finalPrice, bookingId: bookingData._id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const res = await loadRazorpayScript();
+      if (!res) {
+        setBookingMessage("Failed to load payment gateway. Check your internet connection.");
+        setBookingLoading(false);
+        return;
+      }
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SjQ3Yb6nReapA6',
+        amount: orderData.order.amount,
+        currency: orderData.order.currency,
+        name: "Blockstay",
+        description: `Booking for ${room.name}`,
+        order_id: orderData.order.id,
+        handler: async function (response) {
+          try {
+            setBookingMessage('Verifying payment...');
+            await axios.post(
+              `${apiUrl}/payment/verify-payment`,
+              {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                bookingId: bookingData._id
+              },
+              { headers: { Authorization: `Bearer ${token}` } }
+            );
+            
+            setBookingMessage('Payment successful! Booking confirmed.');
+            setTimeout(() => navigate('/user/bookings'), 2000);
+          } catch (error) {
+            setBookingMessage("Payment verification failed. Please contact support.");
+            setBookingLoading(false);
+          }
+        },
+        prefill: {
+          name: "Blockstay User",
+          email: "user@blockstay.com"
+        },
+        theme: {
+          color: "#7c3aed"
+        }
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.on('payment.failed', function (response) {
+        setBookingMessage(`Payment failed: ${response.error.description}`);
+        setBookingLoading(false);
+      });
+      paymentObject.open();
 
     } catch (error) {
       console.error("Booking Error:", error);
       const errorMsg = error.response?.data?.message || error.message || 'Booking process failed.';
       setBookingMessage(`Error: ${errorMsg}`);
-    } finally {
       setBookingLoading(false);
     }
   };
